@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simple Painter</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1e252b;
+      --panel: #f7f8fa;
+      --line: #d7dde3;
+      --accent: #1769aa;
+      --accent-strong: #0f4f82;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #edf1f5;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+
+    .tool-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-right: 10px;
+      border-right: 1px solid var(--line);
+    }
+
+    .tool-group:last-child {
+      border-right: 0;
+    }
+
+    button, input[type="color"] {
+      height: 36px;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+      border-radius: 6px;
+      font: inherit;
+    }
+
+    button {
+      padding: 0 12px;
+      cursor: pointer;
+    }
+
+    button.active {
+      color: white;
+      background: var(--accent);
+      border-color: var(--accent-strong);
+    }
+
+    .swatch {
+      width: 36px;
+      padding: 0;
+      border-radius: 999px;
+      border: 2px solid white;
+      box-shadow: 0 0 0 1px var(--line);
+    }
+
+    .swatch.active {
+      box-shadow: 0 0 0 3px var(--ink);
+      border-color: white;
+    }
+
+    button.primary {
+      color: white;
+      background: var(--accent);
+      border-color: var(--accent-strong);
+    }
+
+    input[type="color"] {
+      width: 44px;
+      padding: 3px;
+      cursor: pointer;
+    }
+
+    input[type="range"] {
+      width: 130px;
+    }
+
+    .stage {
+      min-height: 0;
+      padding: 14px;
+      display: grid;
+      position: relative;
+    }
+
+    .text-entry {
+      position: absolute;
+      z-index: 2;
+      min-width: 120px;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      background: white;
+      color: var(--ink);
+      padding: 4px 6px;
+      font: 20px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      box-shadow: 0 8px 24px rgba(31, 42, 55, 0.18);
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 12px 32px rgba(31, 42, 55, 0.14);
+      touch-action: none;
+      cursor: crosshair;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar" aria-label="Painting controls">
+    <div class="tool-group">
+      <button id="brush" class="active" type="button" title="Brush">Brush</button>
+      <button id="lineTool" type="button" title="Line">Line</button>
+      <button id="squareTool" type="button" title="Square">Square</button>
+      <button id="textTool" type="button" title="Text">Text</button>
+      <button id="eraser" type="button" title="Eraser">Eraser</button>
+    </div>
+    <div class="tool-group" aria-label="Architecture colors">
+      <button class="swatch" type="button" data-color="#2563EB" style="background: #2563EB;" title="Raw sensory N"></button>
+      <button class="swatch" type="button" data-color="#16A34A" style="background: #16A34A;" title="First-order delta N-1"></button>
+      <button class="swatch" type="button" data-color="#F59E0B" style="background: #F59E0B;" title="Second-order salience N-2"></button>
+      <button class="swatch" type="button" data-color="#DC2626" style="background: #DC2626;" title="Episodic memory"></button>
+      <button class="swatch" type="button" data-color="#7C3AED" style="background: #7C3AED;" title="Habit/routine layer"></button>
+    </div>
+    <div class="tool-group">
+      <input id="color" type="color" value="#1e252b" title="Color">
+      <input id="size" type="range" min="1" max="60" value="8" title="Brush size">
+      <span id="sizeLabel">8</span>
+    </div>
+    <div class="tool-group">
+      <button id="clear" type="button">Clear</button>
+      <button id="openImage" type="button">Open PNG</button>
+      <input id="imageLoader" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+      <button id="save" class="primary" type="button">Save PNG</button>
+    </div>
+  </div>
+
+  <main class="stage">
+    <canvas id="canvas" aria-label="Drawing canvas"></canvas>
+  </main>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const brushButton = document.getElementById("brush");
+    const lineButton = document.getElementById("lineTool");
+    const squareButton = document.getElementById("squareTool");
+    const textButton = document.getElementById("textTool");
+    const eraserButton = document.getElementById("eraser");
+    const colorInput = document.getElementById("color");
+    const swatchButtons = Array.from(document.querySelectorAll(".swatch"));
+    const sizeInput = document.getElementById("size");
+    const sizeLabel = document.getElementById("sizeLabel");
+    const clearButton = document.getElementById("clear");
+    const openImageButton = document.getElementById("openImage");
+    const imageLoader = document.getElementById("imageLoader");
+    const saveButton = document.getElementById("save");
+
+    let drawing = false;
+    let mode = "brush";
+    let lastPoint = null;
+    let shapeStart = null;
+    let shapeSnapshot = null;
+    let activeTextInput = null;
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const snapshot = document.createElement("canvas");
+      snapshot.width = canvas.width;
+      snapshot.height = canvas.height;
+      snapshot.getContext("2d").drawImage(canvas, 0, 0);
+
+      canvas.width = Math.max(1, Math.floor(rect.width * window.devicePixelRatio));
+      canvas.height = Math.max(1, Math.floor(rect.height * window.devicePixelRatio));
+      ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, rect.width, rect.height);
+      if (snapshot.width && snapshot.height) {
+        ctx.drawImage(snapshot, 0, 0, snapshot.width / window.devicePixelRatio, snapshot.height / window.devicePixelRatio, 0, 0, rect.width, rect.height);
+      }
+    }
+
+    function pointFromEvent(event) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+    }
+
+    function applyStrokeStyle() {
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.lineWidth = Number(sizeInput.value);
+      ctx.strokeStyle = mode === "eraser" ? "#ffffff" : colorInput.value;
+    }
+
+    function drawLine(from, to) {
+      applyStrokeStyle();
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y);
+      ctx.lineTo(to.x, to.y);
+      ctx.stroke();
+    }
+
+    function drawSquare(from, to) {
+      applyStrokeStyle();
+      const width = to.x - from.x;
+      const height = to.y - from.y;
+      const side = Math.min(Math.abs(width), Math.abs(height));
+      const x = width < 0 ? from.x - side : from.x;
+      const y = height < 0 ? from.y - side : from.y;
+      ctx.strokeRect(x, y, side, side);
+    }
+
+    function restoreShapeSnapshot() {
+      if (shapeSnapshot) {
+        ctx.putImageData(shapeSnapshot, 0, 0);
+      }
+    }
+
+    function previewShape(to) {
+      restoreShapeSnapshot();
+      if (mode === "line") {
+        drawLine(shapeStart, to);
+      }
+      if (mode === "square") {
+        drawSquare(shapeStart, to);
+      }
+    }
+
+    function commitTextInput() {
+      if (!activeTextInput) return;
+      const text = activeTextInput.value.trim();
+      const x = Number(activeTextInput.dataset.canvasX);
+      const y = Number(activeTextInput.dataset.canvasY);
+      const fontSize = Math.max(12, Number(sizeInput.value) * 3);
+      if (text) {
+        ctx.fillStyle = colorInput.value;
+        ctx.font = `${fontSize}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`;
+        ctx.textBaseline = "top";
+        ctx.fillText(text, x, y);
+      }
+      activeTextInput.remove();
+      activeTextInput = null;
+    }
+
+    function startTextInput(point) {
+      commitTextInput();
+      const stageRect = canvas.parentElement.getBoundingClientRect();
+      const canvasRect = canvas.getBoundingClientRect();
+      const input = document.createElement("input");
+      input.className = "text-entry";
+      input.type = "text";
+      input.placeholder = "Type label";
+      input.dataset.canvasX = String(point.x);
+      input.dataset.canvasY = String(point.y);
+      input.style.left = `${canvasRect.left - stageRect.left + point.x}px`;
+      input.style.top = `${canvasRect.top - stageRect.top + point.y}px`;
+      input.style.color = colorInput.value;
+      input.style.fontSize = `${Math.max(12, Number(sizeInput.value) * 3)}px`;
+      canvas.parentElement.appendChild(input);
+      activeTextInput = input;
+      input.focus();
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") commitTextInput();
+        if (event.key === "Escape") {
+          input.remove();
+          activeTextInput = null;
+        }
+      });
+      input.addEventListener("blur", commitTextInput);
+    }
+
+    function setMode(nextMode) {
+      commitTextInput();
+      mode = nextMode;
+      brushButton.classList.toggle("active", mode === "brush");
+      lineButton.classList.toggle("active", mode === "line");
+      squareButton.classList.toggle("active", mode === "square");
+      textButton.classList.toggle("active", mode === "text");
+      eraserButton.classList.toggle("active", mode === "eraser");
+    }
+
+    function syncActiveSwatch() {
+      const activeColor = colorInput.value.toUpperCase();
+      swatchButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.color === activeColor);
+      });
+    }
+
+    canvas.addEventListener("pointerdown", (event) => {
+      if (mode === "text") {
+        startTextInput(pointFromEvent(event));
+        return;
+      }
+      drawing = true;
+      lastPoint = pointFromEvent(event);
+      shapeStart = lastPoint;
+      canvas.setPointerCapture(event.pointerId);
+      if (mode === "line" || mode === "square") {
+        shapeSnapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        previewShape(lastPoint);
+      } else {
+        drawLine(lastPoint, lastPoint);
+      }
+    });
+
+    canvas.addEventListener("pointermove", (event) => {
+      if (!drawing || !lastPoint) return;
+      const nextPoint = pointFromEvent(event);
+      if (mode === "line" || mode === "square") {
+        previewShape(nextPoint);
+      } else {
+        drawLine(lastPoint, nextPoint);
+        lastPoint = nextPoint;
+      }
+    });
+
+    canvas.addEventListener("pointerup", () => {
+      drawing = false;
+      lastPoint = null;
+      shapeStart = null;
+      shapeSnapshot = null;
+    });
+
+    canvas.addEventListener("pointercancel", () => {
+      restoreShapeSnapshot();
+      drawing = false;
+      lastPoint = null;
+      shapeStart = null;
+      shapeSnapshot = null;
+    });
+
+    brushButton.addEventListener("click", () => setMode("brush"));
+    lineButton.addEventListener("click", () => setMode("line"));
+    squareButton.addEventListener("click", () => setMode("square"));
+    textButton.addEventListener("click", () => setMode("text"));
+    eraserButton.addEventListener("click", () => setMode("eraser"));
+    swatchButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        colorInput.value = button.dataset.color;
+        setMode("brush");
+        syncActiveSwatch();
+      });
+    });
+    colorInput.addEventListener("input", syncActiveSwatch);
+    sizeInput.addEventListener("input", () => {
+      sizeLabel.textContent = sizeInput.value;
+    });
+
+    clearButton.addEventListener("click", () => {
+      commitTextInput();
+      const rect = canvas.getBoundingClientRect();
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, rect.width, rect.height);
+    });
+
+    openImageButton.addEventListener("click", () => imageLoader.click());
+
+    imageLoader.addEventListener("change", () => {
+      const file = imageLoader.files[0];
+      if (!file) return;
+      const image = new Image();
+      image.addEventListener("load", () => {
+        commitTextInput();
+        const rect = canvas.getBoundingClientRect();
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, rect.width, rect.height);
+        const scale = Math.min(rect.width / image.width, rect.height / image.height);
+        const width = image.width * scale;
+        const height = image.height * scale;
+        const x = (rect.width - width) / 2;
+        const y = (rect.height - height) / 2;
+        ctx.drawImage(image, x, y, width, height);
+        URL.revokeObjectURL(image.src);
+      });
+      image.src = URL.createObjectURL(file);
+      imageLoader.value = "";
+    });
+
+    saveButton.addEventListener("click", () => {
+      commitTextInput();
+      const link = document.createElement("a");
+      link.download = "painting.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+    syncActiveSwatch();
+  </script>
+</body>
+</html>

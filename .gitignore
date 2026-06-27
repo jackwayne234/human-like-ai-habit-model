@@ -1,0 +1,13 @@
+.DS_Store
+
+# Local dependency links / installs
+node_modules/
+spreadsheet_build/node_modules
+
+# Generated previews and inspection logs
+outputs/**/*.png
+outputs/**/*.ndjson
+
+# Temporary files
+*.tmp
+*.log
