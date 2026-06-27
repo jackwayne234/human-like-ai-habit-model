@@ -256,3 +256,53 @@ That means depth and location should come from active sensing over time:
 The system can periodically create visual anchor snapshots when it moves a certain distance, turns, or sees a strong sight `n^-1` / `n^-2` change. It can also create anchors when another sense confirms a place-relevant event, such as touch contact or a smell gradient.
 
 These visual anchors should be selective, not continuous raw visual recording. Normal perception still comes from compact logs, while visual snapshots become occasional breadcrumbs for building a rough world position.
+
+## Robot Sensory Input Organization
+
+The early five-sense prototype uses one value each for `brightness`, `volume`, `touch`, `taste`, and `smell`. That is useful for proving the shared compact `n` log idea, but it should not be mistaken for the final robot input shape.
+
+Sight, hearing, taste, and smell can stay coarse for now:
+
+| sense | v1 stream shape | why it is acceptable for now |
+| --- | --- | --- |
+| sight | one general `brightness` / visual-change stream | Good enough to test monocular visual anchors and rate changes before adding real image features. |
+| hearing | one general `volume` / sound-change stream | Good enough to test sudden sound, echo, and movement-related change before adding direction or frequency. |
+| taste | one general `taste` intensity stream | Good enough because taste is not central to the first navigation/contact tests. |
+| smell | one general `smell` intensity stream | Good enough to test gradients and location attachment before adding separate smell classes. |
+
+Touch is different. A robot does not experience touch as one body-wide value. It would have many contact sensors across the body, and the location of the touch is part of the meaning. A hot value on the left fingertip, pressure on the foot, and impact on the shoulder should not collapse into the same event.
+
+The next touch prototype should keep a single shared compact event vocabulary, but split raw/current touch input into body-location streams.
+
+Starting 10-location touch layout:
+
+| touch stream | body location | first meaning |
+| --- | --- | --- |
+| `touch_left_fingertips` | left hand fingertips | Fine contact, surface checking, heat/sharp risk. |
+| `touch_right_fingertips` | right hand fingertips | Fine contact, surface checking, heat/sharp risk. |
+| `touch_left_palm` | left palm | Grip pressure, object support, broad contact. |
+| `touch_right_palm` | right palm | Grip pressure, object support, broad contact. |
+| `touch_left_forearm` | left forearm | Bump/contact while reaching or moving. |
+| `touch_right_forearm` | right forearm | Bump/contact while reaching or moving. |
+| `touch_torso_front` | front torso | Collision, leaning, close obstacle contact. |
+| `touch_torso_back` | back torso | Backward obstacle/contact awareness. |
+| `touch_left_foot` | left foot/base | Ground contact, step pressure, obstacle underfoot. |
+| `touch_right_foot` | right foot/base | Ground contact, step pressure, obstacle underfoot. |
+
+Each touch stream can still emit a normalized `0.0` to `1.0` value per tick. The threshold monitor can treat these as sibling touch channels:
+
+- `n`: any specific touch location reaches `1.0`
+- `n^-1`: one specific touch location changes quickly
+- `n^-1` between-touch: two or more body locations change quickly together
+- `n^-2`: the compact touch-location change pattern shifts
+
+The compact log should preserve the location in `involved senses`, such as `touch_left_fingertips` instead of only `touch`. This lets the inner world ask better questions:
+
+| compact touch pattern | better map question |
+| --- | --- |
+| `touch_left_fingertips n=1` near stove | What did the left hand contact, and is this hand-area surface dangerous? |
+| `touch_left_foot n=1` while moving | Did the foot/base hit an obstacle, step edge, or uneven ground? |
+| `touch_torso_front n=1` with movement stop | Did the body collide with a wall, counter, or person? |
+| both palms rise together | Is the robot gripping or supporting an object? |
+
+This keeps the shared `n` logs as the common event language while making touch more physically realistic. The model does not need raw full-body tactile detail all the time, but it does need compact body-location evidence so the inner world can build a useful map of contact, risk, posture, and action.

@@ -408,11 +408,14 @@ Early versions may need scheduled background routines that act like scaffolding:
 
 These routines are not meant to be the final intelligence. They are training wheels for the inner world. While robot events are being recorded, the system can use compact logs, selective raw logs, predictions, and corrections as training data for a later model that performs world-building more innately.
 
+Another way to frame these routines is as structured good ideas from a caregiver. Children are not born with every useful safety rule as "common sense." A parent says, "look both ways before crossing the road," and after enough repetition, correction, and lived examples, the rule becomes part of the child's operating model. The early cron-like routines should serve that same role for the model: they provide protective, structured guidance until the system has enough examples for the behavior to feel natural and self-initiated.
+
 The early routines can be deterministic cron-like handlers triggered by specific compact `n` log patterns, not only generic time intervals. For example:
 
 | compact trigger pattern | deterministic background prompt/action |
 | --- | --- |
 | repeated touch `n = 1` in one place | Ask what object or surface is here and whether it is dangerous. |
+| movement toward road/street area with volume or sight change | Ask whether a crossing rule applies: pause, look left/right, check sound/motion, then move. |
 | sight `n^-1` or `n^-2` spike after movement | Create or update a visual anchor for the current place. |
 | smell grows over several ticks near the same map area | Ask whether a smell source should be attached to this location. |
 | volume changes while the model moves | Update possible room/source direction or echo assumptions. |

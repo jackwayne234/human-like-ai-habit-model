@@ -258,6 +258,32 @@ No additional threshold-layer intelligence is needed before testing the rest of 
 
 The importance gate decides what to do with threshold events. The Builder / Dreamer and Critic / Reality-Checker can tune threshold knobs from above, but the threshold layer itself should remain a clean lower-level instrument panel.
 
+## Multi-Location Touch Thresholds
+
+The first prototype used one coarse `touch` stream, but robot touch should become multiple body-location streams. For the next practical baseline, the threshold monitor can treat the 10 touch-location inputs as sibling touch channels:
+
+- `touch_left_fingertips`
+- `touch_right_fingertips`
+- `touch_left_palm`
+- `touch_right_palm`
+- `touch_left_forearm`
+- `touch_right_forearm`
+- `touch_torso_front`
+- `touch_torso_back`
+- `touch_left_foot`
+- `touch_right_foot`
+
+The compact event vocabulary stays the same:
+
+| compact layer | multi-touch behavior |
+| --- | --- |
+| `n` | Record a threshold hit when any specific touch location reaches `1.0`. |
+| `n^-1` | Record rate of change for the specific touch location that changed by at least `0.5`. |
+| `n^-1` between-touch | Record when two or more body touch locations change by at least `0.5` on the same tick. |
+| `n^-2` | Record shifts in the compact multi-touch trigger pattern. |
+
+The important change is that the `involved senses` field should preserve body location. A compact row should say `touch_left_fingertips` or `touch_torso_front`, not only `touch`. This lets later layers ask body-aware map questions without reading raw tactile detail.
+
 ## Compact Shape Can Carry Meaning
 
 The compact trigger logs should preserve enough event shape that the executive model can often infer what happened without opening raw sensory logs.
