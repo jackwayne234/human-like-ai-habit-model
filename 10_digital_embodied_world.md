@@ -259,6 +259,240 @@ too-low failure caught: yes
 confidence: medium_high
 ```
 
+## Model Rehearsal Checkpoint
+
+Before connecting an external AI model, the next useful bridge is a deterministic model rehearsal.
+
+The rehearsal should behave like a tiny future model session without API calls:
+
+- read a compact prompt
+- call only the embodied nursery tool surface
+- request raw detail once and accept the denial
+- read compact sensors and compact risk memory
+- use active learned operation controls only through the tool boundary
+- predict one compact result before each action
+- choose one small body action at a time
+- write compact-derived map beliefs after acting
+
+The first rehearsal is implemented in `scenario_tests/run_model_rehearsal_2_5d.mjs`. It writes:
+
+| artifact | purpose |
+| --- | --- |
+| `outputs/model_rehearsal_2_5d/compact_prompt.md` | The compact instruction shape a real model could later receive. |
+| `outputs/model_rehearsal_2_5d/decision_transcript.md` | Step-by-step compact decision transcript. |
+| `outputs/model_rehearsal_2_5d/tool_audit.md` | Tool calls and denials. |
+| `outputs/model_rehearsal_2_5d/map_beliefs.md` | Body/world beliefs written from compact evidence. |
+| `outputs/model_rehearsal_2_5d/raw_detail_requests.md` | Proof that raw detail remains denied in this readiness test. |
+| `outputs/model_rehearsal_2_5d/hidden_truth_log.md` | Human evaluator truth only, separate from model-facing logs. |
+| `outputs/model_rehearsal_2_5d/model_rehearsal_2_5d_result.md` | Pass/fail report. |
+
+Current result:
+
+```text
+transcript turns: 14
+predictions recorded: 14
+body actions executed: 14
+compact map beliefs written: 14
+raw detail denials: 1
+active learned control used through tools: yes
+overhead step contacts in hidden evaluator: 0
+```
+
+This proves the current compact tool surface is strong enough to support a future model-style loop while keeping hidden simulator truth sealed.
+
+## Tiny 3D Nursery V0 Checkpoint
+
+The first true 3D step is now implemented.
+
+This is still intentionally small. It is not a rendered game world yet, and it does not use an external AI model yet. It proves the hidden simulator can contain real vertical state while the agent-facing side still receives compact evidence only.
+
+Hidden simulator truth now includes:
+
+- floor-plane location
+- base height
+- body top height
+- room height
+- low ceiling geometry
+- raised floor support
+- lower floor support
+- low hanging upper obstacle
+
+Agent-facing compact streams include:
+
+```text
+overhead_clearance n=1
+vertical_echo n^-1 rising
+foot_step_warning n=1
+foot_drop_warning n=1
+height_delta_pressure n^-1 rising
+base_height_shift n^-1 rising
+body_top_pressure n=1
+```
+
+The first 3D rehearsal is implemented in `scenario_tests/run_tiny_3d_nursery.mjs`. It writes:
+
+| artifact | purpose |
+| --- | --- |
+| `outputs/tiny_3d_nursery/compact_trigger_log.md` | Agent-facing compact 3D trigger evidence. |
+| `outputs/tiny_3d_nursery/decision_transcript.md` | Compact-only action and prediction transcript. |
+| `outputs/tiny_3d_nursery/risk_memory_log.md` | Short-lived compact 3D risk memory. |
+| `outputs/tiny_3d_nursery/map_beliefs.md` | Body/world beliefs written from compact evidence. |
+| `outputs/tiny_3d_nursery/hidden_truth_log.md` | Human evaluator truth only. |
+| `outputs/tiny_3d_nursery/tiny_3d_nursery_result.md` | Pass/fail report. |
+
+Current result:
+
+```text
+transcript turns: 16
+compact rows: 90
+compact map beliefs: 16
+crouch actions: 1
+step_up actions: 1
+step_down actions: 1
+overhead step contacts: 0
+unhandled raised-step blocks: 0
+unhandled drop warnings: 0
+prediction mismatches: 0
+```
+
+This is the first working 3D body/world proof: the system can respond to upper clearance, raised support, and lower support using compact logs and small reversible actions without exposing hidden coordinates or room feature objects to the agent-facing side.
+
+## 3D Agent Tool Boundary Checkpoint
+
+After the first 3D nursery pass, the next safety step is to expose the 3D nursery through model-ready tools rather than letting the scenario runner own the policy directly.
+
+The first 3D tool boundary is implemented in `digital_world/embodied_3d_agent_tools.mjs`.
+
+Tool surface:
+
+| tool | purpose |
+| --- | --- |
+| `readCompactSensors3D()` | Read compact 3D rows and normalized compact-facing sensor values. |
+| `readRiskMemory3D()` | Read active compact 3D risk memory. |
+| `predictAction3D(action, reason)` | Record an expected compact result before acting. |
+| `chooseAction3D(action, reason)` | Execute one allowed body action and receive compact comparison. |
+| `writeMapBelief3D(...)` | Store a compact-derived 3D body/world belief. |
+| `requestRawDetail(reason)` | Denied in the boundary test. |
+| `suggestActionFromRiskMemory3D()` | Transparent deterministic chooser using compact 3D risk memory. |
+
+The boundary test is implemented in `scenario_tests/run_embodied_3d_agent_tools_boundary.mjs`. It writes:
+
+| artifact | purpose |
+| --- | --- |
+| `outputs/embodied_3d_agent_tools/action_log.md` | Agent-facing action receipts. |
+| `outputs/embodied_3d_agent_tools/risk_memory_log.md` | Compact 3D risk memory transitions. |
+| `outputs/embodied_3d_agent_tools/map_beliefs.md` | Tool-written compact map beliefs. |
+| `outputs/embodied_3d_agent_tools/raw_detail_requests.md` | Raw-detail denial proof. |
+| `outputs/embodied_3d_agent_tools/tool_audit_log.md` | Tool calls and results. |
+| `outputs/embodied_3d_agent_tools/hidden_truth_log.md` | Human evaluator truth only. |
+| `outputs/embodied_3d_agent_tools/embodied_3d_agent_tools_result.md` | Pass/fail report. |
+
+Current result:
+
+```text
+body actions executed: 16
+predictions recorded: 16
+compact map beliefs written: 16
+raw detail denials: 1
+crouch actions: 1
+step_up actions: 1
+step_down actions: 1
+overhead step contacts: 0
+unhandled raised-step blocks: 0
+unhandled drop warnings: 0
+prediction mismatches: 0
+```
+
+This checkpoint means the 3D nursery is no longer just a standalone scenario. It has a compact tool interface that a future AI model can use without direct access to hidden coordinates, vertical truth, room geometry, or simulator feature objects.
+
+## 3D Model Rehearsal Checkpoint
+
+The next bridge is a deterministic future-model rehearsal for the true 3D nursery.
+
+This still does not use an external AI model. It proves the prompt/tool/transcript shape is ready before any API integration.
+
+The rehearsal is implemented in `scenario_tests/run_model_rehearsal_3d.mjs`. It uses only `embodied_3d_agent_tools.mjs` tool calls:
+
+```text
+readCompactSensors3D()
+readRiskMemory3D()
+predictAction3D(action, reason)
+chooseAction3D(action, reason)
+writeMapBelief3D(...)
+requestRawDetail(reason)
+suggestActionFromRiskMemory3D()
+```
+
+It writes:
+
+| artifact | purpose |
+| --- | --- |
+| `outputs/model_rehearsal_3d/compact_prompt.md` | Compact prompt shape for a future model. |
+| `outputs/model_rehearsal_3d/decision_transcript.md` | Model-style compact decision transcript. |
+| `outputs/model_rehearsal_3d/tool_audit.md` | Tool calls and results. |
+| `outputs/model_rehearsal_3d/map_beliefs.md` | Compact body/world beliefs. |
+| `outputs/model_rehearsal_3d/raw_detail_requests.md` | Raw-detail denial proof. |
+| `outputs/model_rehearsal_3d/hidden_truth_log.md` | Human evaluator truth only. |
+| `outputs/model_rehearsal_3d/model_rehearsal_3d_result.md` | Pass/fail report. |
+
+Current result:
+
+```text
+transcript turns: 16
+predictions recorded: 16
+body actions executed: 16
+compact map beliefs written: 16
+raw detail denials: 1
+crouch actions: 1
+step_up actions: 1
+step_down actions: 1
+overhead step contacts: 0
+unhandled raised-step blocks: 0
+unhandled drop warnings: 0
+prediction mismatches: 0
+```
+
+This is the cleanest pre-API checkpoint so far: a future model can be swapped into the deterministic rehearsal loop and held to the same compact-only perception boundary.
+
+## 3D Watcher Checkpoint
+
+The first true 3D watcher is now generated by `scenario_tests/run_tiny_3d_nursery.mjs`.
+
+The watcher is not part of agent perception. It is a human evaluator view that makes the hidden 3D nursery inspectable while preserving the compact-only boundary.
+
+Generated files:
+
+| artifact | purpose |
+| --- | --- |
+| `outputs/tiny_3d_nursery/tiny_3d_nursery_watcher.html` | Static browser watcher with canvas playback controls. |
+| `outputs/tiny_3d_nursery/watcher_frames.json` | Human-only hidden evaluator frame data. |
+
+The watcher shows:
+
+- isometric room floor and grid
+- robot body height as a box
+- low ceiling span
+- raised step/support
+- lower support/drop area
+- hanging obstacle
+- action timeline
+- compact evidence sidebar
+- map belief sidebar
+- sensor values
+- hidden evaluator readouts labeled as human-only
+
+Current watcher result:
+
+```text
+watcher frames: 16
+crouch actions shown: 1
+step_up actions shown: 1
+step_down actions shown: 1
+watcher frames cover every turn: yes
+```
+
+This makes the first 3D behavior visually inspectable before a second 3D room transfer test or a real external model loop.
+
 The promotion test is not the final activation gate. It only says the routine is ready for Builder / Dreamer and Critic / Reality-Checker review.
 
 ## Learned Control Review Checkpoint

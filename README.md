@@ -31,6 +31,42 @@ The core idea is that raw sensory input should not become memory directly. Senso
 - `outputs/connected_spreadsheet_test/connected_sensory_threshold_gate_test.xlsx`: compact workbook prototype for sensory input and threshold layers.
 - `spreadsheet_build/build_connected_threshold_workbook.mjs`: workbook builder script.
 
+## Run The 3D Nursery With Your API Key
+
+Do not paste your API key into chat or commit it to git.
+
+1. Copy `.env.local.example` to `.env.local`.
+2. For Hermes, paste these lines into `.env.local`:
+
+```bash
+API_PROVIDER=hermes
+HERMES_API_KEY=your_key_here
+HERMES_BASE_URL=the_base_url_from_your_hermes_provider
+HERMES_MODEL=the_model_name_from_your_hermes_provider
+```
+
+3. For OpenAI instead, use `OPENAI_API_KEY=...` and optionally `OPENAI_MODEL=gpt-4o-mini`.
+4. Run a short smoke test:
+
+```bash
+/Users/tempaccout/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scenario_tests/run_openai_3d_agent_loop.mjs
+```
+
+Use `--full` for a longer behavior observation run, or `--turns=5` for a custom length.
+
+The runner writes results to `outputs/api_3d_agent_loop/`.
+
+Safety rules built into the runner:
+
+- `.env.local` is ignored by git.
+- The key is read locally and never printed.
+- Hermes runs through the configured `HERMES_BASE_URL` using chat completions.
+- The model receives compact 3D sensor/risk-memory context only.
+- The model is given a compact mission goal: cross the nursery safely by making steady forward progress.
+- Raw 3D detail is denied.
+- Hidden coordinates, vertical truth, room geometry, and simulator feature objects stay in the human evaluator log only.
+- `behavior_score.md` separates boundary/tool discipline from actual risk-response quality.
+
 ## Current Hypothesis
 
 The skeleton starts with:

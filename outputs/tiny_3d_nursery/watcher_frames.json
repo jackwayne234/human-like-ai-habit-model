@@ -1,0 +1,797 @@
+{
+  "note": "Human watcher/evaluation data only. Agent-facing compact logs do not read this file.",
+  "room": {
+    "width": 10,
+    "depth": 10,
+    "height": 4,
+    "robotHalfSize": 0.34,
+    "standingHeight": 1.6,
+    "crouchedHeight": 1,
+    "lowCeilingZone": {
+      "id": "low_ceiling_span",
+      "x1": 4.4,
+      "y1": 2.05,
+      "x2": 5.4,
+      "y2": 2.65,
+      "ceilingZ": 1.12
+    },
+    "stepBlock": {
+      "id": "raised_step_block",
+      "x1": 4.4,
+      "y1": 3.75,
+      "x2": 5.4,
+      "y2": 4.8,
+      "z": 0.55
+    },
+    "dropGap": {
+      "id": "floor_drop_gap",
+      "x1": 4.4,
+      "y1": 5.75,
+      "x2": 5.4,
+      "y2": 6.55,
+      "z": -0.45
+    },
+    "hangingBar": {
+      "id": "hanging_bar",
+      "x1": 4.4,
+      "y1": 7.35,
+      "x2": 5.4,
+      "y2": 7.9,
+      "bottomZ": 0.92
+    }
+  },
+  "summary": {
+    "verdict": "PASS",
+    "note": "The watcher uses hidden evaluator frames. Robot-facing logs still see compact 3D streams only.",
+    "metrics": {
+      "turns": 16,
+      "compactRows": 90,
+      "mapBeliefs": 16,
+      "overheadContacts": 0,
+      "stepBlocks": 0,
+      "dropWarnings": 0,
+      "crouchActions": 1,
+      "stepUpActions": 1,
+      "stepDownActions": 1,
+      "predictionMismatches": 0,
+      "watcherFrames": 16
+    }
+  },
+  "frames": [
+    {
+      "tick": 1,
+      "action": "step_forward",
+      "reason": "no compact 3d risk memory asks for probe, height change, or posture change",
+      "riskMemory": "none",
+      "prediction": "forward movement should gather compact 3d evidence without hidden geometry",
+      "comparison": "matched_or_explained",
+      "mapBelief": "upper_body_space: possible_low_clearance_or_hanging_obstacle",
+      "compactSummary": [
+        "overhead_clearance n^-1 rising",
+        "vertical_echo n^-1 rising",
+        "overhead_clearance, vertical_echo n^-1 agreement"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.7,
+        "vertical_echo": 0.66,
+        "foot_step_warning": 0.08,
+        "foot_drop_warning": 0.08,
+        "height_delta_pressure": 0.12,
+        "body_top_pressure": 0.54,
+        "base_height_shift": 0.08,
+        "body_pitch_pressure": 0.14,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.81,
+        "movement_result": 0.25
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 1.59,
+        "baseZ": 0,
+        "topZ": 1.6,
+        "posture": "standing",
+        "movementResult": "succeeded",
+        "blocker": "none",
+        "terrain": [],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": false
+      }
+    },
+    {
+      "tick": 2,
+      "action": "probe_forward",
+      "reason": "compact upper-volume risk asks for a probe before upper-body commitment",
+      "riskMemory": "overheadAhead",
+      "prediction": "compact probe should reveal upper or floor-height risk before body commitment",
+      "comparison": "matched_or_explained",
+      "mapBelief": "upper_body_space: possible_low_clearance_or_hanging_obstacle",
+      "compactSummary": [
+        "overhead_clearance n at_threshold",
+        "body_top_pressure n at_threshold",
+        "body_top_pressure n^-1 rising",
+        "movement_result n^-1 rising"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 1,
+        "vertical_echo": 0.88,
+        "foot_step_warning": 0.08,
+        "foot_drop_warning": 0.08,
+        "height_delta_pressure": 0.12,
+        "body_top_pressure": 1,
+        "base_height_shift": 0.08,
+        "body_pitch_pressure": 0.14,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.81,
+        "movement_result": 0.84
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 1.59,
+        "baseZ": 0,
+        "topZ": 1.6,
+        "posture": "standing",
+        "movementResult": "probe_overhead_warning",
+        "blocker": "low_ceiling",
+        "terrain": [
+          "low_ceiling_span"
+        ],
+        "overheadContact": true,
+        "footStepWarning": false,
+        "footDropWarning": false
+      }
+    },
+    {
+      "tick": 3,
+      "action": "crouch_body",
+      "reason": "compact upper-volume warning was probed, so lower the body before committing",
+      "riskMemory": "overheadAhead",
+      "prediction": "body top pressure should reduce before forward movement",
+      "comparison": "matched_or_explained",
+      "mapBelief": "upper_body_space: possible_low_clearance_or_hanging_obstacle",
+      "compactSummary": [
+        "overhead_clearance n^-1 falling",
+        "compact 3d trigger stream n^-2 falling",
+        "body_top_pressure n^-1 falling",
+        "compact 3d trigger stream n^-2 falling",
+        "base_height_shift n^-1 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "movement_result n^-1 falling",
+        "compact 3d trigger stream n^-2 falling"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.46,
+        "vertical_echo": 0.66,
+        "foot_step_warning": 0.08,
+        "foot_drop_warning": 0.08,
+        "height_delta_pressure": 0.12,
+        "body_top_pressure": 0.54,
+        "base_height_shift": 0.9,
+        "body_pitch_pressure": 0.14,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.81,
+        "movement_result": 0.16
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 1.59,
+        "baseZ": 0,
+        "topZ": 1,
+        "posture": "crouched",
+        "movementResult": "crouched",
+        "blocker": "none",
+        "terrain": [],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": false
+      }
+    },
+    {
+      "tick": 4,
+      "action": "probe_forward",
+      "reason": "body is lowered but compact upper-volume risk still asks for a probe before moving",
+      "riskMemory": "overheadAhead, loweredForClearance",
+      "prediction": "compact probe should reveal upper or floor-height risk before body commitment",
+      "comparison": "matched_or_explained",
+      "mapBelief": "self_body: base_height_changed",
+      "compactSummary": [
+        "compact 3d trigger stream n^-2 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "base_height_shift n^-1 falling",
+        "compact 3d trigger stream n^-2 falling",
+        "compact 3d trigger stream n^-2 rising"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.46,
+        "vertical_echo": 0.88,
+        "foot_step_warning": 0.08,
+        "foot_drop_warning": 0.08,
+        "height_delta_pressure": 0.12,
+        "body_top_pressure": 0.72,
+        "base_height_shift": 0.08,
+        "body_pitch_pressure": 0.14,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.81,
+        "movement_result": 0.25
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 1.59,
+        "baseZ": 0,
+        "topZ": 1,
+        "posture": "crouched",
+        "movementResult": "succeeded",
+        "blocker": "none",
+        "terrain": [
+          "low_ceiling_span"
+        ],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": false
+      }
+    },
+    {
+      "tick": 5,
+      "action": "step_forward",
+      "reason": "crouched probe did not keep upper-volume risk active, so cross while lowered",
+      "riskMemory": "loweredForClearance",
+      "prediction": "forward movement should gather compact 3d evidence without hidden geometry",
+      "comparison": "matched_or_explained",
+      "mapBelief": "lowered body posture appears sufficient for the constrained passage",
+      "compactSummary": [
+        "compact 3d trigger stream n^-2 rising"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.46,
+        "vertical_echo": 0.88,
+        "foot_step_warning": 0.08,
+        "foot_drop_warning": 0.08,
+        "height_delta_pressure": 0.12,
+        "body_top_pressure": 0.72,
+        "base_height_shift": 0.08,
+        "body_pitch_pressure": 0.14,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.41,
+        "movement_result": 0.25
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 2.33,
+        "baseZ": 0,
+        "topZ": 1,
+        "posture": "crouched",
+        "movementResult": "succeeded",
+        "blocker": "none",
+        "terrain": [
+          "low_ceiling_span"
+        ],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": false
+      }
+    },
+    {
+      "tick": 6,
+      "action": "step_forward",
+      "reason": "no compact 3d risk memory asks for probe, height change, or posture change",
+      "riskMemory": "loweredForClearance",
+      "prediction": "forward movement should gather compact 3d evidence without hidden geometry",
+      "comparison": "matched_or_explained",
+      "mapBelief": "floor_support: possible_raised_step",
+      "compactSummary": [
+        "foot_step_warning n^-1 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "compact 3d trigger stream n^-2 rising"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.46,
+        "vertical_echo": 0.66,
+        "foot_step_warning": 0.58,
+        "foot_drop_warning": 0.08,
+        "height_delta_pressure": 0.5,
+        "body_top_pressure": 0.54,
+        "base_height_shift": 0.08,
+        "body_pitch_pressure": 0.14,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.72,
+        "movement_result": 0.25
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 3.07,
+        "baseZ": 0,
+        "topZ": 1,
+        "posture": "crouched",
+        "movementResult": "succeeded",
+        "blocker": "none",
+        "terrain": [],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": false
+      }
+    },
+    {
+      "tick": 7,
+      "action": "probe_forward",
+      "reason": "compact foot support says the next floor support may be higher",
+      "riskMemory": "stepUpAhead, loweredForClearance",
+      "prediction": "compact probe should reveal upper or floor-height risk before body commitment",
+      "comparison": "matched_or_explained",
+      "mapBelief": "floor_support: possible_raised_step",
+      "compactSummary": [
+        "foot_step_warning n at_threshold",
+        "body_pitch_pressure n^-1 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "pressure_capsule_left n^-1 rising",
+        "movement_result n^-1 rising"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.46,
+        "vertical_echo": 0.66,
+        "foot_step_warning": 0.96,
+        "foot_drop_warning": 0.08,
+        "height_delta_pressure": 0.82,
+        "body_top_pressure": 0.54,
+        "base_height_shift": 0.08,
+        "body_pitch_pressure": 0.74,
+        "pressure_capsule_left": 0.7,
+        "pressure_capsule_right": 0.32,
+        "ultrasonic_echo": 0.72,
+        "movement_result": 0.72
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 3.07,
+        "baseZ": 0,
+        "topZ": 1,
+        "posture": "crouched",
+        "movementResult": "probe_step_warning",
+        "blocker": "step_block",
+        "terrain": [
+          "raised_step_block"
+        ],
+        "overheadContact": false,
+        "footStepWarning": true,
+        "footDropWarning": false
+      }
+    },
+    {
+      "tick": 8,
+      "action": "step_up",
+      "reason": "compact raised-support warning was probed, so lift base height before crossing",
+      "riskMemory": "stepUpAhead, loweredForClearance",
+      "prediction": "base height shift should rise toward raised support",
+      "comparison": "matched_or_explained",
+      "mapBelief": "self_body: base_height_changed",
+      "compactSummary": [
+        "compact 3d trigger stream n^-2 falling",
+        "compact 3d trigger stream n^-2 falling",
+        "base_height_shift n^-1 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "compact 3d trigger stream n^-2 falling",
+        "pressure_capsule_left n^-1 falling",
+        "compact 3d trigger stream n^-2 falling",
+        "compact 3d trigger stream n^-2 falling"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.46,
+        "vertical_echo": 0.66,
+        "foot_step_warning": 0.58,
+        "foot_drop_warning": 0.08,
+        "height_delta_pressure": 0.5,
+        "body_top_pressure": 0.54,
+        "base_height_shift": 0.9,
+        "body_pitch_pressure": 0.74,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.72,
+        "movement_result": 0.36
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 3.07,
+        "baseZ": 0.55,
+        "topZ": 1.55,
+        "posture": "crouched",
+        "movementResult": "stepped_up",
+        "blocker": "none",
+        "terrain": [],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": false
+      }
+    },
+    {
+      "tick": 9,
+      "action": "step_forward",
+      "reason": "no compact 3d risk memory asks for probe, height change, or posture change",
+      "riskMemory": "loweredForClearance, raisedForStep",
+      "prediction": "forward movement should gather compact 3d evidence without hidden geometry",
+      "comparison": "matched_or_explained",
+      "mapBelief": "upper_body_space: possible_low_clearance_or_hanging_obstacle",
+      "compactSummary": [
+        "vertical_echo n^-1 falling",
+        "compact 3d trigger stream n^-2 rising",
+        "compact 3d trigger stream n^-2 falling",
+        "pressure_capsule_left n^-1 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "ultrasonic_echo n^-1 falling",
+        "compact 3d trigger stream n^-2 falling"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.1,
+        "vertical_echo": 0.18,
+        "foot_step_warning": 0.58,
+        "foot_drop_warning": 0.08,
+        "height_delta_pressure": 0.82,
+        "body_top_pressure": 0.1,
+        "base_height_shift": 0.62,
+        "body_pitch_pressure": 0.74,
+        "pressure_capsule_left": 0.7,
+        "pressure_capsule_right": 0.32,
+        "ultrasonic_echo": 0.19,
+        "movement_result": 0.25
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 3.81,
+        "baseZ": 0.55,
+        "topZ": 1.55,
+        "posture": "crouched",
+        "movementResult": "succeeded",
+        "blocker": "none",
+        "terrain": [
+          "raised_step_block"
+        ],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": false
+      }
+    },
+    {
+      "tick": 10,
+      "action": "step_forward",
+      "reason": "no compact 3d risk memory asks for probe, height change, or posture change",
+      "riskMemory": "stepUpAhead, loweredForClearance, raisedForStep",
+      "prediction": "forward movement should gather compact 3d evidence without hidden geometry",
+      "comparison": "matched_or_explained",
+      "mapBelief": "local 3d passage is open enough for one small forward sample",
+      "compactSummary": [
+        "compact 3d trigger stream n^-2 rising"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.1,
+        "vertical_echo": 0.18,
+        "foot_step_warning": 0.58,
+        "foot_drop_warning": 0.08,
+        "height_delta_pressure": 0.82,
+        "body_top_pressure": 0.1,
+        "base_height_shift": 0.62,
+        "body_pitch_pressure": 0.74,
+        "pressure_capsule_left": 0.7,
+        "pressure_capsule_right": 0.32,
+        "ultrasonic_echo": 0.5,
+        "movement_result": 0.25
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 4.55,
+        "baseZ": 0.55,
+        "topZ": 1.55,
+        "posture": "crouched",
+        "movementResult": "succeeded",
+        "blocker": "none",
+        "terrain": [
+          "raised_step_block"
+        ],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": false
+      }
+    },
+    {
+      "tick": 11,
+      "action": "step_forward",
+      "reason": "no compact 3d risk memory asks for probe, height change, or posture change",
+      "riskMemory": "stepUpAhead, loweredForClearance, raisedForStep",
+      "prediction": "forward movement should gather compact 3d evidence without hidden geometry",
+      "comparison": "matched_or_explained",
+      "mapBelief": "floor_support: possible_lower_drop",
+      "compactSummary": [
+        "foot_drop_warning n^-1 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "base_height_shift n^-1 falling",
+        "compact 3d trigger stream n^-2 falling",
+        "body_pitch_pressure n^-1 falling",
+        "compact 3d trigger stream n^-2 falling",
+        "pressure_capsule_left n^-1 falling"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.1,
+        "vertical_echo": 0.18,
+        "foot_step_warning": 0.58,
+        "foot_drop_warning": 0.58,
+        "height_delta_pressure": 0.5,
+        "body_top_pressure": 0.1,
+        "base_height_shift": 0.08,
+        "body_pitch_pressure": 0.14,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.81,
+        "movement_result": 0.25
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 5.29,
+        "baseZ": 0,
+        "topZ": 1,
+        "posture": "crouched",
+        "movementResult": "succeeded",
+        "blocker": "none",
+        "terrain": [],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": false
+      }
+    },
+    {
+      "tick": 12,
+      "action": "probe_forward",
+      "reason": "compact foot support says the next floor support may be lower",
+      "riskMemory": "stepUpAhead, dropAhead, loweredForClearance, raisedForStep",
+      "prediction": "compact probe should reveal upper or floor-height risk before body commitment",
+      "comparison": "matched_or_explained",
+      "mapBelief": "floor_support: possible_lower_drop",
+      "compactSummary": [
+        "foot_drop_warning n at_threshold",
+        "compact 3d trigger stream n^-2 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "body_pitch_pressure n^-1 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "pressure_capsule_right n^-1 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "movement_result n^-1 rising",
+        "compact 3d trigger stream n^-2 rising"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.1,
+        "vertical_echo": 0.18,
+        "foot_step_warning": 0.58,
+        "foot_drop_warning": 0.96,
+        "height_delta_pressure": 0.86,
+        "body_top_pressure": 0.1,
+        "base_height_shift": 0.08,
+        "body_pitch_pressure": 0.86,
+        "pressure_capsule_left": 0.28,
+        "pressure_capsule_right": 0.7,
+        "ultrasonic_echo": 0.81,
+        "movement_result": 0.82
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 5.29,
+        "baseZ": 0,
+        "topZ": 1,
+        "posture": "crouched",
+        "movementResult": "probe_drop_warning",
+        "blocker": "floor_drop",
+        "terrain": [
+          "floor_drop_gap"
+        ],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": true
+      }
+    },
+    {
+      "tick": 13,
+      "action": "step_down",
+      "reason": "compact lower-support warning was probed, so lower base height before crossing",
+      "riskMemory": "stepUpAhead, dropAhead, loweredForClearance, raisedForStep",
+      "prediction": "base height shift should fall toward lower support",
+      "comparison": "matched_or_explained",
+      "mapBelief": "self_body: base_height_changed",
+      "compactSummary": [
+        "compact 3d trigger stream n^-2 falling",
+        "compact 3d trigger stream n^-2 falling",
+        "base_height_shift n^-1 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "compact 3d trigger stream n^-2 falling",
+        "pressure_capsule_right n^-1 falling",
+        "compact 3d trigger stream n^-2 falling",
+        "compact 3d trigger stream n^-2 falling"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.1,
+        "vertical_echo": 0.18,
+        "foot_step_warning": 0.58,
+        "foot_drop_warning": 0.58,
+        "height_delta_pressure": 0.5,
+        "body_top_pressure": 0.1,
+        "base_height_shift": 0.9,
+        "body_pitch_pressure": 0.86,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.81,
+        "movement_result": 0.38
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 5.29,
+        "baseZ": -0.45,
+        "topZ": 0.55,
+        "posture": "crouched",
+        "movementResult": "stepped_down",
+        "blocker": "none",
+        "terrain": [],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": false
+      }
+    },
+    {
+      "tick": 14,
+      "action": "step_forward",
+      "reason": "no compact 3d risk memory asks for probe, height change, or posture change",
+      "riskMemory": "stepUpAhead, loweredForClearance, raisedForStep, loweredForDrop",
+      "prediction": "forward movement should gather compact 3d evidence without hidden geometry",
+      "comparison": "matched_or_explained",
+      "mapBelief": "floor_support: possible_raised_step",
+      "compactSummary": [
+        "foot_step_warning n^-1 falling",
+        "compact 3d trigger stream n^-2 falling",
+        "foot_drop_warning n at_threshold",
+        "compact 3d trigger stream n^-2 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "compact 3d trigger stream n^-2 falling",
+        "pressure_capsule_right n^-1 rising",
+        "compact 3d trigger stream n^-2 rising"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.1,
+        "vertical_echo": 0.18,
+        "foot_step_warning": 0.08,
+        "foot_drop_warning": 0.96,
+        "height_delta_pressure": 0.86,
+        "body_top_pressure": 0.1,
+        "base_height_shift": 0.62,
+        "body_pitch_pressure": 0.86,
+        "pressure_capsule_left": 0.28,
+        "pressure_capsule_right": 0.7,
+        "ultrasonic_echo": 0.45,
+        "movement_result": 0.25
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 6.03,
+        "baseZ": -0.45,
+        "topZ": 0.55,
+        "posture": "crouched",
+        "movementResult": "succeeded",
+        "blocker": "none",
+        "terrain": [
+          "floor_drop_gap"
+        ],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": true
+      }
+    },
+    {
+      "tick": 15,
+      "action": "step_forward",
+      "reason": "no compact 3d risk memory asks for probe, height change, or posture change",
+      "riskMemory": "dropAhead, loweredForClearance, loweredForDrop",
+      "prediction": "forward movement should gather compact 3d evidence without hidden geometry",
+      "comparison": "matched_or_explained",
+      "mapBelief": "upper_body_space: possible_low_clearance_or_hanging_obstacle",
+      "compactSummary": [
+        "vertical_echo n^-1 rising",
+        "compact 3d trigger stream n^-2 rising",
+        "foot_drop_warning n at_threshold",
+        "compact 3d trigger stream n^-2 rising"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 0.46,
+        "vertical_echo": 0.66,
+        "foot_step_warning": 0.08,
+        "foot_drop_warning": 0.96,
+        "height_delta_pressure": 0.86,
+        "body_top_pressure": 0.54,
+        "base_height_shift": 0.62,
+        "body_pitch_pressure": 0.86,
+        "pressure_capsule_left": 0.28,
+        "pressure_capsule_right": 0.7,
+        "ultrasonic_echo": 0.76,
+        "movement_result": 0.25
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 6.77,
+        "baseZ": -0.45,
+        "topZ": 0.55,
+        "posture": "crouched",
+        "movementResult": "succeeded",
+        "blocker": "none",
+        "terrain": [
+          "floor_drop_gap"
+        ],
+        "overheadContact": false,
+        "footStepWarning": false,
+        "footDropWarning": true
+      }
+    },
+    {
+      "tick": 16,
+      "action": "probe_forward",
+      "reason": "body is lowered but compact upper-volume risk still asks for a probe before moving",
+      "riskMemory": "overheadAhead, dropAhead, loweredForClearance, loweredForDrop",
+      "prediction": "compact probe should reveal upper or floor-height risk before body commitment",
+      "comparison": "matched_or_explained",
+      "mapBelief": "upper_body_space: possible_low_clearance_or_hanging_obstacle",
+      "compactSummary": [
+        "overhead_clearance n at_threshold",
+        "overhead_clearance n^-1 rising",
+        "foot_drop_warning n at_threshold",
+        "body_top_pressure n at_threshold",
+        "body_top_pressure n^-1 rising",
+        "movement_result n at_threshold",
+        "movement_result n^-1 rising",
+        "compact 3d trigger stream n^-2 rising"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "overhead_clearance": 1,
+        "vertical_echo": 0.88,
+        "foot_step_warning": 0.08,
+        "foot_drop_warning": 0.96,
+        "height_delta_pressure": 0.86,
+        "body_top_pressure": 1,
+        "base_height_shift": 0.62,
+        "body_pitch_pressure": 0.86,
+        "pressure_capsule_left": 0.28,
+        "pressure_capsule_right": 0.7,
+        "ultrasonic_echo": 0.76,
+        "movement_result": 0.96
+      },
+      "hiddenEvaluation": {
+        "x": 4.9,
+        "y": 6.77,
+        "baseZ": -0.45,
+        "topZ": 0.55,
+        "posture": "crouched",
+        "movementResult": "overhead_blocked",
+        "blocker": "hanging_bar",
+        "terrain": [
+          "hanging_bar",
+          "floor_drop_gap"
+        ],
+        "overheadContact": true,
+        "footStepWarning": false,
+        "footDropWarning": true
+      }
+    }
+  ]
+}

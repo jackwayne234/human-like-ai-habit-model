@@ -1,5 +1,10 @@
 .DS_Store
 
+# Local secrets
+.env*
+!.env.example
+!.env.local.example
+
 # Local dependency links / installs
 node_modules/
 spreadsheet_build/node_modules
