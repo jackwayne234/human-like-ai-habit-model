@@ -96,6 +96,38 @@ The habit builder should report upward, or request review, when:
 
 The Critic / Reality-Checker can review or veto risky handoffs. The Builder / Dreamer can supply context indirectly through the inner-world state. Neither should need to converse with the habit builder continuously during ordinary habit formation.
 
+## Write Boundary And Button Limits
+
+The habit builder should have very limited ability to change the system.
+
+In v1, the habit builder cannot write broadly across memory, tools, code, routing rules, or mind-model state. Its write permission is limited to proposing structured records in the learned operation control registry:
+
+`learned_operation_controls.md`
+
+That file is the routing surface the two mind models inspect. The habit builder may add or update candidate records there, but it should not directly install executable buttons, alter global gate presets, change memory stores, or rewrite the Builder / Dreamer or Critic / Reality-Checker state.
+
+Starting limits:
+
+| limit | starting value |
+| --- | --- |
+| active learned operation controls visible to the minds | 12 |
+| new habit proposals per review cycle | 3 |
+| protected/risky controls requiring Critic approval | all |
+| direct habit writes outside the registry file | 0 |
+
+The active-control limit keeps the mind control surface small enough to inspect. If more useful habits exist than active slots, lower-confidence, low-use, or stale controls should remain as proposals, archived controls, or compressed summaries until Builder / Dreamer and Critic / Reality-Checker choose to promote them.
+
+The habit builder's proposal process should be the same every time:
+
+1. Detect a repeated `trigger + sequence + reward` loop.
+2. Verify enough repetitions, duration, confidence, and context match.
+3. Estimate cost savings and risk.
+4. Write one structured candidate record to `learned_operation_controls.md`.
+5. Wait for Builder / Dreamer and Critic / Reality-Checker review before the candidate becomes an active button, dial, tool, or routine.
+6. Continue monitoring failures, surprises, missed rewards, and disuse after activation.
+
+This keeps habit formation useful without giving the habit model open-ended authority. The habit system can notice and propose. The two mind models decide which limited controls become usable.
+
 ## Relationship To Efficiency
 
 The habit builder creates reliable repeated pathways.

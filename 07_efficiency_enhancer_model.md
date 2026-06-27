@@ -76,6 +76,50 @@ A learned operation control should include:
 
 This makes habits concrete. A mature habit does not merely make behavior easier in a vague way; it can create a new usable control that lets the mind models operate at a higher level.
 
+## Control Registry Boundary
+
+The habit/efficiency pipeline should not create unlimited buttons or write tools wherever it wants.
+
+In v1, learned operation controls are written only into:
+
+`learned_operation_controls.md`
+
+This registry is the structured file that Builder / Dreamer and Critic / Reality-Checker inspect on a routing basis. The efficiency enhancer can help turn a mature habit into a proposed control record, but it does not directly grant broad execution authority.
+
+The registry should separate controls by status:
+
+| status | meaning |
+| --- | --- |
+| `candidate` | Habit builder has detected a repeated useful loop. |
+| `proposed` | Efficiency enhancer has shaped the loop into a possible button, dial, tool, or routine. |
+| `active` | The two mind models have accepted it onto the limited control surface. |
+| `paused` | The control failed, surprised the system, or needs review. |
+| `archived` | The control is stale, low-use, or no longer worth active space. |
+
+Only a limited number of controls should be active at once. The starting v1 active-control cap is 12. Additional learned routines can remain proposed, paused, archived, or compressed until the two mind models decide the control surface should change.
+
+Every proposed control must use the same creation structure:
+
+| required field | purpose |
+| --- | --- |
+| `control_id` | Stable identifier for the proposed control. |
+| `status` | Candidate, proposed, active, paused, or archived. |
+| `source_habit` | Which trigger-sequence-reward loop produced it. |
+| `trigger_conditions` | When the control should appear or be recommended. |
+| `required_context` | What must be true before use is safe. |
+| `inputs` | What state, signals, files, or memory the control reads. |
+| `operation` | What deterministic action, dial change, or routine is proposed. |
+| `expected_output` | What should change if the control works. |
+| `reward` | The useful result that originally justified the habit. |
+| `confidence` | Reliability evidence from repeated use. |
+| `cost` | Attention, storage, memory, compute, heat, or time cost. |
+| `risk_level` | Whether Builder alone can use it, Critic must approve it, or review is always required. |
+| `failure_monitor` | What signals mean it stopped working. |
+| `rollback_or_review` | How to pause, demote, undo, or reopen the control. |
+| `audit_summary` | Compact trigger/action/result/cost history. |
+
+This makes learned controls deterministic and inspectable. The habit system can propose repeatable control records, but Builder / Dreamer and Critic / Reality-Checker decide which limited controls become active.
+
 ## Example
 
 If the system repeatedly learns:

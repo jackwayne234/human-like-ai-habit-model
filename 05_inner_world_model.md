@@ -285,6 +285,32 @@ The habit builder is not a third voice in this conversation by default. It obser
 
 When the habit/efficiency pipeline succeeds, it can add a learned operation control to the Builder/Critic control surface. This lets the mind models press a deterministic button, turn a dial, or call a routine when a matching task appears, instead of reasoning through the whole repeated process again.
 
+## Executive Tool Sufficiency
+
+The Builder / Dreamer and Critic / Reality-Checker have enough tools for the v1 executive layer.
+
+The current executive control surface includes:
+
+- threshold sensitivity knobs
+- importance gate preset recording dials
+- attention windows
+- emergency and ordinary attention sensitivity
+- novelty sensitivity and fade-out
+- resource body meters for storage, RAM/working memory, heat/compute, and power
+- inner/outer attention allocation
+- evidence-seeking threshold
+- inner prediction versus sensory evidence trust
+- social/teacher input trust
+- core identity/preference stability
+- global mode selector
+- habit and efficiency pressure
+- limited learned operation controls proposed through `learned_operation_controls.md`
+- Scene Builder, Memory Mapper, and Future Simulator as Builder tools
+
+This is sufficient for the first executive model baseline. The design should not add more executive knobs or tools before testing unless a real missing capability appears. More controls would make the mind surface harder to inspect and could weaken the clean separation between deterministic lower layers, executive interpretation, habit observation, and efficiency compression.
+
+The next useful work is to test whether Builder / Dreamer and Critic / Reality-Checker can choose between the existing tools well enough, not to keep expanding the tool list.
+
 Example dialogue shape:
 
 | step | example |
