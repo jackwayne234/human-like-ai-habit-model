@@ -42,6 +42,40 @@ Mature habits can be compressed into:
 | summary memory | A compressed memory that replaces bulky repeated episodes. |
 | partial automation | A deterministic sub-step that helps even when the full loop cannot be automated safely. |
 
+## Learned Operation Controls
+
+The strongest output of the habit/efficiency pipeline is a learned operation control.
+
+A learned operation control is a deterministic code-based operation, button, dial, tool, or routine that appears on the mind models' control surface after a habit has become mature enough to compress. Builder / Dreamer and Critic / Reality-Checker can then invoke the operation when a matching task or context appears, instead of thinking through the whole process every time.
+
+Example controls:
+
+| repeated loop | resulting control |
+| --- | --- |
+| Resource pressure rises, then low-use sensory memory is compressed safely. | `compress_low_use_memory` button |
+| Volume spikes but other senses do not agree, then the system watches without promoting. | `low_confidence_watch_mode` dial |
+| A task repeatedly needs the same cleanup sequence. | `cleanup_workspace` operation |
+| A routine fails repeatedly, then it is reopened for review. | `review_failed_routine` button |
+| Inner prediction conflicts with weak evidence, then one more outside sample is requested. | `request_more_evidence` button |
+
+A learned operation control should include:
+
+| field | meaning |
+| --- | --- |
+| name | Human/model-readable operation name. |
+| trigger conditions | When the operation should become available or recommended. |
+| required context | What must be true before it is safe to use. |
+| inputs | What values, files, sensory state, memory state, or task state it reads. |
+| expected output | What it should produce or change. |
+| confidence | How reliable the original habit was. |
+| cost | Expected attention, storage, memory, compute, heat, or time cost. |
+| failure monitor | What signals mean the operation stopped working. |
+| audit trail | Compact record of trigger, action, result, and cost. |
+| permission / safety level | Whether the Builder can invoke it directly, the Critic must approve it, or it always needs review. |
+| rollback / review path | How to undo, pause, demote, or reopen the operation. |
+
+This makes habits concrete. A mature habit does not merely make behavior easier in a vague way; it can create a new usable control that lets the mind models operate at a higher level.
+
 ## Example
 
 If the system repeatedly learns:

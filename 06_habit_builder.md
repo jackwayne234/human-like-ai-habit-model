@@ -71,11 +71,38 @@ The habit builder should not blindly automate everything.
 
 The inner world model provides context. A habit that works in one situation may be dangerous in another. The habit builder should therefore store the context where a habit works, not only the action.
 
+## Relationship To Builder / Critic Conversation
+
+The habit model should not act as a third conversational mind model by default.
+
+The Builder / Dreamer and Critic / Reality-Checker have the reflective conversation. The habit builder observes the results of that conversation and the resulting behavior from underneath. Its default job is quiet deterministic tracking:
+
+1. Notice the trigger.
+2. Track the repeated sequence of steps.
+3. Detect the reward or useful result.
+4. Count repetitions and confidence.
+5. Promote the loop when the pattern is reliable enough.
+6. Hand mature loops to the efficiency enhancer for compression or automation.
+
+The habit builder should not ask the mind models for permission before every candidate promotion. That would make the mind manage the repeated low-level behavior that habits are supposed to remove from conscious attention.
+
+The habit builder should report upward, or request review, when:
+
+- it promotes a new habit candidate
+- it is ready to hand a mature loop to the efficiency enhancer
+- a habit fails, becomes surprising, or misses its expected reward
+- the current context no longer matches the stored habit context
+- the habit touches danger, identity, important memory, high resource cost, or other protected areas
+
+The Critic / Reality-Checker can review or veto risky handoffs. The Builder / Dreamer can supply context indirectly through the inner-world state. Neither should need to converse with the habit builder continuously during ordinary habit formation.
+
 ## Relationship To Efficiency
 
 The habit builder creates reliable repeated pathways.
 
 The efficiency enhancer later compresses mature habits into cheaper routines, shortcuts, tools, or deterministic processes.
+
+The desired downstream result is a learned operation control on the mind model's control surface. Once the habit builder marks a loop as mature enough, the efficiency enhancer can turn that loop into a deterministic button, dial, tool, or routine that Builder / Dreamer and Critic / Reality-Checker can use later without thinking through the whole sequence again.
 
 The default stance is automation-maximizing once evidence is good enough. This does not mean unsafe blind automation; it means the habit system should lean toward freeing the mind model from repeated low-level work whenever trigger, sequence, reward, context, and confidence make that safe.
 

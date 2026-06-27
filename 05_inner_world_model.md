@@ -268,13 +268,49 @@ The mind model can lower thresholds when the world seems dangerous, raise thresh
 
 In danger mode, attention pulls outward until the danger clears. The inner world can continue in a reduced or background form, but the default priority is protective reality contact: gather outside evidence, support reflex action, and report compact summaries upward after automatic protection fires.
 
-## Future Architecture Note: Cooperative Mind Models
+## Cooperative Mind Models
 
-The total mind model may work best as two or more cooperating mind models rather than one monolithic mind model.
+The v1 architecture should use two cooperating mind models rather than one monolithic mind model.
 
-Human inner experience often includes internal dialogue: talking through ideas, disagreeing with oneself, rehearsing perspectives, or letting one part of the mind question another. A later architecture pass should consider whether paired or cooperative mind models can improve reflection, planning, self-checking, creativity, and decision quality.
+Human inner experience often includes internal dialogue: talking through ideas, disagreeing with oneself, rehearsing perspectives, or letting one part of the mind question another. The first cooperative design should model that as a pair:
 
-This is an important future design direction, not a required part of the current workbook formula pass.
+| mind model | role |
+| --- | --- |
+| Builder / Dreamer | Builds and maintains the inner world, imagines scenes, simulates futures, generates candidate explanations, supports play/daydreaming/preferences, and proposes possible plans. |
+| Critic / Reality-Checker | Questions the builder, compares inner predictions against outside evidence, checks danger/resource/contradiction risk, and decides when more sensory evidence or revision is needed. |
+
+The Builder and Critic share the same resource body, sensory gate outputs, memory promotion stream, habit signals, and efficiency pressure. They are not separate agents with unrelated goals. They are cooperating roles inside one total mind system.
+
+The habit builder is not a third voice in this conversation by default. It observes the Builder/Critic loop from underneath, records trigger-sequence-reward patterns, and reports upward only when a habit candidate, risky handoff, failure, surprise, or context mismatch needs review.
+
+When the habit/efficiency pipeline succeeds, it can add a learned operation control to the Builder/Critic control surface. This lets the mind models press a deterministic button, turn a dial, or call a routine when a matching task appears, instead of reasoning through the whole repeated process again.
+
+Example dialogue shape:
+
+| step | example |
+| --- | --- |
+| Builder | "This sound might mean someone is nearby." |
+| Critic | "Confidence is low. Volume changed, but brightness, touch, smell, and taste did not. Ask for more outside evidence before promoting." |
+| Builder | "Hold the possibility as a low-detail inner-world object." |
+| Critic | "Keep it watched, not memorized as fact." |
+
+This gives the system reflection and self-questioning without making the architecture too large too early.
+
+## Inner World Building Layers
+
+The inner world itself can have multiple building layers without becoming three full mind models.
+
+Starting inner-world tools/layers:
+
+| layer | job |
+| --- | --- |
+| Scene Builder | Creates imagined places, events, objects, and replayable situations. |
+| Memory Mapper | Places memories, risks, people, objects, habits, and sensory evidence into the inner world. |
+| Future Simulator | Runs possible outcomes, plans, rehearsals, and "what if" branches. |
+
+These are tools of the Builder / Dreamer model in v1. They do not need to be separate full mind models yet.
+
+A possible later third model is a Narrator / Integrator. Its job would be to maintain the stable self-story, resolve disagreements between Builder and Critic, protect identity/preferences, and decide what the total system now believes. That should stay as a future option until the two-model design proves too limited.
 
 ## v1 Boundary
 
@@ -287,3 +323,5 @@ The first goal is to define its role:
 - update itself from promoted events
 - tune available knobs based on expectation, resources, survival pressure, and innate drives
 - provide context for memory promotion and habit formation
+- run a two-role cooperative mind design: Builder / Dreamer plus Critic / Reality-Checker
+- keep Scene Builder, Memory Mapper, and Future Simulator as inner-world tools rather than full separate mind models
