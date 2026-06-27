@@ -193,3 +193,49 @@ For the first practical test, the sensory stream does not need to run as a live 
 The first connected workbook can use a sensory input sheet as the source of truth. Each row is one tick, with `brightness`, `volume`, `touch`, `taste`, and `smell` values clamped between `0.0` and `1.0`. Later sheets can reference these rows with formulas.
 
 This preserves the boundary of `01`: the sensory layer still only provides temporary input values. The spreadsheet format just makes those values easier to inspect and edit by hand.
+
+## Streaming Layer Test
+
+The first stream-style prototype is session-based and deterministic, not a background daemon.
+
+`scenario_tests/run_streaming_layer_test.mjs` generates 20 artificial world ticks and appends them one tick at a time to `outputs/streaming_world/session_001_stream_log.md`.
+
+The same run rewrites `outputs/streaming_world/session_001_rolling_buffer.md` on every tick. That file keeps only the latest 10 ticks. Older rows disappear from the buffer as new ticks arrive.
+
+The same run keeps compact threshold monitoring active for every tick and writes `outputs/streaming_world/session_001_compact_trigger_log.md`. This applies the current constant compact recorder rules:
+
+- `n`: current sensory value equals `1.0`.
+- `n^-1`: one-tick absolute change is at least `0.5`.
+- `n^-1` between-sensor: two or more senses change by at least `0.5` on the same tick.
+- `n^-2`: the compact `n^-1` trigger pattern shifts.
+
+Raw sensor recording remains separate. The stream test presses `record_volume` and `record_touch` during the session. When a recording button turns on, the recorder copies that sensor's current rolling-buffer rows into the sensor's raw file. While the button stays on, the recorder appends new raw rows for that sensor. When the button turns off, it stops appending:
+
+- `sensor_recordings/volume/session_001_raw.md`
+- `sensor_recordings/touch/session_001_raw.md`
+
+The generated result report is `outputs/streaming_world/streaming_layer_test_result.md`.
+
+## Constant Stream Experience
+
+`scenario_tests/run_constant_stream_experience.mjs` is the first longer "model experience" run.
+
+It runs 60 deterministic world ticks, turns on all five raw sensor recording buttons at tick 1, keeps rewriting a 10-tick rolling buffer, and applies the compact `n`, `n^-1`, and `n^-2` formulas as the stream grows.
+
+The main outputs are:
+
+- `outputs/model_experience/experience_session_001_stream_log.md`: continuous normalized sensory input.
+- `outputs/model_experience/experience_session_001_rolling_buffer.md`: temporary latest-10-tick buffer.
+- `outputs/model_experience/experience_session_001_compact_trigger_log.md`: formula outputs.
+- `outputs/model_experience/experience_session_001_noticed_log.md`: readable summary of what the formulas made visible.
+- `outputs/model_experience/experience_session_001_summary.md`: counts and checks from the run.
+
+Because all five recording buttons are on, the run also writes one raw file per sensor:
+
+- `sensor_recordings/brightness/experience_session_001_raw.md`
+- `sensor_recordings/volume/experience_session_001_raw.md`
+- `sensor_recordings/touch/experience_session_001_raw.md`
+- `sensor_recordings/taste/experience_session_001_raw.md`
+- `sensor_recordings/smell/experience_session_001_raw.md`
+
+This is still artificial and deterministic. It is not a real sensor daemon yet. The point is to inspect what the architecture experiences when constant input, temporary buffer rollover, raw recording, and compact trigger formulas are all active together.

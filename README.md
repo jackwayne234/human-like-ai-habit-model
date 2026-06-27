@@ -21,6 +21,10 @@ The core idea is that raw sensory input should not become memory directly. Senso
 
 - `sensory_stream_samples/`: 10 deterministic sensory sample sheets.
 - `threshold_trigger_sheets/`: matching trigger sheets generated from the sensory samples.
+- `outputs/streaming_world/`: deterministic session-style artificial world stream logs and compact trigger logs.
+- `scenario_tests/run_streaming_layer_test.mjs`: generates a simple artificial world stream, rewrites a capped rolling buffer, applies compact trigger formulas, and writes raw sensor recordings when sensor recording buttons copy or append rows.
+- `outputs/model_experience/`: a longer constant-stream run showing what the model notices from ongoing input.
+- `scenario_tests/run_constant_stream_experience.mjs`: turns on all five raw recording logs, runs 60 artificial world ticks, applies compact formulas, and writes a noticed log.
 - `outputs/connected_spreadsheet_test/connected_sensory_threshold_gate_test.xlsx`: compact workbook prototype for sensory input and threshold layers.
 - `spreadsheet_build/build_connected_threshold_workbook.mjs`: workbook builder script.
 
