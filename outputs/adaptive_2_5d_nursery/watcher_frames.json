@@ -1,0 +1,3789 @@
+{
+  "note": "Human watcher/evaluation data only. Robot-facing compact logs do not read this file.",
+  "summary": {
+    "verdict": "PASS",
+    "note": "The adaptive run uses compact risk memory instead of fixed route timing.",
+    "metrics": {
+      "committedHeightWarnings": {
+        "naive": 6,
+        "adaptive": 2
+      },
+      "overheadContacts": {
+        "naive": 4,
+        "adaptive": 0
+      },
+      "probeWarnings": {
+        "naive": 0,
+        "adaptive": 3
+      },
+      "crouchActions": {
+        "naive": 0,
+        "adaptive": 1
+      },
+      "predictionAccuracy": {
+        "naive": 41.7,
+        "adaptive": 100
+      },
+      "habitCandidates": 1
+    }
+  },
+  "frames": [
+    {
+      "runId": "adaptive_naive",
+      "tick": 1,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 1,
+        "x": 4.9,
+        "y": 1.63,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "bodyPitch": "level",
+          "heightPressure": "quiet",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.68,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.64,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.82,
+        "movement_result": 0.25
+      },
+      "compactRows": [],
+      "comparison": {
+        "runId": "adaptive_naive",
+        "tick": 1,
+        "action": "step_forward",
+        "predicted": "forward movement should gather compact evidence with no known active risk memory",
+        "evidence": "compact stream quiet",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_naive",
+        "tick": 1,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "naive movement without compact risk-memory adaptation",
+        "reason": "scripted movement without adaptive risk memory",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_naive",
+      "tick": 2,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 2,
+        "x": 4.9,
+        "y": 1.958,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "overhead_blocked",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": true,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "low_clearance",
+          "terrain": [
+            "low_clearance_tunnel"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "level",
+          "heightPressure": "quiet",
+          "verticalEcho": "low_ceiling",
+          "note": "upper body met a low overhead clearance"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.96,
+        "movement_result": 0.92
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_naive",
+          "tick": 2,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "low_clearance_threshold",
+          "stream": "overhead_clearance",
+          "value": 1,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 2,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "threshold_hit",
+          "stream": "ultrasonic_echo",
+          "value": 0.96,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 2,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.92,
+          "signedChange": 0.67,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_naive",
+        "tick": 2,
+        "action": "step_forward",
+        "predicted": "forward movement should gather compact evidence with no known active risk memory",
+        "evidence": "overhead_clearance n at_threshold; ultrasonic_echo n at_threshold; movement_result n^-1 rising",
+        "result": "mismatch_needs_map_update"
+      },
+      "decision": {
+        "runId": "adaptive_naive",
+        "tick": 2,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "naive movement without compact risk-memory adaptation",
+        "reason": "scripted movement without adaptive risk memory",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_naive",
+      "tick": 3,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 3,
+        "x": 4.9,
+        "y": 2.285,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "overhead_blocked",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": true,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "low_clearance",
+          "terrain": [
+            "low_clearance_tunnel"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "level",
+          "heightPressure": "quiet",
+          "verticalEcho": "low_ceiling",
+          "note": "upper body met a low overhead clearance"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.92
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_naive",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "low_clearance_threshold",
+          "stream": "overhead_clearance",
+          "value": 1,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "ultrasonic_echo",
+          "value": 0,
+          "signedChange": -0.96,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "opening_space_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.1,
+          "signedChange": -1.1,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.67,
+          "signedChange": -0.67,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_naive",
+        "tick": 3,
+        "action": "step_forward",
+        "predicted": "forward movement should gather compact evidence with no known active risk memory",
+        "evidence": "overhead_clearance n at_threshold; ultrasonic_echo n^-1 falling; compact trigger stream n^-2 falling; compact trigger stream n^-2 falling",
+        "result": "mismatch_needs_map_update"
+      },
+      "decision": {
+        "runId": "adaptive_naive",
+        "tick": 3,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "naive movement without compact risk-memory adaptation",
+        "reason": "scripted movement without adaptive risk memory",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_naive",
+      "tick": 4,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 4,
+        "x": 4.9,
+        "y": 2.613,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "overhead_blocked",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": true,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "low_clearance",
+          "terrain": [
+            "low_clearance_tunnel"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "level",
+          "heightPressure": "quiet",
+          "verticalEcho": "low_ceiling",
+          "note": "upper body met a low overhead clearance"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.92
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_naive",
+          "tick": 4,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "low_clearance_threshold",
+          "stream": "overhead_clearance",
+          "value": 1,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 4,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "closing_distance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.96,
+          "signedChange": 0.96,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_naive",
+        "tick": 4,
+        "action": "step_forward",
+        "predicted": "forward movement should gather compact evidence with no known active risk memory",
+        "evidence": "overhead_clearance n at_threshold; compact trigger stream n^-2 rising",
+        "result": "mismatch_needs_map_update"
+      },
+      "decision": {
+        "runId": "adaptive_naive",
+        "tick": 4,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "naive movement without compact risk-memory adaptation",
+        "reason": "scripted movement without adaptive risk memory",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_naive",
+      "tick": 5,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 5,
+        "x": 4.9,
+        "y": 2.94,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "overhead_blocked",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": true,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "low_clearance",
+          "terrain": [
+            "low_clearance_tunnel"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "level",
+          "heightPressure": "quiet",
+          "verticalEcho": "low_ceiling",
+          "note": "upper body met a low overhead clearance"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.92
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_naive",
+          "tick": 5,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "low_clearance_threshold",
+          "stream": "overhead_clearance",
+          "value": 1,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_naive",
+        "tick": 5,
+        "action": "step_forward",
+        "predicted": "forward movement should gather compact evidence with no known active risk memory",
+        "evidence": "overhead_clearance n at_threshold",
+        "result": "mismatch_needs_map_update"
+      },
+      "decision": {
+        "runId": "adaptive_naive",
+        "tick": 5,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "naive movement without compact risk-memory adaptation",
+        "reason": "scripted movement without adaptive risk memory",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_naive",
+      "tick": 6,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 6,
+        "x": 4.9,
+        "y": 3.72,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": true,
+          "contactRightBase": true,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "",
+          "terrain": [
+            "raised_pressure_surface"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "nose_up",
+          "heightPressure": "raised_surface_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.78,
+        "touch_right_base": 0.78,
+        "overhead_clearance": 0.68,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.88,
+        "vertical_echo": 0.64,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.64,
+        "pressure_capsule_right": 0.64,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_naive",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_left_base",
+          "value": 0.78,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_right_base",
+          "value": 0.78,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "height_pressure",
+          "value": 0.88,
+          "signedChange": 0.74,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "height_load_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.74,
+          "signedChange": 0.74,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "body_pitch_pressure",
+          "value": 0.72,
+          "signedChange": 0.58,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "height_load_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.58,
+          "signedChange": 0.58,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.25,
+          "signedChange": -0.67,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.67,
+          "signedChange": -0.67,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_naive",
+        "tick": 6,
+        "action": "step_forward",
+        "predicted": "forward movement should gather compact evidence with no known active risk memory",
+        "evidence": "touch_left_base n^-1 rising; compact trigger stream n^-2 rising; touch_right_base n^-1 rising; compact trigger stream n^-2 rising; height_pressure n^-1 rising",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_naive",
+        "tick": 6,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "naive movement without compact risk-memory adaptation",
+        "reason": "scripted movement without adaptive risk memory",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_naive",
+      "tick": 7,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 7,
+        "x": 4.9,
+        "y": 4.5,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": true,
+          "contactRightBase": true,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "",
+          "terrain": [
+            "raised_pressure_surface"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "nose_up",
+          "heightPressure": "raised_surface_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.78,
+        "touch_right_base": 0.78,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.88,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.64,
+        "pressure_capsule_right": 0.64,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_naive",
+          "tick": 7,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": -0.72,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 7,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": -0.72,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 7,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "overhead_clearance",
+          "value": 0.1,
+          "signedChange": -0.58,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 7,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "height_load_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.74,
+          "signedChange": -0.74,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 7,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "vertical_echo",
+          "value": 0.18,
+          "signedChange": -0.46,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 7,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "height_load_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.58,
+          "signedChange": -0.58,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 7,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.67,
+          "signedChange": 0.67,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 7,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "cross_sensor_compact_agreement",
+          "stream": "overhead_clearance, vertical_echo",
+          "value": 2,
+          "signedChange": 0,
+          "direction": "agreement"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_naive",
+        "tick": 7,
+        "action": "step_forward",
+        "predicted": "forward movement should gather compact evidence with no known active risk memory",
+        "evidence": "compact trigger stream n^-2 falling; compact trigger stream n^-2 falling; overhead_clearance n^-1 falling; compact trigger stream n^-2 falling; vertical_echo n^-1 falling",
+        "result": "mismatch_needs_map_update"
+      },
+      "decision": {
+        "runId": "adaptive_naive",
+        "tick": 7,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "naive movement without compact risk-memory adaptation",
+        "reason": "scripted movement without adaptive risk memory",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_naive",
+      "tick": 8,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 8,
+        "x": 4.9,
+        "y": 5.28,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "drop_warning",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": true,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "",
+          "terrain": [
+            "ledge_drop_warning"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "nose_down",
+          "heightPressure": "drop_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.74
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_naive",
+          "tick": 8,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_left_base",
+          "value": 0.06,
+          "signedChange": -0.72,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 8,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": -0.72,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 8,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_right_base",
+          "value": 0.06,
+          "signedChange": -0.72,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 8,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": -0.72,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 8,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "overhead_clearance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.58,
+          "signedChange": 0.58,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 8,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "drop_warning_threshold",
+          "stream": "foot_drop_warning",
+          "value": 0.95,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 8,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "foot_drop_warning",
+          "value": 0.95,
+          "signedChange": 0.87,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 8,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "foot_drop_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.87,
+          "signedChange": 0.87,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 8,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.74,
+          "signedChange": 0.49,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_naive",
+        "tick": 8,
+        "action": "step_forward",
+        "predicted": "forward movement should gather compact evidence with no known active risk memory",
+        "evidence": "touch_left_base n^-1 falling; compact trigger stream n^-2 falling; touch_right_base n^-1 falling; compact trigger stream n^-2 falling; compact trigger stream n^-2 rising",
+        "result": "mismatch_needs_map_update"
+      },
+      "decision": {
+        "runId": "adaptive_naive",
+        "tick": 8,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "naive movement without compact risk-memory adaptation",
+        "reason": "scripted movement without adaptive risk memory",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_naive",
+      "tick": 9,
+      "action": "pause",
+      "snapshot": {
+        "tick": 9,
+        "x": 4.9,
+        "y": 5.28,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "pause",
+        "lastInteraction": {
+          "action": "pause",
+          "movementResult": "paused",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": true,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "",
+          "terrain": [
+            "ledge_drop_warning"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "nose_down",
+          "heightPressure": "drop_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.08
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_naive",
+          "tick": 9,
+          "action": "pause",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 9,
+          "action": "pause",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 9,
+          "action": "pause",
+          "layer": "n",
+          "event": "drop_warning_threshold",
+          "stream": "foot_drop_warning",
+          "value": 0.95,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 9,
+          "action": "pause",
+          "layer": "n^-2",
+          "event": "foot_drop_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.87,
+          "signedChange": -0.87,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 9,
+          "action": "pause",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.08,
+          "signedChange": -0.66,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 9,
+          "action": "pause",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.15,
+          "signedChange": -1.15,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_naive",
+        "tick": 9,
+        "action": "pause",
+        "predicted": "height pressure should settle without adding new contact",
+        "evidence": "compact trigger stream n^-2 rising; compact trigger stream n^-2 rising; foot_drop_warning n at_threshold; compact trigger stream n^-2 falling; movement_result n^-1 falling",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_naive",
+        "tick": 9,
+        "source": "scripted",
+        "action": "pause",
+        "intention": "naive movement without compact risk-memory adaptation",
+        "reason": "scripted movement without adaptive risk memory",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_naive",
+      "tick": 10,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 10,
+        "x": 4.9,
+        "y": 6.06,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "drop_warning",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": true,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "",
+          "terrain": [
+            "ledge_drop_warning"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "nose_down",
+          "heightPressure": "drop_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.74
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_naive",
+          "tick": 10,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "drop_warning_threshold",
+          "stream": "foot_drop_warning",
+          "value": 0.95,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 10,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.74,
+          "signedChange": 0.66,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 10,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.32,
+          "signedChange": 1.32,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_naive",
+        "tick": 10,
+        "action": "step_forward",
+        "predicted": "forward movement should gather compact evidence with no known active risk memory",
+        "evidence": "foot_drop_warning n at_threshold; movement_result n^-1 rising; compact trigger stream n^-2 rising",
+        "result": "mismatch_needs_map_update"
+      },
+      "decision": {
+        "runId": "adaptive_naive",
+        "tick": 10,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "naive movement without compact risk-memory adaptation",
+        "reason": "scripted movement without adaptive risk memory",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_naive",
+      "tick": 11,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 11,
+        "x": 4.9,
+        "y": 6.84,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "",
+          "terrain": [
+            "ramp_load_shift"
+          ],
+          "bodyBalance": "leaning_back",
+          "bodyPitch": "nose_up",
+          "heightPressure": "ramp_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_naive",
+          "tick": 11,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "foot_drop_warning",
+          "value": 0.08,
+          "signedChange": -0.87,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 11,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "foot_drop_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.87,
+          "signedChange": -0.87,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 11,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "ramp_load_shift",
+          "value": 0.84,
+          "signedChange": 0.74,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 11,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "height_load_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.74,
+          "signedChange": 0.74,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 11,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "pressure_capsule_left",
+          "value": 0.72,
+          "signedChange": 0.5,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 11,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.5,
+          "signedChange": 0.5,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 11,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.25,
+          "signedChange": -0.49,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 11,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.15,
+          "signedChange": -1.15,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_naive",
+        "tick": 11,
+        "action": "step_forward",
+        "predicted": "forward movement should gather compact evidence with no known active risk memory",
+        "evidence": "foot_drop_warning n^-1 falling; compact trigger stream n^-2 falling; ramp_load_shift n^-1 rising; compact trigger stream n^-2 rising; pressure_capsule_left n^-1 rising",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_naive",
+        "tick": 11,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "naive movement without compact risk-memory adaptation",
+        "reason": "scripted movement without adaptive risk memory",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_naive",
+      "tick": 12,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 12,
+        "x": 4.9,
+        "y": 7.62,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "",
+          "terrain": [
+            "ramp_load_shift"
+          ],
+          "bodyBalance": "leaning_back",
+          "bodyPitch": "nose_up",
+          "heightPressure": "ramp_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0.15,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_naive",
+          "tick": 12,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "foot_drop_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.87,
+          "signedChange": 0.87,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 12,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "height_load_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.74,
+          "signedChange": -0.74,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_naive",
+          "tick": 12,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.5,
+          "signedChange": -0.5,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_naive",
+        "tick": 12,
+        "action": "step_forward",
+        "predicted": "forward movement should gather compact evidence with no known active risk memory",
+        "evidence": "compact trigger stream n^-2 rising; compact trigger stream n^-2 falling; compact trigger stream n^-2 falling",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_naive",
+        "tick": 12,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "naive movement without compact risk-memory adaptation",
+        "reason": "scripted movement without adaptive risk memory",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 1,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 1,
+        "x": 4.9,
+        "y": 1.63,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": false,
+          "blockedBy": "",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "bodyPitch": "level",
+          "heightPressure": "quiet",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.68,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.64,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.82,
+        "movement_result": 0.25
+      },
+      "compactRows": [],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 1,
+        "action": "step_forward",
+        "predicted": "forward movement should gather compact evidence with no known active risk memory",
+        "evidence": "compact stream quiet",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 1,
+        "source": "compact_risk_memory_chooser",
+        "action": "step_forward",
+        "intention": "gather the next compact body/world sample",
+        "reason": "risk memory has no active stop, duck, probe, or settle request",
+        "activeRiskMemory": "none"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 2,
+      "action": "probe_forward",
+      "snapshot": {
+        "tick": 2,
+        "x": 4.9,
+        "y": 1.63,
+        "facing": "south",
+        "posture": "standing",
+        "lastAction": "probe_forward",
+        "lastInteraction": {
+          "action": "probe_forward",
+          "movementResult": "probe_overhead_warning",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": true,
+          "footDropWarning": false,
+          "probed": true,
+          "crouched": false,
+          "blockedBy": "low_clearance",
+          "terrain": [
+            "low_clearance_tunnel"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "level",
+          "heightPressure": "quiet",
+          "verticalEcho": "low_ceiling",
+          "note": "probe found low overhead clearance"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.82,
+        "movement_result": 0.84
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 2,
+          "action": "probe_forward",
+          "layer": "n",
+          "event": "low_clearance_threshold",
+          "stream": "overhead_clearance",
+          "value": 1,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 2,
+          "action": "probe_forward",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.84,
+          "signedChange": 0.59,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 2,
+        "action": "probe_forward",
+        "predicted": "probe should test active compact forward risk before body commitment",
+        "evidence": "overhead_clearance n at_threshold; movement_result n^-1 rising",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 2,
+        "source": "compact_risk_memory_chooser",
+        "action": "probe_forward",
+        "intention": "test upper-body clearance from compact vertical risk memory",
+        "reason": "risk memory: overheadAhead",
+        "activeRiskMemory": "overheadAhead"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 3,
+      "action": "crouch_body",
+      "snapshot": {
+        "tick": 3,
+        "x": 4.9,
+        "y": 1.63,
+        "facing": "south",
+        "posture": "crouched",
+        "lastAction": "crouch_body",
+        "lastInteraction": {
+          "action": "crouch_body",
+          "movementResult": "crouched",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": true,
+          "blockedBy": "",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "bodyPitch": "level",
+          "heightPressure": "quiet",
+          "verticalEcho": "open",
+          "note": "body lowered before testing overhead clearance"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.42,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.64,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.82,
+        "movement_result": 0.16
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 3,
+          "action": "crouch_body",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "overhead_clearance",
+          "value": 0.42,
+          "signedChange": -0.58,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 3,
+          "action": "crouch_body",
+          "layer": "n^-2",
+          "event": "clearance_opening_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.9,
+          "signedChange": -0.9,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 3,
+          "action": "crouch_body",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.16,
+          "signedChange": -0.68,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 3,
+          "action": "crouch_body",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.27,
+          "signedChange": -1.27,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 3,
+        "action": "crouch_body",
+        "predicted": "lowering posture should reduce overhead clearance pressure",
+        "evidence": "overhead_clearance n^-1 falling; compact trigger stream n^-2 falling; movement_result n^-1 falling; compact trigger stream n^-2 falling",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 3,
+        "source": "compact_risk_memory_chooser",
+        "action": "crouch_body",
+        "intention": "lower body because compact risk memory says overhead clearance is tight",
+        "reason": "risk memory: overheadAhead confirmed by probe",
+        "activeRiskMemory": "overheadAhead"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 4,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 4,
+        "x": 4.9,
+        "y": 2.41,
+        "facing": "south",
+        "posture": "crouched",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": true,
+          "blockedBy": "",
+          "terrain": [
+            "low_clearance_tunnel"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "level",
+          "heightPressure": "quiet",
+          "verticalEcho": "low_ceiling",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.42,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 4,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "overhead_clearance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.58,
+          "signedChange": 0.58,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 4,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "ultrasonic_echo",
+          "value": 0,
+          "signedChange": -0.82,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 4,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "opening_space_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.82,
+          "signedChange": -0.82,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 4,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.77,
+          "signedChange": 0.77,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 4,
+        "action": "step_forward",
+        "predicted": "forward movement may carry compact risk evidence already held in risk memory",
+        "evidence": "compact trigger stream n^-2 rising; ultrasonic_echo n^-1 falling; compact trigger stream n^-2 falling; compact trigger stream n^-2 rising",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 4,
+        "source": "compact_risk_memory_chooser",
+        "action": "step_forward",
+        "intention": "cross low-clearance area while the body is lowered",
+        "reason": "risk memory: crouchedForClearance is active",
+        "activeRiskMemory": "overheadAhead, crouchedForClearance"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 5,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 5,
+        "x": 4.9,
+        "y": 3.19,
+        "facing": "south",
+        "posture": "crouched",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": true,
+          "blockedBy": "",
+          "terrain": [
+            "low_clearance_tunnel"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "level",
+          "heightPressure": "quiet",
+          "verticalEcho": "low_ceiling",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.42,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 5,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "closing_distance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.82,
+          "signedChange": 0.82,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 5,
+        "action": "step_forward",
+        "predicted": "forward movement may carry compact risk evidence already held in risk memory",
+        "evidence": "compact trigger stream n^-2 rising",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 5,
+        "source": "compact_risk_memory_chooser",
+        "action": "step_forward",
+        "intention": "gather the next compact body/world sample",
+        "reason": "risk memory has no active stop, duck, probe, or settle request",
+        "activeRiskMemory": "overheadAhead, crouchedForClearance"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 6,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 6,
+        "x": 4.9,
+        "y": 3.97,
+        "facing": "south",
+        "posture": "crouched",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": true,
+          "contactRightBase": true,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": true,
+          "blockedBy": "",
+          "terrain": [
+            "raised_pressure_surface"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "nose_up",
+          "heightPressure": "raised_surface_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.78,
+        "touch_right_base": 0.78,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.88,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.64,
+        "pressure_capsule_right": 0.64,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_left_base",
+          "value": 0.78,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_right_base",
+          "value": 0.78,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "height_pressure",
+          "value": 0.88,
+          "signedChange": 0.74,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "height_load_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.74,
+          "signedChange": 0.74,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "vertical_echo",
+          "value": 0.18,
+          "signedChange": -0.68,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "clearance_opening_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.68,
+          "signedChange": -0.68,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "body_pitch_pressure",
+          "value": 0.72,
+          "signedChange": 0.58,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "height_load_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.58,
+          "signedChange": 0.58,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 6,
+        "action": "step_forward",
+        "predicted": "forward movement may carry compact risk evidence already held in risk memory",
+        "evidence": "touch_left_base n^-1 rising; compact trigger stream n^-2 rising; touch_right_base n^-1 rising; compact trigger stream n^-2 rising; height_pressure n^-1 rising",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 6,
+        "source": "compact_risk_memory_chooser",
+        "action": "step_forward",
+        "intention": "gather the next compact body/world sample",
+        "reason": "risk memory has no active stop, duck, probe, or settle request",
+        "activeRiskMemory": "overheadAhead, crouchedForClearance"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 7,
+      "action": "recenter_body",
+      "snapshot": {
+        "tick": 7,
+        "x": 4.9,
+        "y": 3.97,
+        "facing": "south",
+        "posture": "crouched",
+        "lastAction": "recenter_body",
+        "lastInteraction": {
+          "action": "recenter_body",
+          "movementResult": "recentered",
+          "contactFront": false,
+          "contactLeftBase": true,
+          "contactRightBase": true,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": true,
+          "blockedBy": "",
+          "terrain": [
+            "raised_pressure_surface"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "nose_up",
+          "heightPressure": "raised_surface_pressure",
+          "verticalEcho": "open",
+          "note": "body attempted to reduce pitch and load difference"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.78,
+        "touch_right_base": 0.78,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.88,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.64,
+        "pressure_capsule_right": 0.64,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.2
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 7,
+          "action": "recenter_body",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": -0.72,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 7,
+          "action": "recenter_body",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": -0.72,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 7,
+          "action": "recenter_body",
+          "layer": "n^-2",
+          "event": "height_load_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.74,
+          "signedChange": -0.74,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 7,
+          "action": "recenter_body",
+          "layer": "n^-2",
+          "event": "overhead_clearance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.68,
+          "signedChange": 0.68,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 7,
+          "action": "recenter_body",
+          "layer": "n^-2",
+          "event": "height_load_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.58,
+          "signedChange": -0.58,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 7,
+        "action": "recenter_body",
+        "predicted": "body load should settle before crossing height change",
+        "evidence": "compact trigger stream n^-2 falling; compact trigger stream n^-2 falling; compact trigger stream n^-2 falling; compact trigger stream n^-2 rising; compact trigger stream n^-2 falling",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 7,
+        "source": "compact_risk_memory_chooser",
+        "action": "recenter_body",
+        "intention": "settle pitch/load before moving across height change",
+        "reason": "risk memory: rampLoadAhead",
+        "activeRiskMemory": "rampLoadAhead, overheadAhead, raisedSurfaceAhead, crouchedForClearance"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 8,
+      "action": "pause",
+      "snapshot": {
+        "tick": 8,
+        "x": 4.9,
+        "y": 3.97,
+        "facing": "south",
+        "posture": "crouched",
+        "lastAction": "pause",
+        "lastInteraction": {
+          "action": "pause",
+          "movementResult": "paused",
+          "contactFront": false,
+          "contactLeftBase": true,
+          "contactRightBase": true,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": true,
+          "blockedBy": "",
+          "terrain": [
+            "raised_pressure_surface"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "nose_up",
+          "heightPressure": "raised_surface_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.78,
+        "touch_right_base": 0.78,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.88,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.64,
+        "pressure_capsule_right": 0.64,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.08
+      },
+      "compactRows": [],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 8,
+        "action": "pause",
+        "predicted": "height pressure should settle without adding new contact",
+        "evidence": "compact stream quiet",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 8,
+        "source": "compact_risk_memory_chooser",
+        "action": "pause",
+        "intention": "separate raised-surface load from collision",
+        "reason": "risk memory: raisedSurfaceAhead",
+        "activeRiskMemory": "rampLoadAhead, overheadAhead, raisedSurfaceAhead, crouchedForClearance, recenteredForLoad"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 9,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 9,
+        "x": 4.9,
+        "y": 4.75,
+        "facing": "south",
+        "posture": "crouched",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": true,
+          "contactRightBase": true,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": true,
+          "blockedBy": "",
+          "terrain": [
+            "raised_pressure_surface"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "nose_up",
+          "heightPressure": "raised_surface_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.78,
+        "touch_right_base": 0.78,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.88,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.64,
+        "pressure_capsule_right": 0.64,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 9,
+        "action": "step_forward",
+        "predicted": "forward movement may carry compact risk evidence already held in risk memory",
+        "evidence": "compact stream quiet",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 9,
+        "source": "compact_risk_memory_chooser",
+        "action": "step_forward",
+        "intention": "gather the next compact body/world sample",
+        "reason": "risk memory has no active stop, duck, probe, or settle request",
+        "activeRiskMemory": "rampLoadAhead, overheadAhead, raisedSurfaceAhead, crouchedForClearance, settledRaisedSurface, recenteredForLoad"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 10,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 10,
+        "x": 4.9,
+        "y": 5.53,
+        "facing": "south",
+        "posture": "crouched",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "drop_warning",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": true,
+          "probed": false,
+          "crouched": true,
+          "blockedBy": "",
+          "terrain": [
+            "ledge_drop_warning"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "nose_down",
+          "heightPressure": "drop_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.74
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 10,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_left_base",
+          "value": 0.06,
+          "signedChange": -0.72,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 10,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": -0.72,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 10,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_right_base",
+          "value": 0.06,
+          "signedChange": -0.72,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 10,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": -0.72,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 10,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "drop_warning_threshold",
+          "stream": "foot_drop_warning",
+          "value": 0.95,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 10,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "foot_drop_warning",
+          "value": 0.95,
+          "signedChange": 0.87,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 10,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "foot_drop_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.87,
+          "signedChange": 0.87,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 10,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.74,
+          "signedChange": 0.49,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 10,
+        "action": "step_forward",
+        "predicted": "forward movement may carry compact risk evidence already held in risk memory",
+        "evidence": "touch_left_base n^-1 falling; compact trigger stream n^-2 falling; touch_right_base n^-1 falling; compact trigger stream n^-2 falling; foot_drop_warning n at_threshold",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 10,
+        "source": "compact_risk_memory_chooser",
+        "action": "step_forward",
+        "intention": "gather the next compact body/world sample",
+        "reason": "risk memory has no active stop, duck, probe, or settle request",
+        "activeRiskMemory": "rampLoadAhead, overheadAhead, raisedSurfaceAhead, crouchedForClearance, settledRaisedSurface, recenteredForLoad"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 11,
+      "action": "probe_forward",
+      "snapshot": {
+        "tick": 11,
+        "x": 4.9,
+        "y": 5.53,
+        "facing": "south",
+        "posture": "crouched",
+        "lastAction": "probe_forward",
+        "lastInteraction": {
+          "action": "probe_forward",
+          "movementResult": "probe_drop_warning",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": true,
+          "probed": true,
+          "crouched": true,
+          "blockedBy": "ledge_drop",
+          "terrain": [
+            "ledge_drop_warning"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "nose_down",
+          "heightPressure": "drop_pressure",
+          "verticalEcho": "open",
+          "note": "probe found a foot drop before committing body weight"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.82
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 11,
+          "action": "probe_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 11,
+          "action": "probe_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 11,
+          "action": "probe_forward",
+          "layer": "n",
+          "event": "drop_warning_threshold",
+          "stream": "foot_drop_warning",
+          "value": 0.95,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 11,
+          "action": "probe_forward",
+          "layer": "n^-2",
+          "event": "foot_drop_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.87,
+          "signedChange": -0.87,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 11,
+        "action": "probe_forward",
+        "predicted": "probe should test active compact forward risk before body commitment",
+        "evidence": "compact trigger stream n^-2 rising; compact trigger stream n^-2 rising; foot_drop_warning n at_threshold; compact trigger stream n^-2 falling",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 11,
+        "source": "compact_risk_memory_chooser",
+        "action": "probe_forward",
+        "intention": "test foot support from compact drop risk memory",
+        "reason": "risk memory: dropAhead",
+        "activeRiskMemory": "rampLoadAhead, dropAhead, overheadAhead, raisedSurfaceAhead, crouchedForClearance, settledRaisedSurface, recenteredForLoad"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 12,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 12,
+        "x": 4.9,
+        "y": 6.31,
+        "facing": "south",
+        "posture": "crouched",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "drop_warning",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": true,
+          "probed": false,
+          "crouched": true,
+          "blockedBy": "",
+          "terrain": [
+            "ledge_drop_warning"
+          ],
+          "bodyBalance": "balanced",
+          "bodyPitch": "nose_down",
+          "heightPressure": "drop_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.74
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 12,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "drop_warning_threshold",
+          "stream": "foot_drop_warning",
+          "value": 0.95,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 12,
+        "action": "step_forward",
+        "predicted": "forward movement may carry compact risk evidence already held in risk memory",
+        "evidence": "foot_drop_warning n at_threshold",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 12,
+        "source": "compact_risk_memory_chooser",
+        "action": "step_forward",
+        "intention": "commit slowly after compact foot-drop probe warning",
+        "reason": "risk memory: dropAhead was probed before body commitment",
+        "activeRiskMemory": "rampLoadAhead, dropAhead, overheadAhead, raisedSurfaceAhead, crouchedForClearance, settledRaisedSurface, recenteredForLoad"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 13,
+      "action": "probe_forward",
+      "snapshot": {
+        "tick": 13,
+        "x": 4.9,
+        "y": 6.31,
+        "facing": "south",
+        "posture": "crouched",
+        "lastAction": "probe_forward",
+        "lastInteraction": {
+          "action": "probe_forward",
+          "movementResult": "probe_height_warning",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": true,
+          "probed": true,
+          "crouched": true,
+          "blockedBy": "",
+          "terrain": [
+            "ramp_load_shift",
+            "ledge_drop_warning"
+          ],
+          "bodyBalance": "leaning_back",
+          "bodyPitch": "nose_down",
+          "heightPressure": "drop_pressure",
+          "verticalEcho": "open",
+          "note": "probe found a height-load change"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.7
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 13,
+          "action": "probe_forward",
+          "layer": "n",
+          "event": "drop_warning_threshold",
+          "stream": "foot_drop_warning",
+          "value": 0.95,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 13,
+          "action": "probe_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "ramp_load_shift",
+          "value": 0.84,
+          "signedChange": 0.74,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 13,
+          "action": "probe_forward",
+          "layer": "n^-2",
+          "event": "height_load_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.74,
+          "signedChange": 0.74,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 13,
+          "action": "probe_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "pressure_capsule_left",
+          "value": 0.72,
+          "signedChange": 0.5,
+          "direction": "rising"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 13,
+          "action": "probe_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.5,
+          "signedChange": 0.5,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 13,
+        "action": "probe_forward",
+        "predicted": "probe should test active compact forward risk before body commitment",
+        "evidence": "foot_drop_warning n at_threshold; ramp_load_shift n^-1 rising; compact trigger stream n^-2 rising; pressure_capsule_left n^-1 rising; compact trigger stream n^-2 rising",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 13,
+        "source": "compact_risk_memory_chooser",
+        "action": "probe_forward",
+        "intention": "test foot support from compact drop risk memory",
+        "reason": "risk memory: dropAhead",
+        "activeRiskMemory": "rampLoadAhead, dropAhead, overheadAhead, raisedSurfaceAhead, crouchedForClearance, settledRaisedSurface, recenteredForLoad"
+      }
+    },
+    {
+      "runId": "adaptive_risk_memory",
+      "tick": 14,
+      "action": "step_forward",
+      "snapshot": {
+        "tick": 14,
+        "x": 4.9,
+        "y": 7.09,
+        "facing": "south",
+        "posture": "crouched",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "overheadContact": false,
+          "footDropWarning": false,
+          "probed": false,
+          "crouched": true,
+          "blockedBy": "",
+          "terrain": [
+            "ramp_load_shift"
+          ],
+          "bodyBalance": "leaning_back",
+          "bodyPitch": "nose_up",
+          "heightPressure": "ramp_pressure",
+          "verticalEcho": "open",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "rampZone": {
+            "id": "ramp",
+            "x1": 4.4,
+            "y1": 7.05,
+            "x2": 5.4,
+            "y2": 8.1
+          },
+          "ledgeZone": {
+            "id": "ledge_drop",
+            "x1": 4.4,
+            "y1": 5.45,
+            "x2": 5.4,
+            "y2": 6.2
+          },
+          "lowTunnel": {
+            "id": "low_tunnel",
+            "x1": 4.4,
+            "y1": 2.05,
+            "x2": 5.4,
+            "y2": 3.25
+          },
+          "raisedPad": {
+            "id": "raised_pressure_pad",
+            "x1": 4.4,
+            "y1": 4,
+            "x2": 5.4,
+            "y2": 4.75
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 14,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "foot_drop_warning",
+          "value": 0.08,
+          "signedChange": -0.87,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 14,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "foot_drop_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.87,
+          "signedChange": -0.87,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 14,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "height_load_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.74,
+          "signedChange": -0.74,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 14,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.5,
+          "signedChange": -0.5,
+          "direction": "falling"
+        },
+        {
+          "runId": "adaptive_risk_memory",
+          "tick": 14,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.25,
+          "signedChange": -0.45,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "adaptive_risk_memory",
+        "tick": 14,
+        "action": "step_forward",
+        "predicted": "forward movement may carry compact risk evidence already held in risk memory",
+        "evidence": "foot_drop_warning n^-1 falling; compact trigger stream n^-2 falling; compact trigger stream n^-2 falling; compact trigger stream n^-2 falling; movement_result n^-1 falling",
+        "result": "matched_or_explained"
+      },
+      "decision": {
+        "runId": "adaptive_risk_memory",
+        "tick": 14,
+        "source": "compact_risk_memory_chooser",
+        "action": "step_forward",
+        "intention": "commit slowly after compact foot-drop probe warning",
+        "reason": "risk memory: dropAhead was probed before body commitment",
+        "activeRiskMemory": "rampLoadAhead, dropAhead, overheadAhead, raisedSurfaceAhead, crouchedForClearance, settledRaisedSurface, recenteredForLoad"
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+# Adaptive 2.5D Nursery Body And World Map Updates
+
+| run | tick | action | map kind | belief | confidence | evidence | next prediction |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| adaptive_naive | 1 | step_forward | risk_memory_update | forward_risk_memory: overheadAhead | medium | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_naive | 2 | step_forward | risk_memory_update | forward_risk_memory: overheadAhead | high | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_naive | 3 | step_forward | risk_memory_update | forward_risk_memory: overheadAhead | high | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_naive | 4 | step_forward | risk_memory_update | forward_risk_memory: overheadAhead | high | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_naive | 5 | step_forward | risk_memory_update | forward_risk_memory: overheadAhead | high | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_naive | 6 | step_forward | risk_memory_update | forward_risk_memory: overheadAhead | medium | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_naive | 6 | step_forward | risk_memory_update | forward_risk_memory: raisedSurfaceAhead | medium | height pressure compact evidence rose | pause should separate raised load from collision |
+| adaptive_naive | 6 | step_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_naive | 7 | step_forward | risk_memory_update | forward_risk_memory: overheadAhead | medium | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_naive | 7 | step_forward | risk_memory_update | forward_risk_memory: raisedSurfaceAhead | medium | height pressure compact evidence rose | pause should separate raised load from collision |
+| adaptive_naive | 7 | step_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_naive | 8 | step_forward | risk_memory_update | forward_risk_memory: overheadAhead | medium | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_naive | 8 | step_forward | risk_memory_update | forward_risk_memory: dropAhead | high | foot drop compact evidence rose | probe_forward should warn before committing body weight |
+| adaptive_naive | 8 | step_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_naive | 9 | pause | risk_memory_update | forward_risk_memory: dropAhead | high | foot drop compact evidence rose | probe_forward should warn before committing body weight |
+| adaptive_naive | 9 | pause | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_naive | 10 | step_forward | risk_memory_update | forward_risk_memory: dropAhead | high | foot drop compact evidence rose | probe_forward should warn before committing body weight |
+| adaptive_naive | 10 | step_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_naive | 11 | step_forward | risk_memory_update | forward_risk_memory: dropAhead | medium | foot drop compact evidence rose | probe_forward should warn before committing body weight |
+| adaptive_naive | 11 | step_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_naive | 12 | step_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_risk_memory | 1 | step_forward | risk_memory_update | forward_risk_memory: overheadAhead | medium | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_risk_memory | 2 | probe_forward | risk_memory_update | forward_risk_memory: overheadAhead | high | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_risk_memory | 3 | crouch_body | risk_memory_update | forward_risk_memory: overheadAhead | medium | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_risk_memory | 4 | step_forward | risk_memory_update | forward_risk_memory: overheadAhead | medium | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_risk_memory | 6 | step_forward | risk_memory_update | forward_risk_memory: overheadAhead | medium | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_risk_memory | 6 | step_forward | risk_memory_update | forward_risk_memory: raisedSurfaceAhead | medium | height pressure compact evidence rose | pause should separate raised load from collision |
+| adaptive_risk_memory | 6 | step_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_risk_memory | 7 | recenter_body | risk_memory_update | forward_risk_memory: overheadAhead | medium | overhead clearance or vertical echo compact evidence rose | probe_forward then crouch_body should reduce upper-body contact risk |
+| adaptive_risk_memory | 7 | recenter_body | risk_memory_update | forward_risk_memory: raisedSurfaceAhead | medium | height pressure compact evidence rose | pause should separate raised load from collision |
+| adaptive_risk_memory | 7 | recenter_body | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_risk_memory | 8 | pause | risk_memory_update | forward_risk_memory: raisedSurfaceAhead | medium | height pressure compact evidence rose | pause should separate raised load from collision |
+| adaptive_risk_memory | 8 | pause | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_risk_memory | 9 | step_forward | risk_memory_update | forward_risk_memory: raisedSurfaceAhead | medium | height pressure compact evidence rose | pause should separate raised load from collision |
+| adaptive_risk_memory | 9 | step_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_risk_memory | 10 | step_forward | risk_memory_update | forward_risk_memory: dropAhead | high | foot drop compact evidence rose | probe_forward should warn before committing body weight |
+| adaptive_risk_memory | 10 | step_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_risk_memory | 11 | probe_forward | risk_memory_update | forward_risk_memory: dropAhead | high | foot drop compact evidence rose | probe_forward should warn before committing body weight |
+| adaptive_risk_memory | 11 | probe_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_risk_memory | 12 | step_forward | risk_memory_update | forward_risk_memory: dropAhead | high | foot drop compact evidence rose | probe_forward should warn before committing body weight |
+| adaptive_risk_memory | 12 | step_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_risk_memory | 13 | probe_forward | risk_memory_update | forward_risk_memory: dropAhead | high | foot drop compact evidence rose | probe_forward should warn before committing body weight |
+| adaptive_risk_memory | 13 | probe_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |
+| adaptive_risk_memory | 14 | step_forward | risk_memory_update | forward_risk_memory: dropAhead | medium | foot drop compact evidence rose | probe_forward should warn before committing body weight |
+| adaptive_risk_memory | 14 | step_forward | risk_memory_update | forward_risk_memory: rampLoadAhead | medium | ramp load or body pitch compact evidence rose | recenter_body should settle load before more movement |

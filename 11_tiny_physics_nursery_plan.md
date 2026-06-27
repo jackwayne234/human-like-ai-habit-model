@@ -370,3 +370,148 @@ Current layered transfer result:
 | prediction accuracy | 41.7% | 100.0% |
 
 This is the preferred bridge before full 3D: prove compact rules can transfer across layered 2.5D rooms before adding full 3D collision, camera, pitch/yaw, occlusion, and body-volume complexity.
+
+## Adaptive 2.5D Risk Memory Test
+
+After the layered transfer test, the next improvement is to remove fixed route timing from the chooser. The adaptive 2.5D test uses compact risk memory instead.
+
+Implementation:
+
+| path | purpose |
+| --- | --- |
+| `digital_world/physics_2_5d_risk_memory_chooser.mjs` | Chooses actions from active compact risk memory rather than route step counts. |
+| `scenario_tests/run_adaptive_2_5d_nursery.mjs` | Compares naive movement against adaptive compact risk memory in a third 2.5D room. |
+| `outputs/adaptive_2_5d_nursery/` | Generated result logs, risk memory log, habit candidates, and watcher artifacts. |
+| `learned_operation_controls.md` | Review surface for the generated low-clearance crossing habit candidate. |
+
+The adaptive chooser tracks short-lived compact state:
+
+| memory | meaning |
+| --- | --- |
+| `overheadAhead` | Compact overhead/vertical evidence suggests upper-body clearance risk. |
+| `dropAhead` | Compact foot/drop evidence suggests support risk. |
+| `rampLoadAhead` | Compact pitch/load evidence suggests height transition. |
+| `raisedSurfaceAhead` | Compact height pressure suggests raised load surface. |
+| `crouchedForClearance` | Body has lowered after overhead risk confirmation. |
+| `settledRaisedSurface` | Body has paused to separate raised load from collision. |
+
+Current adaptive result:
+
+| metric | naive | adaptive risk memory |
+| --- | --- | --- |
+| committed height warnings | 6 | 2 |
+| overhead contacts | 4 | 0 |
+| probe warnings before commitment | 0 | 3 |
+| crouch actions | 0 | 1 |
+| prediction accuracy | 41.7% | 100.0% |
+| habit candidates | 0 | 1 |
+
+The first candidate learned operation control is `adaptive_low_clearance_crossing_routine_v1`, with the sequence:
+
+```text
+probe_forward -> crouch_body -> step_forward
+```
+
+This is the first concrete bridge from compact body/world risk memory into the habit/efficiency pipeline.
+
+## Habit Promotion 2.5D Test
+
+The low-clearance crossing routine should not become more trusted from one lucky success. Promotion requires repeated success, false-alarm restraint, and failure monitoring.
+
+Implementation:
+
+| path | purpose |
+| --- | --- |
+| `scenario_tests/run_habit_promotion_2_5d_nursery.mjs` | Reviews the low-clearance routine across success, false-alarm, and failure variants. |
+| `outputs/habit_promotion_2_5d_nursery/` | Generated compact logs, risk-memory logs, promotion review, and hidden truth. |
+| `learned_operation_controls.md` | Stores the resulting status update for `adaptive_low_clearance_crossing_routine_v1`. |
+
+Promotion cases:
+
+| case | expected result |
+| --- | --- |
+| normal low tunnel | routine succeeds. |
+| early low tunnel | routine succeeds despite shifted timing. |
+| after raised surface | routine succeeds after pressure/load context. |
+| side echo false alarm | probe happens, but crouch is avoided. |
+| too low even crouched | failure is detected; routine is not treated as universally safe. |
+
+Current review:
+
+| criterion | result |
+| --- | --- |
+| intended success cases passed | 3/3 |
+| false alarm avoided | yes |
+| too-low failure caught | yes |
+| recommended status | `proposed` |
+| confidence | `medium_high` |
+
+The promotion test only recommends the proposal. Final activation is handled by the learned-control review gate.
+
+## Learned Control Review 2.5D Gate
+
+The learned-control review gate is intentionally small. It reads the promotion evidence and the structured learned-control registry, then simulates two transparent reviewer roles before allowing activation.
+
+Implementation:
+
+| path | purpose |
+| --- | --- |
+| `scenario_tests/run_learned_control_review_2_5d.mjs` | Reviews the proposed routine through Builder / Dreamer and Critic / Reality-Checker checks. |
+| `outputs/learned_control_review_2_5d/decision_log.md` | Human-readable reviewer decisions and evidence. |
+| `outputs/learned_control_review_2_5d/learned_control_review_2_5d_result.md` | Pass/fail activation result. |
+| `learned_operation_controls.md` | Stores the active registry status if the review passes. |
+
+Review requirements:
+
+| reviewer | checks |
+| --- | --- |
+| Builder / Dreamer | enough successful transfer evidence, useful compact trigger conditions, inspectable operation sequence, confidence. |
+| Critic / Reality-Checker | false-alarm restraint, caught failure case, failure monitor, rollback path, hidden-truth boundary, active-control budget. |
+
+Current result:
+
+| metric | value |
+| --- | --- |
+| Builder / Dreamer approval | yes |
+| Critic / Reality-Checker approval | yes |
+| activation approved | yes |
+| registry status | `active` |
+| active controls after review | 1/12 |
+
+## Embodied Agent Tool Boundary
+
+The 3D end goal requires a stable interface before a real AI model is put inside the world. The first boundary should be tool-based: the model can ask for compact perception, risk memory, predictions, actions, map-belief writes, learned controls, and raw-detail requests, but not hidden simulator truth.
+
+Implementation:
+
+| path | purpose |
+| --- | --- |
+| `digital_world/embodied_agent_tools.mjs` | Model-ready tool API around the 2.5D nursery. |
+| `scenario_tests/run_embodied_agent_tools_boundary.mjs` | Runs the deterministic risk-memory policy through the same tool surface a future AI model would call. |
+| `outputs/embodied_agent_tools/` | Generated agent-facing logs, tool audit, raw-denial log, map beliefs, and hidden truth for evaluation. |
+
+Tool boundary:
+
+| tool | boundary rule |
+| --- | --- |
+| `readCompactSensors()` | Returns compact rows and compact-facing sensor values only. |
+| `readRiskMemory()` | Returns active compact risk memory only. |
+| `predictAction(action, reason)` | Records expected compact result before action. |
+| `chooseAction(action, reason)` | Executes an allowed action and returns compact comparison. |
+| `writeMapBelief(...)` | Stores compact-derived beliefs. |
+| `useLearnedControl(control_id)` | Queues operation only when the learned-control registry marks the control active. |
+| `requestRawDetail(reason)` | Denied in the first boundary test. |
+
+Current result:
+
+| metric | value |
+| --- | --- |
+| overhead step contacts | 0 |
+| probe warnings | 1 |
+| crouch actions | 2 |
+| raw detail denials | 1 |
+| learned control active in registry | yes |
+| active learned control accepted from registry | yes |
+| compact map beliefs written | 10 |
+
+This tool boundary is the immediate bridge to AI-in-the-loop testing. A real model can later replace the deterministic chooser while calling the same constrained tools.

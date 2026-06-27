@@ -126,12 +126,14 @@ export function createPhysics25DNurseryWorld({ room = ROOM_2_5D, initialState = 
     if (inRect(point, room.lowTunnel, room.robotHalfSize)) {
       pushTerrain(interaction, "low_clearance_tunnel");
       interaction.verticalEcho = "low_ceiling";
-      if (state.posture !== "crouched") {
+      if (state.posture !== "crouched" || room.lowTunnel.requiresProne) {
         interaction.overheadContact = true;
         interaction.movementResult =
           interaction.movementResult === "succeeded" ? "overhead_blocked" : interaction.movementResult;
         interaction.blockedBy = "low_clearance";
-        interaction.note = "upper body met a low overhead clearance";
+        interaction.note = room.lowTunnel.requiresProne
+          ? "upper body still met overhead clearance while crouched"
+          : "upper body met a low overhead clearance";
       }
     }
 

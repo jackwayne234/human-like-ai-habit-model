@@ -194,3 +194,124 @@ probe height warnings before commitment: 0 -> 4
 crouch actions: 0 -> 1
 prediction accuracy: 41.7% -> 100.0%
 ```
+
+## Adaptive 2.5D Risk Memory Checkpoint
+
+The next step replaces fixed route timing with short-lived compact risk memory.
+
+Instead of choosing `probe_forward` because a route has reached a known step count, the adaptive chooser keeps compact-derived state such as:
+
+```text
+overheadAhead
+dropAhead
+rampLoadAhead
+raisedSurfaceAhead
+crouchedForClearance
+settledRaisedSurface
+```
+
+The adaptive run uses these memory flags to choose:
+
+- `probe_forward` when compact risk memory says the forward body path may be unsafe
+- `crouch_body` after probe confirms low overhead clearance
+- `recenter_body` when pitch/load pressure suggests a height transition
+- `pause` when raised-surface pressure needs to settle
+- `step_forward` when no compact risk memory is asking for a safer action
+
+The current adaptive test is implemented in `scenario_tests/run_adaptive_2_5d_nursery.mjs`. Its generated result is `outputs/adaptive_2_5d_nursery/adaptive_2_5d_nursery_result.md`.
+
+Current result:
+
+```text
+committed height warnings: 6 -> 2
+overhead contacts: 4 -> 0
+probe warnings before commitment: 0 -> 3
+crouch actions: 0 -> 1
+prediction accuracy: 41.7% -> 100.0%
+habit candidates: 0 -> 1
+```
+
+This run creates the first learned-operation candidate, `adaptive_low_clearance_crossing_routine_v1`, recorded in `learned_operation_controls.md`.
+
+## Habit Promotion Checkpoint
+
+The next test asks whether the low-clearance routine should stay a candidate or become a proposed learned operation.
+
+The promotion test runs five variants:
+
+- normal low tunnel
+- early low tunnel
+- low tunnel after raised-surface pressure
+- side-echo false alarm
+- too-low-even-crouched failure
+
+The routine only promotes if it succeeds repeatedly, avoids crouching on the false alarm, and catches the too-low failure instead of treating the habit as universally safe.
+
+The current promotion test is implemented in `scenario_tests/run_habit_promotion_2_5d_nursery.mjs`. Its generated result is `outputs/habit_promotion_2_5d_nursery/habit_promotion_2_5d_nursery_result.md`.
+
+Current result:
+
+```text
+recommended status: proposed
+intended success cases: 3/3
+false alarm avoided: yes
+too-low failure caught: yes
+confidence: medium_high
+```
+
+The promotion test is not the final activation gate. It only says the routine is ready for Builder / Dreamer and Critic / Reality-Checker review.
+
+## Learned Control Review Checkpoint
+
+The smallest useful learned-control review gate is implemented in `scenario_tests/run_learned_control_review_2_5d.mjs`.
+
+The gate reviews `adaptive_low_clearance_crossing_routine_v1` through two transparent reviewer roles:
+
+- Builder / Dreamer checks successful transfer evidence, useful compact trigger conditions, an inspectable operation sequence, and confidence.
+- Critic / Reality-Checker checks false-alarm restraint, caught failure cases, preserved failure monitor, rollback path, hidden-truth boundary, and the active-control budget.
+
+Current result:
+
+```text
+Builder / Dreamer approval: yes
+Critic / Reality-Checker approval: yes
+activation approved: yes
+registry status: active
+active controls after review: 1/12
+```
+
+The learned operation control `adaptive_low_clearance_crossing_routine_v1` is now `status: active` in `learned_operation_controls.md`.
+
+## Embodied Agent Tool Boundary Checkpoint
+
+Before putting a real AI model into the world, the nursery now has a tool boundary that a model can use without reading simulator truth.
+
+The first tool surface is implemented in `digital_world/embodied_agent_tools.mjs`.
+
+Agent-facing tools:
+
+| tool | purpose |
+| --- | --- |
+| `readCompactSensors()` | Read compact rows and normalized compact-facing sensor values. |
+| `readRiskMemory()` | Read active compact risk memory. |
+| `predictAction(action, reason)` | Record an expected compact result before acting. |
+| `chooseAction(action, reason)` | Execute one allowed body action and receive compact comparison. |
+| `writeMapBelief(...)` | Store a compact-derived body/world belief. |
+| `useLearnedControl(control_id)` | Queue a learned operation only when the registry marks it active. |
+| `requestRawDetail(reason)` | Denied in the boundary test. |
+
+The current tool-boundary test is implemented in `scenario_tests/run_embodied_agent_tools_boundary.mjs`. Its generated result is `outputs/embodied_agent_tools/embodied_agent_tools_result.md`.
+
+Current result:
+
+```text
+overhead step contacts: 0
+probe warnings: 1
+crouch actions: 2
+raw detail denials: 1
+learned control active in registry: yes
+active learned control accepted from registry: yes
+compact map beliefs written: 10
+```
+
+This is the bridge toward putting an AI model in the world: a real model can later call the same tools instead of directly seeing coordinates, room features, or hidden simulator truth.
