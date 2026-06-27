@@ -1,0 +1,50 @@
+# Tiny 2.5D Nursery Prediction And Comparison Log
+
+Every intentional action receives a prediction before action and an immediate compact comparison after action.
+
+| run | tick | action | phase | intention or prediction | compact evidence | result | update target |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| run_1 | 1 | step_forward | prediction_before_action | begin through the nursery path | body should move forward with quiet height and clearance streams |  |  |
+| run_1 | 1 | step_forward | immediate_comparison | body should move forward with quiet height and clearance streams | compact stream stayed quiet | matched_or_explained | self_map |
+| run_1 | 2 | step_forward | prediction_before_action | continue across the first height change | body should move forward with quiet height and clearance streams |  |  |
+| run_1 | 2 | step_forward | immediate_comparison | body should move forward with quiet height and clearance streams | compact stream stayed quiet | matched_or_explained | self_map |
+| run_1 | 3 | step_forward | prediction_before_action | keep moving after the load shift | body should move forward with quiet height and clearance streams |  |  |
+| run_1 | 3 | step_forward | immediate_comparison | body should move forward with quiet height and clearance streams | compact stream stayed quiet | matched_or_explained | self_map |
+| run_1 | 4 | step_forward | prediction_before_action | commit body weight near the foot-warning area | body should move forward with quiet height and clearance streams |  |  |
+| run_1 | 4 | step_forward | immediate_comparison | body should move forward with quiet height and clearance streams | foot_drop_warning n at_threshold; foot_drop_warning n^-1 rising; compact trigger stream n^-2 rising; ramp_load_shift n^-1 falling; compact trigger stream n^-2 falling | mismatch_needs_map_update | world_map |
+| run_1 | 5 | step_forward | prediction_before_action | continue after the pitch warning | body should move forward with quiet height and clearance streams |  |  |
+| run_1 | 5 | step_forward | immediate_comparison | body should move forward with quiet height and clearance streams | overhead_clearance n^-1 rising; compact trigger stream n^-2 rising; foot_drop_warning n at_threshold; compact trigger stream n^-2 falling; vertical_echo n^-1 rising | mismatch_needs_map_update | world_map |
+| run_1 | 6 | step_forward | prediction_before_action | try the narrowing overhead path while standing | body should move forward with quiet height and clearance streams |  |  |
+| run_1 | 6 | step_forward | immediate_comparison | body should move forward with quiet height and clearance streams | overhead_clearance n at_threshold; height_pressure n^-1 falling; compact trigger stream n^-2 falling; body_pitch_pressure n^-1 falling; compact trigger stream n^-2 falling | mismatch_needs_map_update | world_map |
+| run_1 | 7 | step_forward | prediction_before_action | push forward under low clearance | body should move forward with quiet height and clearance streams |  |  |
+| run_1 | 7 | step_forward | immediate_comparison | body should move forward with quiet height and clearance streams | overhead_clearance n at_threshold; foot_drop_warning n^-1 falling; compact trigger stream n^-2 rising; compact trigger stream n^-2 rising; ultrasonic_echo n^-1 falling | mismatch_needs_map_update | world_map |
+| run_1 | 8 | step_forward | prediction_before_action | continue toward the raised surface | body should move forward with quiet height and clearance streams |  |  |
+| run_1 | 8 | step_forward | immediate_comparison | body should move forward with quiet height and clearance streams | overhead_clearance n at_threshold; compact trigger stream n^-2 rising; compact trigger stream n^-2 rising | mismatch_needs_map_update | world_map |
+| run_1 | 9 | pause | prediction_before_action | let body pressure settle | raised or height pressure may settle without new contact |  |  |
+| run_1 | 9 | pause | immediate_comparison | raised or height pressure may settle without new contact | overhead_clearance n at_threshold; movement_result n^-1 falling; compact trigger stream n^-2 falling | matched_or_explained | self_map |
+| run_1 | 10 | step_forward | prediction_before_action | test the final raised-pressure patch | body should move forward with quiet height and clearance streams |  |  |
+| run_1 | 10 | step_forward | immediate_comparison | body should move forward with quiet height and clearance streams | touch_left_base n^-1 rising; compact trigger stream n^-2 rising; touch_right_base n^-1 rising; compact trigger stream n^-2 rising; overhead_clearance n at_threshold | mismatch_needs_map_update | world_map |
+| run_2 | 1 | step_forward | prediction_before_action | continue with a small forward test | forward movement may carry height, drop, pitch, or clearance compact evidence |  |  |
+| run_2 | 1 | step_forward | immediate_comparison | forward movement may carry height, drop, pitch, or clearance compact evidence | compact stream stayed quiet | matched_or_explained | self_map |
+| run_2 | 2 | recenter_body | prediction_before_action | reduce pitch/load mismatch before continuing over height change | body pitch and load pressure should reduce if ramp pressure was active |  |  |
+| run_2 | 2 | recenter_body | immediate_comparison | body pitch and load pressure should reduce if ramp pressure was active | compact stream stayed quiet | matched_or_explained | self_map |
+| run_2 | 3 | step_forward | prediction_before_action | continue with a small forward test | forward movement may carry height, drop, pitch, or clearance compact evidence |  |  |
+| run_2 | 3 | step_forward | immediate_comparison | forward movement may carry height, drop, pitch, or clearance compact evidence | compact stream stayed quiet | matched_or_explained | self_map |
+| run_2 | 4 | probe_forward | prediction_before_action | test for foot drop before committing body weight | probe may report low overhead clearance before upper-body commitment |  |  |
+| run_2 | 4 | probe_forward | immediate_comparison | probe may report low overhead clearance before upper-body commitment | movement_result n^-1 rising | matched_or_explained | world_map |
+| run_2 | 5 | step_forward | prediction_before_action | continue with a small forward test | forward movement may carry height, drop, pitch, or clearance compact evidence |  |  |
+| run_2 | 5 | step_forward | immediate_comparison | forward movement may carry height, drop, pitch, or clearance compact evidence | movement_result n^-1 falling; compact trigger stream n^-2 falling | matched_or_explained | world_map |
+| run_2 | 6 | probe_forward | prediction_before_action | test vertical clearance before moving upper body forward | probe may report low overhead clearance before upper-body commitment |  |  |
+| run_2 | 6 | probe_forward | immediate_comparison | probe may report low overhead clearance before upper-body commitment | foot_drop_warning n at_threshold; foot_drop_warning n^-1 rising; compact trigger stream n^-2 rising; movement_result n^-1 rising; compact trigger stream n^-2 rising | matched_or_explained | world_map |
+| run_2 | 7 | step_forward | prediction_before_action | commit slowly after the drop was noticed by the foot probe | forward movement may carry height, drop, pitch, or clearance compact evidence |  |  |
+| run_2 | 7 | step_forward | immediate_comparison | forward movement may carry height, drop, pitch, or clearance compact evidence | foot_drop_warning n at_threshold; compact trigger stream n^-2 falling; ramp_load_shift n^-1 falling; compact trigger stream n^-2 falling; pressure_capsule_left n^-1 falling | matched_or_explained | world_map |
+| run_2 | 8 | probe_forward | prediction_before_action | test vertical clearance before moving upper body forward | probe may report low overhead clearance before upper-body commitment |  |  |
+| run_2 | 8 | probe_forward | immediate_comparison | probe may report low overhead clearance before upper-body commitment | foot_drop_warning n at_threshold; compact trigger stream n^-2 rising; compact trigger stream n^-2 rising | matched_or_explained | world_map |
+| run_2 | 9 | step_forward | prediction_before_action | commit slowly after the drop was noticed by the foot probe | forward movement may carry height, drop, pitch, or clearance compact evidence |  |  |
+| run_2 | 9 | step_forward | immediate_comparison | forward movement may carry height, drop, pitch, or clearance compact evidence | overhead_clearance n^-1 rising; compact trigger stream n^-2 rising; foot_drop_warning n at_threshold; vertical_echo n^-1 rising; overhead_clearance, vertical_echo n^-1 agreement | matched_or_explained | world_map |
+| run_2 | 10 | probe_forward | prediction_before_action | test vertical clearance before moving upper body forward | probe may report low overhead clearance before upper-body commitment |  |  |
+| run_2 | 10 | probe_forward | immediate_comparison | probe may report low overhead clearance before upper-body commitment | overhead_clearance n at_threshold; foot_drop_warning n at_threshold | matched_or_explained | world_map |
+| run_2 | 11 | crouch_body | prediction_before_action | lower body before testing the low-clearance path | overhead clearance pressure should reduce before stepping |  |  |
+| run_2 | 11 | crouch_body | immediate_comparison | overhead clearance pressure should reduce before stepping | overhead_clearance n^-1 falling; compact trigger stream n^-2 falling; foot_drop_warning n at_threshold; movement_result n^-1 falling; compact trigger stream n^-2 falling | matched_or_explained | self_map |
+| run_2 | 12 | step_forward | prediction_before_action | move while crouched after low-clearance warning | forward movement may carry height, drop, pitch, or clearance compact evidence |  |  |
+| run_2 | 12 | step_forward | immediate_comparison | forward movement may carry height, drop, pitch, or clearance compact evidence | compact trigger stream n^-2 rising; foot_drop_warning n^-1 falling; compact trigger stream n^-2 falling; height_pressure n^-1 falling; compact trigger stream n^-2 falling | matched_or_explained | world_map |

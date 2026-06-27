@@ -146,3 +146,51 @@ Every intentional action should get a tiny prediction. Every action should get a
 A separate compact-surprise cron should fire on sudden `n`, `n^-1`, `n^-2`, or cross-sensor compact changes. Its job is to route into prediction review, body-noticing, map update, or clarification. It should not default to raw sensor inspection.
 
 The full written target is recorded in `11_tiny_physics_nursery_plan.md`.
+
+## 2.5D Nursery Checkpoint
+
+After the first 2D physics nursery worked, the next useful step was not full 3D. It was a small 2.5D room: the robot still moves on a continuous 2D floor plane, but the floor and body can create height-like compact evidence.
+
+The first 2.5D room adds:
+
+- ramp-like load and pitch pressure
+- ledge/drop-off foot warning
+- low overhead clearance / tunnel pressure
+- raised or stacked pressure surface
+
+The compact-only boundary still applies. The simulator may know the hidden room features, but robot-facing logs see only streams such as:
+
+```text
+height_pressure n^-1 rising
+foot_drop_warning n=1
+overhead_clearance n=1
+vertical_echo n^-1 rising
+body_pitch_pressure n^-2 height_load_pattern_shift
+```
+
+The compact action chooser may then form and use beliefs such as `rampRisk`, `dropRisk`, `overheadRisk`, and `raisedSurfaceRisk`. It can choose small transparent actions like `probe_forward`, `crouch_body`, `recenter_body`, `pause`, `stand_body`, or `step_forward`.
+
+The current 2.5D test is implemented in `scenario_tests/run_tiny_2_5d_nursery.mjs`. Its generated result is `outputs/tiny_2_5d_nursery/tiny_2_5d_nursery_result.md`.
+
+## Layered 2.5D Transfer Checkpoint
+
+The next scaling step is a layered 2.5D transfer test, not full 3D yet.
+
+The test uses two rooms:
+
+- a training room where the robot experiences compact height, drop, overhead, and raised-surface signals
+- a second layered room with different feature placement, where the compact-transfer chooser starts from the training room's compact-derived map updates and lesson candidates
+
+This checks whether the system is learning usable compact body/world rules rather than only replaying one path. The transfer chooser still does not receive hidden coordinates or simulator feature objects.
+
+The current layered test is implemented in `scenario_tests/run_layered_2_5d_nursery.mjs`. Its generated result is `outputs/layered_2_5d_nursery/layered_2_5d_nursery_result.md`.
+
+Current result:
+
+```text
+committed height warnings: 5 -> 1
+overhead contacts: 4 -> 0
+probe height warnings before commitment: 0 -> 4
+crouch actions: 0 -> 1
+prediction accuracy: 41.7% -> 100.0%
+```

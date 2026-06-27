@@ -294,3 +294,79 @@ Start with a deterministic scripted action sequence for run 1 so the world can b
 Then run the same room again with the learned map updates from run 1 loaded as prior beliefs. The second run should use those beliefs to choose safer probes, turns, pauses, or recentering actions.
 
 Only after that deterministic two-run loop works should the single executive mind model begin choosing actions dynamically.
+
+## 2.5D Extension
+
+The next extension keeps the first room inspectable and avoids full 3D. The robot still navigates a continuous 2D plane, but the body receives height-like compact pressure streams.
+
+New hidden physical features:
+
+| feature | purpose | compact lesson |
+| --- | --- | --- |
+| ramp-like region | Introduces pitch and load shift without collision. | Recenter when height pressure suggests body pitch. |
+| ledge/drop warning | Teaches probing before foot/base commitment. | Foot warning can arrive before a full-body mistake. |
+| low overhead clearance | Teaches body posture as an action. | Duck/crouch can reduce upper-body contact risk. |
+| raised pressure surface | Separates stable height load from collision. | Pause or settle can clarify raised load. |
+
+New compact-facing streams:
+
+| stream | role |
+| --- | --- |
+| `height_pressure` | General height/load pressure. |
+| `foot_drop_warning` | Foot/base warning before a drop or ledge. |
+| `overhead_clearance` | Low-clearance pressure on upper body. |
+| `vertical_echo` | Non-contact vertical clearance clue. |
+| `body_pitch_pressure` | Nose-up or nose-down body load clue. |
+| `ramp_load_shift` | Specific compact load shift from ramp-like floor. |
+
+New actions:
+
+| action | purpose |
+| --- | --- |
+| `crouch_body` | Lower body height before low-clearance movement. |
+| `stand_body` | Return to normal posture after low-clearance risk. |
+
+The first 2.5D implementation is:
+
+| path | purpose |
+| --- | --- |
+| `digital_world/physics_2_5d_nursery_world.mjs` | Hidden 2.5D room and felt-physics consequences. |
+| `digital_world/physics_2_5d_nursery_sensors.mjs` | Compact stream conversion for height-like body evidence. |
+| `digital_world/physics_2_5d_action_chooser.mjs` | Transparent compact-belief chooser for probing, crouching, recentering, pausing, and stepping. |
+| `scenario_tests/run_tiny_2_5d_nursery.mjs` | Two-pass comparison test for naive movement vs compact-guided 2.5D action. |
+| `outputs/tiny_2_5d_nursery/` | Generated result logs and watcher artifacts. |
+
+Current pass result:
+
+| metric | run 1 | run 2 |
+| --- | --- | --- |
+| committed height warnings | 6 | 2 |
+| overhead contacts | 4 | 0 |
+| probe height warnings before commitment | 0 | 3 |
+| crouch actions | 0 | 1 |
+| prediction accuracy | 40.0% | 100.0% |
+
+## Layered 2.5D Transfer Test
+
+The next scale-up should keep the compact-only boundary while testing transfer to a second room. This is still not full 3D. It is a wider 2.5D proving ground where the robot must reuse compact height lessons in a new layout.
+
+Implementation:
+
+| path | purpose |
+| --- | --- |
+| `LAYERED_ROOM_2_5D` in `digital_world/physics_2_5d_nursery_world.mjs` | Second hidden room layout with different feature placement. |
+| configurable `createPhysics25DNurseryWorld(...)` | Allows the same world logic to run the original room or the layered transfer room. |
+| `scenario_tests/run_layered_2_5d_nursery.mjs` | Trains on compact lessons from the first room, then compares naive and compact-transfer runs in the layered room. |
+| `outputs/layered_2_5d_nursery/` | Generated transfer result logs and watcher artifacts. |
+
+Current layered transfer result:
+
+| metric | layered naive | layered transfer |
+| --- | --- | --- |
+| committed height warnings | 5 | 1 |
+| overhead contacts | 4 | 0 |
+| probe height warnings before commitment | 0 | 4 |
+| crouch actions | 0 | 1 |
+| prediction accuracy | 41.7% | 100.0% |
+
+This is the preferred bridge before full 3D: prove compact rules can transfer across layered 2.5D rooms before adding full 3D collision, camera, pitch/yaw, occlusion, and body-volume complexity.

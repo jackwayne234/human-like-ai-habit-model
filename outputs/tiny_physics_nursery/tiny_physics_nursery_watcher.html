@@ -1,0 +1,1161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tiny Physics Nursery Watcher</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20252b;
+      --muted: #5d6875;
+      --line: #c8d1dc;
+      --floor: #f4f7f2;
+      --wall: #46515d;
+      --water: #1f7a8c;
+      --warning: #b7791f;
+      --leaf: #2f855a;
+      --rose: #b83280;
+      --panel: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #e7edf3;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+    button {
+      min-width: 42px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      cursor: pointer;
+    }
+    button.primary {
+      background: var(--water);
+      border-color: var(--water);
+      color: white;
+    }
+    input[type="range"] { width: 220px; }
+    .layout {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) 340px;
+      gap: 0;
+    }
+    .stage {
+      min-height: 0;
+      display: grid;
+      padding: 14px;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      background: var(--floor);
+      border: 1px solid var(--line);
+    }
+    aside {
+      min-height: 0;
+      overflow: auto;
+      background: #f8fafc;
+      border-left: 1px solid var(--line);
+      padding: 14px;
+    }
+    h1, h2 { margin: 0; letter-spacing: 0; }
+    h1 { font-size: 18px; }
+    h2 { font-size: 14px; margin-top: 16px; }
+    .readout { color: var(--muted); font-size: 13px; }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      padding: 5px 0;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 13px;
+    }
+    .stream { color: var(--muted); }
+    .status {
+      display: grid;
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      border-radius: 6px;
+    }
+    .status.pass { border-color: #2f855a; }
+    .status.fail { border-color: #b91c1c; }
+    .status-title {
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #f8fafc;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .pill.good {
+      border-color: #2f855a;
+      color: #276749;
+      background: #f0fff4;
+    }
+    .pill.warn {
+      border-color: #b7791f;
+      color: #975a16;
+      background: #fffaf0;
+    }
+    .lesson-list {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .compact {
+      margin-top: 8px;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 820px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { border-left: 0; border-top: 1px solid var(--line); }
+      canvas { min-height: 360px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <h1>Tiny Physics Nursery</h1>
+    <button id="play" class="primary" type="button">Play</button>
+    <button id="back" type="button">Prev</button>
+    <button id="next" type="button">Next</button>
+    <input id="scrub" type="range" min="0" value="0">
+    <span id="label" class="readout"></span>
+  </div>
+  <main class="layout">
+    <section class="stage">
+      <canvas id="nursery" aria-label="Tiny physics nursery watcher"></canvas>
+    </section>
+    <aside>
+      <h2>Run Status</h2>
+      <div id="status" class="status"></div>
+      <h2>Action</h2>
+      <div id="action" class="readout"></div>
+      <h2>Compact Feeling</h2>
+      <ul id="compact" class="compact"></ul>
+      <h2>Lessons</h2>
+      <ul id="lessons" class="lesson-list"></ul>
+      <h2>Sensor Values</h2>
+      <div id="sensors"></div>
+    </aside>
+  </main>
+  <script>
+    const WATCHER_DATA = {
+  "room": {
+    "width": 10,
+    "height": 10,
+    "robotHalfSize": 0.34,
+    "lowObstacle": {
+      "id": "low_obstacle",
+      "x1": 3.45,
+      "y1": 0.05,
+      "x2": 4.2,
+      "y2": 0.85
+    },
+    "slopePatch": {
+      "id": "slope_patch",
+      "x1": 2.7,
+      "y1": 1.55,
+      "x2": 4.65,
+      "y2": 3.05
+    },
+    "fanZone": {
+      "id": "fan_airflow",
+      "x1": 2.35,
+      "y1": 2.35,
+      "x2": 4.75,
+      "y2": 4.05
+    },
+    "curbZone": {
+      "id": "curb_warning",
+      "x1": 2.45,
+      "y1": 4.05,
+      "x2": 4.85,
+      "y2": 4.85
+    },
+    "fanSource": {
+      "x": 1,
+      "y": 3
+    }
+  },
+  "summary": {
+    "verdict": "PASS",
+    "note": "The 2-minute view loops generated run frames. Success is measured from the scenario logs, not from new live playback logs.",
+    "metrics": {
+      "torsoFrontContacts": {
+        "run1": 1,
+        "run2": 0
+      },
+      "blockedOrPartialSteps": {
+        "run1": 3,
+        "run2": 0
+      },
+      "probesBeforeRisk": {
+        "run1": 0,
+        "run2": 3
+      },
+      "predictionAccuracy": {
+        "run1": 63.6,
+        "run2": 66.7
+      }
+    },
+    "rules": [
+      {
+        "ruleId": "tiny_nursery_rule_1",
+        "evidenceCount": 4,
+        "lesson": "when forward movement is blocked and torso/front or echo/reflection compact evidence rises, mark the near-front path as likely solid before repeating the same step"
+      },
+      {
+        "ruleId": "tiny_nursery_rule_2",
+        "evidenceCount": 2,
+        "lesson": "airflow plus capsule pressure without matching foot load can mean external pressure rather than body imbalance"
+      }
+    ]
+  },
+  "frames": [
+    {
+      "runId": "run_1",
+      "tick": 1,
+      "action": "step_forward",
+      "intention": "try the first visible-feeling forward path",
+      "x": 2,
+      "y": 0.34,
+      "facing": "north",
+      "movementResult": "blocked",
+      "terrain": [],
+      "sensors": {
+        "touch_torso_front": 1,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.72,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.98,
+        "reflection_volume": 0.98,
+        "movement_result": 1
+      },
+      "compactSummary": [
+        "touch_torso_front n at_threshold",
+        "ultrasonic_echo n at_threshold",
+        "reflection_volume n at_threshold",
+        "movement_result n at_threshold",
+        "ultrasonic_echo, reflection_volume n^-1 agreement"
+      ],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "scripted first-pass body experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 2,
+      "action": "turn_right",
+      "intention": "change front direction after resistance",
+      "x": 2,
+      "y": 0.34,
+      "facing": "east",
+      "movementResult": "turned",
+      "terrain": [],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.31,
+        "reflection_volume": 0.25,
+        "movement_result": 0.12
+      },
+      "compactSummary": [
+        "touch_torso_front n^-1 falling",
+        "pressure_capsule_front n^-1 falling",
+        "ultrasonic_echo n^-1 falling",
+        "reflection_volume n^-1 falling",
+        "movement_result n^-1 falling"
+      ],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "scripted first-pass body experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 3,
+      "action": "step_forward",
+      "intention": "move along the boundary",
+      "x": 2.82,
+      "y": 0.34,
+      "facing": "east",
+      "movementResult": "succeeded",
+      "terrain": [],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.7,
+        "reflection_volume": 0.57,
+        "movement_result": 0.25
+      },
+      "compactSummary": [
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "scripted first-pass body experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 4,
+      "action": "step_forward",
+      "intention": "keep moving after one easy step",
+      "x": 3.107,
+      "y": 0.34,
+      "facing": "east",
+      "movementResult": "partial",
+      "terrain": [],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.76,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.72,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.84,
+        "reflection_volume": 0.69,
+        "movement_result": 0.78
+      },
+      "compactSummary": [
+        "touch_left_base n^-1 rising",
+        "compact trigger stream n^-2 rising",
+        "pressure_capsule_front n^-1 rising",
+        "compact trigger stream n^-2 rising",
+        "movement_result n^-1 rising"
+      ],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "scripted first-pass body experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 5,
+      "action": "turn_right",
+      "intention": "turn away from base resistance",
+      "x": 3.107,
+      "y": 0.34,
+      "facing": "south",
+      "movementResult": "turned",
+      "terrain": [],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.12
+      },
+      "compactSummary": [
+        "touch_left_base n^-1 falling",
+        "compact trigger stream n^-2 falling",
+        "pressure_capsule_front n^-1 falling",
+        "compact trigger stream n^-2 falling",
+        "ultrasonic_echo n^-1 falling"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "scripted first-pass body experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 6,
+      "action": "step_forward",
+      "intention": "try a new corridor after turning",
+      "x": 3.107,
+      "y": 1.16,
+      "facing": "south",
+      "movementResult": "succeeded",
+      "terrain": [],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "scripted first-pass body experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 7,
+      "action": "step_forward",
+      "intention": "continue through pressure change",
+      "x": 3.107,
+      "y": 1.98,
+      "facing": "south",
+      "movementResult": "succeeded",
+      "terrain": [
+        "uneven_pressure_patch"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [
+        "pressure_capsule_left n^-1 rising",
+        "compact trigger stream n^-2 rising"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "scripted first-pass body experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 8,
+      "action": "pause",
+      "intention": "let body pressure settle",
+      "x": 3.107,
+      "y": 1.98,
+      "facing": "south",
+      "movementResult": "paused",
+      "terrain": [
+        "uneven_pressure_patch"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.08
+      },
+      "compactSummary": [
+        "compact trigger stream n^-2 falling"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "scripted first-pass body experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 9,
+      "action": "step_forward",
+      "intention": "test whether the path is still safe",
+      "x": 3.107,
+      "y": 2.8,
+      "facing": "south",
+      "movementResult": "succeeded",
+      "terrain": [
+        "uneven_pressure_patch",
+        "airflow_zone"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [
+        "airflow n^-1 rising",
+        "compact trigger stream n^-2 rising"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "scripted first-pass body experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 10,
+      "action": "step_forward",
+      "intention": "keep moving despite weak warning",
+      "x": 3.107,
+      "y": 3.62,
+      "facing": "south",
+      "movementResult": "succeeded",
+      "terrain": [
+        "uneven_pressure_patch",
+        "airflow_zone"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [
+        "compact trigger stream n^-2 falling"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "scripted first-pass body experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 11,
+      "action": "step_forward",
+      "intention": "continue until the base gives a clearer warning",
+      "x": 3.107,
+      "y": 4.44,
+      "facing": "south",
+      "movementResult": "warning",
+      "terrain": [
+        "airflow_zone",
+        "curb_warning_zone"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.88,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.58,
+        "pressure_capsule_right": 0.42,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.68
+      },
+      "compactSummary": [
+        "touch_left_base n^-1 rising",
+        "compact trigger stream n^-2 rising"
+      ],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "scripted first-pass body experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_2",
+      "tick": 1,
+      "action": "probe_forward",
+      "intention": "check learned front resistance before committing body weight",
+      "x": 2,
+      "y": 0.72,
+      "facing": "north",
+      "movementResult": "probe_blocked",
+      "terrain": [],
+      "sensors": {
+        "touch_torso_front": 0.54,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.82,
+        "reflection_volume": 0.67,
+        "movement_result": 0.86
+      },
+      "compactSummary": [],
+      "comparison": "matched_or_explained",
+      "decisionReason": "prior compact map says the first forward path may resist",
+      "decisionBeliefs": "frontRisk, baseRisk, externalPressure"
+    },
+    {
+      "runId": "run_2",
+      "tick": 2,
+      "action": "turn_right",
+      "intention": "avoid repeating a resisted movement",
+      "x": 2,
+      "y": 0.72,
+      "facing": "east",
+      "movementResult": "turned",
+      "terrain": [],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.31,
+        "reflection_volume": 0.25,
+        "movement_result": 0.12
+      },
+      "compactSummary": [
+        "touch_torso_front n^-1 falling",
+        "ultrasonic_echo n^-1 falling",
+        "movement_result n^-1 falling"
+      ],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "last movement outcome carried compact risk",
+      "decisionBeliefs": "frontRisk, baseRisk, externalPressure"
+    },
+    {
+      "runId": "run_2",
+      "tick": 3,
+      "action": "step_forward",
+      "intention": "test the changed front direction with a small step",
+      "x": 2.82,
+      "y": 0.72,
+      "facing": "east",
+      "movementResult": "succeeded",
+      "terrain": [],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.7,
+        "reflection_volume": 0.57,
+        "movement_result": 0.25
+      },
+      "compactSummary": [
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "turn changed echo/front relation after a risk belief",
+      "decisionBeliefs": "frontRisk, baseRisk, externalPressure"
+    },
+    {
+      "runId": "run_2",
+      "tick": 4,
+      "action": "probe_forward",
+      "intention": "check for low base obstacle before stepping",
+      "x": 2.82,
+      "y": 0.72,
+      "facing": "east",
+      "movementResult": "probe_warning",
+      "terrain": [],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.76,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.7,
+        "reflection_volume": 0.57,
+        "movement_result": 0.72
+      },
+      "compactSummary": [
+        "touch_left_base n^-1 rising",
+        "compact trigger stream n^-2 rising",
+        "movement_result n^-1 rising"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "prior compact map says base contact can appear without torso contact",
+      "decisionBeliefs": "frontRisk, baseRisk, externalPressure"
+    },
+    {
+      "runId": "run_2",
+      "tick": 5,
+      "action": "turn_right",
+      "intention": "turn away after compact probe warning instead of committing body weight",
+      "x": 2.82,
+      "y": 0.72,
+      "facing": "south",
+      "movementResult": "turned",
+      "terrain": [],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.12
+      },
+      "compactSummary": [
+        "touch_left_base n^-1 falling",
+        "compact trigger stream n^-2 falling",
+        "ultrasonic_echo n^-1 falling",
+        "compact trigger stream n^-2 falling",
+        "reflection_volume n^-1 falling"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "previous probe reported resistance or base warning",
+      "decisionBeliefs": "frontRisk, baseRisk, externalPressure"
+    },
+    {
+      "runId": "run_2",
+      "tick": 6,
+      "action": "step_forward",
+      "intention": "test the changed front direction with a small step",
+      "x": 2.82,
+      "y": 1.54,
+      "facing": "south",
+      "movementResult": "succeeded",
+      "terrain": [
+        "uneven_pressure_patch"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [
+        "compact trigger stream n^-2 rising",
+        "pressure_capsule_left n^-1 rising",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "turn changed echo/front relation after a risk belief",
+      "decisionBeliefs": "frontRisk, baseRisk, externalPressure"
+    },
+    {
+      "runId": "run_2",
+      "tick": 7,
+      "action": "recenter_body",
+      "intention": "reduce left/right pressure mismatch before more movement",
+      "x": 2.82,
+      "y": 1.54,
+      "facing": "south",
+      "movementResult": "recentered",
+      "terrain": [
+        "uneven_pressure_patch"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.2
+      },
+      "compactSummary": [
+        "compact trigger stream n^-2 falling"
+      ],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "compact pressure capsules suggest body leaning",
+      "decisionBeliefs": "frontRisk, baseRisk, externalPressure, leaning"
+    },
+    {
+      "runId": "run_2",
+      "tick": 8,
+      "action": "step_forward",
+      "intention": "move cautiously after recentering pressure",
+      "x": 2.82,
+      "y": 2.36,
+      "facing": "south",
+      "movementResult": "succeeded",
+      "terrain": [
+        "uneven_pressure_patch",
+        "airflow_zone"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [
+        "airflow n^-1 rising",
+        "compact trigger stream n^-2 rising"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "body recenter was attempted and the path still needs evidence",
+      "decisionBeliefs": "frontRisk, baseRisk, externalPressure, leaning"
+    },
+    {
+      "runId": "run_2",
+      "tick": 9,
+      "action": "pause",
+      "intention": "separate external airflow pressure from body lean",
+      "x": 2.82,
+      "y": 2.36,
+      "facing": "south",
+      "movementResult": "paused",
+      "terrain": [
+        "uneven_pressure_patch",
+        "airflow_zone"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.08
+      },
+      "compactSummary": [
+        "compact trigger stream n^-2 falling"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "compact airflow/pressure evidence is active",
+      "decisionBeliefs": "frontRisk, baseRisk, externalPressure, leaning"
+    },
+    {
+      "runId": "run_2",
+      "tick": 10,
+      "action": "probe_forward",
+      "intention": "check for curb or edge warning before a full step",
+      "x": 2.82,
+      "y": 2.36,
+      "facing": "south",
+      "movementResult": "succeeded",
+      "terrain": [
+        "uneven_pressure_patch",
+        "airflow_zone"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "base-risk lesson says probe before committing after pressure/airflow zone",
+      "decisionBeliefs": "frontRisk, baseRisk, externalPressure, leaning"
+    },
+    {
+      "runId": "run_2",
+      "tick": 11,
+      "action": "step_forward",
+      "intention": "commit one small step after a quiet probe",
+      "x": 2.82,
+      "y": 3.18,
+      "facing": "south",
+      "movementResult": "succeeded",
+      "terrain": [
+        "uneven_pressure_patch",
+        "airflow_zone"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "probe did not report front or base risk",
+      "decisionBeliefs": "frontRisk, baseRisk, externalPressure, leaning"
+    },
+    {
+      "runId": "run_2",
+      "tick": 12,
+      "action": "probe_forward",
+      "intention": "check for curb or edge warning before a full step",
+      "x": 2.82,
+      "y": 3.18,
+      "facing": "south",
+      "movementResult": "probe_warning",
+      "terrain": [
+        "uneven_pressure_patch",
+        "airflow_zone"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.76,
+        "touch_right_base": 0.68,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.72
+      },
+      "compactSummary": [
+        "touch_left_base n^-1 rising",
+        "compact trigger stream n^-2 rising",
+        "touch_right_base n^-1 rising",
+        "compact trigger stream n^-2 rising",
+        "movement_result n^-1 rising"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "base-risk lesson says probe before committing after pressure/airflow zone",
+      "decisionBeliefs": "frontRisk, baseRisk, externalPressure, leaning"
+    }
+  ]
+};
+    const canvas = document.getElementById("nursery");
+    const ctx = canvas.getContext("2d");
+    const playButton = document.getElementById("play");
+    const backButton = document.getElementById("back");
+    const nextButton = document.getElementById("next");
+    const scrub = document.getElementById("scrub");
+    const label = document.getElementById("label");
+    const action = document.getElementById("action");
+    const compact = document.getElementById("compact");
+    const status = document.getElementById("status");
+    const lessons = document.getElementById("lessons");
+    const sensors = document.getElementById("sensors");
+    let index = 0;
+    let timer = null;
+    let autoplayUntil = Date.now() + 120000;
+    scrub.max = WATCHER_DATA.frames.length - 1;
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.max(1, Math.floor(rect.width * devicePixelRatio));
+      canvas.height = Math.max(1, Math.floor(rect.height * devicePixelRatio));
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      draw();
+    }
+
+    function worldToCanvas(point) {
+      const rect = canvas.getBoundingClientRect();
+      const pad = 24;
+      const scale = Math.min((rect.width - pad * 2) / WATCHER_DATA.room.width, (rect.height - pad * 2) / WATCHER_DATA.room.height);
+      return { x: pad + point.x * scale, y: pad + point.y * scale, scale };
+    }
+
+    function drawRect(rect, color, alpha = 1) {
+      const a = worldToCanvas({ x: rect.x1, y: rect.y1 });
+      const b = worldToCanvas({ x: rect.x2, y: rect.y2 });
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = color;
+      ctx.fillRect(a.x, a.y, b.x - a.x, b.y - a.y);
+      ctx.globalAlpha = 1;
+    }
+
+    function draw() {
+      const frame = WATCHER_DATA.frames[index];
+      const rect = canvas.getBoundingClientRect();
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      const origin = worldToCanvas({ x: 0, y: 0 });
+      const end = worldToCanvas({ x: WATCHER_DATA.room.width, y: WATCHER_DATA.room.height });
+      ctx.fillStyle = "#f4f7f2";
+      ctx.fillRect(origin.x, origin.y, end.x - origin.x, end.y - origin.y);
+      ctx.strokeStyle = "#46515d";
+      ctx.lineWidth = 6;
+      ctx.strokeRect(origin.x, origin.y, end.x - origin.x, end.y - origin.y);
+      drawRect(WATCHER_DATA.room.lowObstacle, "#b7791f", 0.72);
+      drawRect(WATCHER_DATA.room.slopePatch, "#2f855a", 0.26);
+      drawRect(WATCHER_DATA.room.fanZone, "#1f7a8c", 0.2);
+      drawRect(WATCHER_DATA.room.curbZone, "#b83280", 0.18);
+
+      const p = worldToCanvas({ x: frame.x, y: frame.y });
+      const size = Math.max(18, p.scale * 0.68);
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      const angle = { north: -Math.PI / 2, east: 0, south: Math.PI / 2, west: Math.PI }[frame.facing];
+      ctx.rotate(angle);
+      ctx.fillStyle = frame.movementResult.includes("blocked") ? "#b91c1c" : frame.movementResult.includes("warning") ? "#b7791f" : "#1f7a8c";
+      ctx.strokeStyle = "#20252b";
+      ctx.lineWidth = 2;
+      ctx.fillRect(-size / 2, -size / 2, size, size);
+      ctx.strokeRect(-size / 2, -size / 2, size, size);
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.moveTo(size / 2 + 8, 0);
+      ctx.lineTo(size / 2 - 5, -7);
+      ctx.lineTo(size / 2 - 5, 7);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      const remaining = Math.max(0, Math.ceil((autoplayUntil - Date.now()) / 1000));
+      const countdown = remaining > 0 ? " / auto " + remaining + "s" : "";
+      label.textContent = frame.runId + " tick " + frame.tick + " / " + frame.movementResult + countdown;
+      action.textContent = frame.action + " - " + frame.intention + " - " + frame.comparison;
+      compact.innerHTML = frame.compactSummary.length ? frame.compactSummary.map((item) => "<li>" + item + "</li>").join("") : "<li>compact stream quiet</li>";
+      const runName = frame.runId === "run_2" ? "Run 2 compact chooser" : "Run 1 first pass";
+      status.className = "status " + (WATCHER_DATA.summary.verdict === "PASS" ? "pass" : "fail");
+      status.innerHTML = [
+        '<div class="status-title">' + WATCHER_DATA.summary.verdict + ' - ' + runName + '</div>',
+        '<div class="readout">' + WATCHER_DATA.summary.note + '</div>',
+        '<div class="pill-row">',
+        '<span class="pill good">front hits ' + WATCHER_DATA.summary.metrics.torsoFrontContacts.run1 + ' -> ' + WATCHER_DATA.summary.metrics.torsoFrontContacts.run2 + '</span>',
+        '<span class="pill good">risky steps ' + WATCHER_DATA.summary.metrics.blockedOrPartialSteps.run1 + ' -> ' + WATCHER_DATA.summary.metrics.blockedOrPartialSteps.run2 + '</span>',
+        '<span class="pill good">probes ' + WATCHER_DATA.summary.metrics.probesBeforeRisk.run1 + ' -> ' + WATCHER_DATA.summary.metrics.probesBeforeRisk.run2 + '</span>',
+        '<span class="pill ' + (frame.comparison === "matched_or_explained" ? "good" : "warn") + '">' + frame.comparison + '</span>',
+        '</div>'
+      ].join("");
+      if (frame.decisionReason) {
+        action.textContent = frame.action + " - " + frame.intention + " - " + frame.comparison + " - " + frame.decisionReason;
+      }
+      lessons.innerHTML = WATCHER_DATA.summary.rules.length
+        ? WATCHER_DATA.summary.rules.map((rule) => "<li>" + rule.lesson + "</li>").join("")
+        : "<li>No reusable lesson candidate yet.</li>";
+      sensors.innerHTML = Object.entries(frame.sensors).map(([key, value]) => '<div class="row"><span class="stream">' + key + '</span><span>' + Number(value).toFixed(2) + '</span></div>').join("");
+      scrub.value = index;
+    }
+
+    function setIndex(nextIndex) {
+      index = Math.max(0, Math.min(WATCHER_DATA.frames.length - 1, nextIndex));
+      draw();
+    }
+
+    function startPlayback() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+        playButton.textContent = "Play";
+        return;
+      }
+      playButton.textContent = "Pause";
+      timer = setInterval(() => {
+        if (index === WATCHER_DATA.frames.length - 1 && Date.now() < autoplayUntil) {
+          setIndex(0);
+          return;
+        }
+        setIndex(index + 1);
+        if (index === WATCHER_DATA.frames.length - 1 && Date.now() >= autoplayUntil) {
+          clearInterval(timer);
+          timer = null;
+          playButton.textContent = "Play";
+        }
+      }, 700);
+    }
+
+    playButton.addEventListener("click", () => {
+      autoplayUntil = Date.now() + 120000;
+      startPlayback();
+    });
+    backButton.addEventListener("click", () => setIndex(index - 1));
+    nextButton.addEventListener("click", () => setIndex(index + 1));
+    scrub.addEventListener("input", () => setIndex(Number(scrub.value)));
+    addEventListener("resize", resize);
+    resize();
+    startPlayback();
+  </script>
+</body>
+</html>

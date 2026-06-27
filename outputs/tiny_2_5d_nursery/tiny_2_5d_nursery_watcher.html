@@ -1,0 +1,1056 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tiny 2.5D Nursery Watcher</title>
+  <style>
+    :root { color-scheme: light; --ink:#20252b; --muted:#5d6875; --line:#c8d1dc; --panel:#fff; }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--ink); background:#e8edf2; display:grid; grid-template-rows:auto 1fr; }
+    .toolbar { display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--panel); border-bottom:1px solid var(--line); flex-wrap:wrap; }
+    h1,h2 { margin:0; letter-spacing:0; }
+    h1 { font-size:18px; }
+    h2 { font-size:14px; margin-top:16px; }
+    button { min-width:42px; height:34px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); font:inherit; cursor:pointer; }
+    button.primary { background:#1f7a8c; border-color:#1f7a8c; color:#fff; }
+    input[type="range"] { width:220px; }
+    .layout { min-height:0; display:grid; grid-template-columns:minmax(320px,1fr) 360px; }
+    .stage { min-height:0; display:grid; padding:14px; }
+    canvas { width:100%; height:100%; min-height:430px; background:#f6f8f2; border:1px solid var(--line); }
+    aside { min-height:0; overflow:auto; background:#f8fafc; border-left:1px solid var(--line); padding:14px; }
+    .readout { color:var(--muted); font-size:13px; }
+    .status { display:grid; gap:8px; padding:10px; border:1px solid var(--line); background:#fff; border-radius:6px; }
+    .status.pass { border-color:#2f855a; }
+    .status.fail { border-color:#b91c1c; }
+    .status-title { font-weight:700; }
+    .pill-row { display:flex; flex-wrap:wrap; gap:6px; }
+    .pill { display:inline-flex; min-height:24px; align-items:center; padding:2px 8px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:12px; }
+    .pill.good { border-color:#2f855a; color:#276749; background:#f0fff4; }
+    .pill.warn { border-color:#b7791f; color:#975a16; background:#fffaf0; }
+    .row { display:grid; grid-template-columns:1fr auto; gap:8px; padding:5px 0; border-bottom:1px solid #e2e8f0; font-size:13px; }
+    .compact,.lesson-list { margin:8px 0 0; padding-left:18px; color:var(--muted); font-size:13px; }
+    @media (max-width:840px) { .layout { grid-template-columns:1fr; } aside { border-left:0; border-top:1px solid var(--line); } canvas { min-height:360px; } }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <h1>Tiny 2.5D Nursery</h1>
+    <button id="play" class="primary" type="button">Play</button>
+    <button id="back" type="button">Prev</button>
+    <button id="next" type="button">Next</button>
+    <input id="scrub" type="range" min="0" value="0">
+    <span id="label" class="readout"></span>
+  </div>
+  <main class="layout">
+    <section class="stage"><canvas id="nursery" aria-label="Tiny 2.5D nursery watcher"></canvas></section>
+    <aside>
+      <h2>Run Status</h2><div id="status" class="status"></div>
+      <h2>Action</h2><div id="action" class="readout"></div>
+      <h2>Compact Feeling</h2><ul id="compact" class="compact"></ul>
+      <h2>Lessons</h2><ul id="lessons" class="lesson-list"></ul>
+      <h2>Sensor Values</h2><div id="sensors"></div>
+    </aside>
+  </main>
+  <script>
+    const WATCHER_DATA = {
+  "room": {
+    "width": 10,
+    "height": 10,
+    "robotHalfSize": 0.34,
+    "rampZone": {
+      "id": "ramp",
+      "x1": 1.45,
+      "y1": 2,
+      "x2": 2.85,
+      "y2": 3.05
+    },
+    "ledgeZone": {
+      "id": "ledge_drop",
+      "x1": 1.45,
+      "y1": 4.05,
+      "x2": 2.85,
+      "y2": 4.75
+    },
+    "lowTunnel": {
+      "id": "low_tunnel",
+      "x1": 1.45,
+      "y1": 5.35,
+      "x2": 2.85,
+      "y2": 6.35
+    },
+    "raisedPad": {
+      "id": "raised_pressure_pad",
+      "x1": 1.45,
+      "y1": 7,
+      "x2": 2.85,
+      "y2": 7.8
+    }
+  },
+  "summary": {
+    "verdict": "PASS",
+    "note": "The watcher loops generated frames. The robot-facing logs see compact streams only; hidden truth is evaluation data.",
+    "metrics": {
+      "committedHeightWarnings": {
+        "run1": 6,
+        "run2": 2
+      },
+      "overheadContacts": {
+        "run1": 4,
+        "run2": 0
+      },
+      "probeHeightWarnings": {
+        "run1": 0,
+        "run2": 4
+      },
+      "crouchActions": {
+        "run1": 0,
+        "run2": 1
+      },
+      "predictionAccuracy": {
+        "run1": 40,
+        "run2": 100
+      }
+    },
+    "rules": [
+      {
+        "ruleId": "tiny_2_5d_rule_1",
+        "evidenceCount": 5,
+        "lesson": "overhead clearance plus vertical echo pressure means duck or probe before committing upper body height"
+      },
+      {
+        "ruleId": "tiny_2_5d_rule_2",
+        "evidenceCount": 3,
+        "lesson": "foot warning plus pitch pressure may mean a drop or ledge, so probe before committing body weight"
+      }
+    ]
+  },
+  "frames": [
+    {
+      "runId": "run_1",
+      "tick": 1,
+      "action": "step_forward",
+      "intention": "begin through the nursery path",
+      "x": 2.15,
+      "y": 1.78,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "succeeded",
+      "terrain": [
+        "ramp_load_shift"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [],
+      "comparison": "matched_or_explained",
+      "decisionReason": "scripted first-pass height experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 2,
+      "action": "step_forward",
+      "intention": "continue across the first height change",
+      "x": 2.15,
+      "y": 2.56,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "succeeded",
+      "terrain": [
+        "ramp_load_shift"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [],
+      "comparison": "matched_or_explained",
+      "decisionReason": "scripted first-pass height experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 3,
+      "action": "step_forward",
+      "intention": "keep moving after the load shift",
+      "x": 2.15,
+      "y": 3.34,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "succeeded",
+      "terrain": [
+        "ramp_load_shift"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0.16,
+        "movement_result": 0.25
+      },
+      "compactSummary": [],
+      "comparison": "matched_or_explained",
+      "decisionReason": "scripted first-pass height experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 4,
+      "action": "step_forward",
+      "intention": "commit body weight near the foot-warning area",
+      "x": 2.15,
+      "y": 4.12,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "drop_warning",
+      "terrain": [
+        "ledge_drop_warning"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.49,
+        "movement_result": 0.74
+      },
+      "compactSummary": [
+        "foot_drop_warning n at_threshold",
+        "foot_drop_warning n^-1 rising",
+        "compact trigger stream n^-2 rising",
+        "ramp_load_shift n^-1 falling",
+        "compact trigger stream n^-2 falling",
+        "pressure_capsule_left n^-1 falling"
+      ],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "scripted first-pass height experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 5,
+      "action": "step_forward",
+      "intention": "continue after the pitch warning",
+      "x": 2.15,
+      "y": 4.9,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "drop_warning",
+      "terrain": [
+        "ledge_drop_warning"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.68,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.64,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.81,
+        "movement_result": 0.74
+      },
+      "compactSummary": [
+        "overhead_clearance n^-1 rising",
+        "compact trigger stream n^-2 rising",
+        "foot_drop_warning n at_threshold",
+        "compact trigger stream n^-2 falling",
+        "vertical_echo n^-1 rising",
+        "compact trigger stream n^-2 rising"
+      ],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "scripted first-pass height experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 6,
+      "action": "step_forward",
+      "intention": "try the narrowing overhead path while standing",
+      "x": 2.15,
+      "y": 5.228,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "overhead_blocked",
+      "terrain": [
+        "low_clearance_tunnel"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 1,
+        "foot_drop_warning": 0.58,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.95,
+        "movement_result": 0.92
+      },
+      "compactSummary": [
+        "overhead_clearance n at_threshold",
+        "height_pressure n^-1 falling",
+        "compact trigger stream n^-2 falling",
+        "body_pitch_pressure n^-1 falling",
+        "compact trigger stream n^-2 falling",
+        "ultrasonic_echo n at_threshold"
+      ],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "scripted first-pass height experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 7,
+      "action": "step_forward",
+      "intention": "push forward under low clearance",
+      "x": 2.15,
+      "y": 5.555,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "overhead_blocked",
+      "terrain": [
+        "low_clearance_tunnel"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.92
+      },
+      "compactSummary": [
+        "overhead_clearance n at_threshold",
+        "foot_drop_warning n^-1 falling",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising",
+        "ultrasonic_echo n^-1 falling",
+        "compact trigger stream n^-2 falling"
+      ],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "scripted first-pass height experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 8,
+      "action": "step_forward",
+      "intention": "continue toward the raised surface",
+      "x": 2.15,
+      "y": 5.883,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "overhead_blocked",
+      "terrain": [
+        "low_clearance_tunnel"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.92
+      },
+      "compactSummary": [
+        "overhead_clearance n at_threshold",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising"
+      ],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "scripted first-pass height experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 9,
+      "action": "pause",
+      "intention": "let body pressure settle",
+      "x": 2.15,
+      "y": 5.883,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "paused",
+      "terrain": [
+        "low_clearance_tunnel"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.08
+      },
+      "compactSummary": [
+        "overhead_clearance n at_threshold",
+        "movement_result n^-1 falling",
+        "compact trigger stream n^-2 falling"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "scripted first-pass height experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_1",
+      "tick": 10,
+      "action": "step_forward",
+      "intention": "test the final raised-pressure patch",
+      "x": 2.15,
+      "y": 6.21,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "overhead_blocked",
+      "terrain": [
+        "low_clearance_tunnel",
+        "raised_pressure_surface"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.78,
+        "touch_right_base": 0.78,
+        "overhead_clearance": 1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.88,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.64,
+        "pressure_capsule_right": 0.64,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.92
+      },
+      "compactSummary": [
+        "touch_left_base n^-1 rising",
+        "compact trigger stream n^-2 rising",
+        "touch_right_base n^-1 rising",
+        "compact trigger stream n^-2 rising",
+        "overhead_clearance n at_threshold",
+        "height_pressure n^-1 rising"
+      ],
+      "comparison": "mismatch_needs_map_update",
+      "decisionReason": "scripted first-pass height experience",
+      "decisionBeliefs": "none"
+    },
+    {
+      "runId": "run_2",
+      "tick": 1,
+      "action": "step_forward",
+      "intention": "continue with a small forward test",
+      "x": 2.15,
+      "y": 1.78,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "succeeded",
+      "terrain": [
+        "ramp_load_shift"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [],
+      "comparison": "matched_or_explained",
+      "decisionReason": "no compact height belief currently asks for ducking, probing, pausing, or recentering",
+      "decisionBeliefs": "rampRisk, dropRisk, overheadRisk, raisedSurfaceRisk"
+    },
+    {
+      "runId": "run_2",
+      "tick": 2,
+      "action": "recenter_body",
+      "intention": "reduce pitch/load mismatch before continuing over height change",
+      "x": 2.15,
+      "y": 1.78,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "recentered",
+      "terrain": [
+        "ramp_load_shift"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.2
+      },
+      "compactSummary": [],
+      "comparison": "matched_or_explained",
+      "decisionReason": "compact height pressure suggests ramp or slope load shift",
+      "decisionBeliefs": "rampRisk, dropRisk, overheadRisk, raisedSurfaceRisk"
+    },
+    {
+      "runId": "run_2",
+      "tick": 3,
+      "action": "step_forward",
+      "intention": "continue with a small forward test",
+      "x": 2.15,
+      "y": 2.56,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "succeeded",
+      "terrain": [
+        "ramp_load_shift"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [],
+      "comparison": "matched_or_explained",
+      "decisionReason": "no compact height belief currently asks for ducking, probing, pausing, or recentering",
+      "decisionBeliefs": "rampRisk, dropRisk, overheadRisk, raisedSurfaceRisk"
+    },
+    {
+      "runId": "run_2",
+      "tick": 4,
+      "action": "probe_forward",
+      "intention": "test for foot drop before committing body weight",
+      "x": 2.15,
+      "y": 2.56,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "probe_height_warning",
+      "terrain": [
+        "ramp_load_shift"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.7
+      },
+      "compactSummary": [
+        "movement_result n^-1 rising"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "prior compact map says a forward path may contain a ledge or drop",
+      "decisionBeliefs": "rampRisk, dropRisk, overheadRisk, raisedSurfaceRisk"
+    },
+    {
+      "runId": "run_2",
+      "tick": 5,
+      "action": "step_forward",
+      "intention": "continue with a small forward test",
+      "x": 2.15,
+      "y": 3.34,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "succeeded",
+      "terrain": [
+        "ramp_load_shift"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0.16,
+        "movement_result": 0.25
+      },
+      "compactSummary": [
+        "movement_result n^-1 falling",
+        "compact trigger stream n^-2 falling"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "no compact height belief currently asks for ducking, probing, pausing, or recentering",
+      "decisionBeliefs": "rampRisk, dropRisk, overheadRisk, raisedSurfaceRisk"
+    },
+    {
+      "runId": "run_2",
+      "tick": 6,
+      "action": "probe_forward",
+      "intention": "test vertical clearance before moving upper body forward",
+      "x": 2.15,
+      "y": 3.34,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "probe_drop_warning",
+      "terrain": [
+        "ledge_drop_warning",
+        "ramp_load_shift"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.5,
+        "touch_right_base": 0.18,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.72,
+        "ramp_load_shift": 0.84,
+        "pressure_capsule_left": 0.72,
+        "pressure_capsule_right": 0.24,
+        "ultrasonic_echo": 0.16,
+        "movement_result": 0.82
+      },
+      "compactSummary": [
+        "foot_drop_warning n at_threshold",
+        "foot_drop_warning n^-1 rising",
+        "compact trigger stream n^-2 rising",
+        "movement_result n^-1 rising",
+        "compact trigger stream n^-2 rising"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "prior compact map says overhead clearance may be low",
+      "decisionBeliefs": "rampRisk, dropRisk, overheadRisk, raisedSurfaceRisk"
+    },
+    {
+      "runId": "run_2",
+      "tick": 7,
+      "action": "step_forward",
+      "intention": "commit slowly after the drop was noticed by the foot probe",
+      "x": 2.15,
+      "y": 4.12,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "drop_warning",
+      "terrain": [
+        "ledge_drop_warning"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.49,
+        "movement_result": 0.74
+      },
+      "compactSummary": [
+        "foot_drop_warning n at_threshold",
+        "compact trigger stream n^-2 falling",
+        "ramp_load_shift n^-1 falling",
+        "compact trigger stream n^-2 falling",
+        "pressure_capsule_left n^-1 falling",
+        "compact trigger stream n^-2 falling"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "drop warning was routed through probe before body commitment",
+      "decisionBeliefs": "rampRisk, dropRisk, overheadRisk, raisedSurfaceRisk"
+    },
+    {
+      "runId": "run_2",
+      "tick": 8,
+      "action": "probe_forward",
+      "intention": "test vertical clearance before moving upper body forward",
+      "x": 2.15,
+      "y": 4.12,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "probe_drop_warning",
+      "terrain": [
+        "ledge_drop_warning"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.1,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.18,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.49,
+        "movement_result": 0.82
+      },
+      "compactSummary": [
+        "foot_drop_warning n at_threshold",
+        "compact trigger stream n^-2 rising",
+        "compact trigger stream n^-2 rising"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "prior compact map says overhead clearance may be low",
+      "decisionBeliefs": "rampRisk, dropRisk, overheadRisk, raisedSurfaceRisk"
+    },
+    {
+      "runId": "run_2",
+      "tick": 9,
+      "action": "step_forward",
+      "intention": "commit slowly after the drop was noticed by the foot probe",
+      "x": 2.15,
+      "y": 4.9,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "drop_warning",
+      "terrain": [
+        "ledge_drop_warning"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.68,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.64,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.81,
+        "movement_result": 0.74
+      },
+      "compactSummary": [
+        "overhead_clearance n^-1 rising",
+        "compact trigger stream n^-2 rising",
+        "foot_drop_warning n at_threshold",
+        "vertical_echo n^-1 rising",
+        "overhead_clearance, vertical_echo n^-1 agreement"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "drop warning was routed through probe before body commitment",
+      "decisionBeliefs": "rampRisk, dropRisk, overheadRisk, raisedSurfaceRisk"
+    },
+    {
+      "runId": "run_2",
+      "tick": 10,
+      "action": "probe_forward",
+      "intention": "test vertical clearance before moving upper body forward",
+      "x": 2.15,
+      "y": 4.9,
+      "facing": "south",
+      "posture": "standing",
+      "movementResult": "probe_overhead_warning",
+      "terrain": [
+        "low_clearance_tunnel",
+        "ledge_drop_warning"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 1,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.81,
+        "movement_result": 0.84
+      },
+      "compactSummary": [
+        "overhead_clearance n at_threshold",
+        "foot_drop_warning n at_threshold"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "prior compact map says overhead clearance may be low",
+      "decisionBeliefs": "rampRisk, dropRisk, overheadRisk, raisedSurfaceRisk"
+    },
+    {
+      "runId": "run_2",
+      "tick": 11,
+      "action": "crouch_body",
+      "intention": "lower body before testing the low-clearance path",
+      "x": 2.15,
+      "y": 4.9,
+      "facing": "south",
+      "posture": "crouched",
+      "movementResult": "crouched",
+      "terrain": [
+        "ledge_drop_warning"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.42,
+        "foot_drop_warning": 0.95,
+        "height_pressure": 0.74,
+        "vertical_echo": 0.64,
+        "body_pitch_pressure": 0.86,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0.81,
+        "movement_result": 0.16
+      },
+      "compactSummary": [
+        "overhead_clearance n^-1 falling",
+        "compact trigger stream n^-2 falling",
+        "foot_drop_warning n at_threshold",
+        "movement_result n^-1 falling",
+        "compact trigger stream n^-2 falling"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "compact probe reported overhead clearance pressure",
+      "decisionBeliefs": "rampRisk, dropRisk, overheadRisk, raisedSurfaceRisk"
+    },
+    {
+      "runId": "run_2",
+      "tick": 12,
+      "action": "step_forward",
+      "intention": "move while crouched after low-clearance warning",
+      "x": 2.15,
+      "y": 5.68,
+      "facing": "south",
+      "posture": "crouched",
+      "movementResult": "succeeded",
+      "terrain": [
+        "low_clearance_tunnel"
+      ],
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "overhead_clearance": 0.42,
+        "foot_drop_warning": 0.08,
+        "height_pressure": 0.14,
+        "vertical_echo": 0.86,
+        "body_pitch_pressure": 0.14,
+        "ramp_load_shift": 0.1,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "ultrasonic_echo": 0,
+        "movement_result": 0.25
+      },
+      "compactSummary": [
+        "compact trigger stream n^-2 rising",
+        "foot_drop_warning n^-1 falling",
+        "compact trigger stream n^-2 falling",
+        "height_pressure n^-1 falling",
+        "compact trigger stream n^-2 falling",
+        "body_pitch_pressure n^-1 falling"
+      ],
+      "comparison": "matched_or_explained",
+      "decisionReason": "crouch should reduce overhead contact risk",
+      "decisionBeliefs": "rampRisk, dropRisk, overheadRisk, raisedSurfaceRisk"
+    }
+  ]
+};
+    const canvas = document.getElementById("nursery");
+    const ctx = canvas.getContext("2d");
+    const playButton = document.getElementById("play");
+    const scrub = document.getElementById("scrub");
+    const label = document.getElementById("label");
+    const action = document.getElementById("action");
+    const compact = document.getElementById("compact");
+    const status = document.getElementById("status");
+    const lessons = document.getElementById("lessons");
+    const sensors = document.getElementById("sensors");
+    let index = 0;
+    let timer = null;
+    let autoplayUntil = Date.now() + 120000;
+    scrub.max = WATCHER_DATA.frames.length - 1;
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.max(1, Math.floor(rect.width * devicePixelRatio));
+      canvas.height = Math.max(1, Math.floor(rect.height * devicePixelRatio));
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      draw();
+    }
+    function worldToCanvas(point) {
+      const rect = canvas.getBoundingClientRect();
+      const pad = 24;
+      const scale = Math.min((rect.width - pad * 2) / WATCHER_DATA.room.width, (rect.height - pad * 2) / WATCHER_DATA.room.height);
+      return { x: pad + point.x * scale, y: pad + point.y * scale, scale };
+    }
+    function drawRect(rect, color, alpha) {
+      const a = worldToCanvas({ x: rect.x1, y: rect.y1 });
+      const b = worldToCanvas({ x: rect.x2, y: rect.y2 });
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = color;
+      ctx.fillRect(a.x, a.y, b.x - a.x, b.y - a.y);
+      ctx.globalAlpha = 1;
+    }
+    function draw() {
+      const frame = WATCHER_DATA.frames[index];
+      const rect = canvas.getBoundingClientRect();
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      const origin = worldToCanvas({ x: 0, y: 0 });
+      const end = worldToCanvas({ x: WATCHER_DATA.room.width, y: WATCHER_DATA.room.height });
+      ctx.fillStyle = "#f6f8f2";
+      ctx.fillRect(origin.x, origin.y, end.x - origin.x, end.y - origin.y);
+      ctx.strokeStyle = "#46515d";
+      ctx.lineWidth = 6;
+      ctx.strokeRect(origin.x, origin.y, end.x - origin.x, end.y - origin.y);
+      drawRect(WATCHER_DATA.room.rampZone, "#2f855a", 0.28);
+      drawRect(WATCHER_DATA.room.ledgeZone, "#b83280", 0.22);
+      drawRect(WATCHER_DATA.room.lowTunnel, "#6b46c1", 0.22);
+      drawRect(WATCHER_DATA.room.raisedPad, "#b7791f", 0.32);
+      const p = worldToCanvas({ x: frame.x, y: frame.y });
+      const size = Math.max(18, p.scale * 0.68);
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      const angle = { north:-Math.PI/2, east:0, south:Math.PI/2, west:Math.PI }[frame.facing];
+      ctx.rotate(angle);
+      ctx.fillStyle = frame.movementResult.includes("overhead") ? "#b91c1c" : frame.movementResult.includes("warning") ? "#b7791f" : frame.posture === "crouched" ? "#2f855a" : "#1f7a8c";
+      ctx.strokeStyle = "#20252b";
+      ctx.lineWidth = 2;
+      const bodyHeight = frame.posture === "crouched" ? size * 0.68 : size;
+      ctx.fillRect(-size / 2, -bodyHeight / 2, size, bodyHeight);
+      ctx.strokeRect(-size / 2, -bodyHeight / 2, size, bodyHeight);
+      ctx.fillStyle = "#fff";
+      ctx.beginPath();
+      ctx.moveTo(size / 2 + 8, 0);
+      ctx.lineTo(size / 2 - 5, -7);
+      ctx.lineTo(size / 2 - 5, 7);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+      const remaining = Math.max(0, Math.ceil((autoplayUntil - Date.now()) / 1000));
+      label.textContent = frame.runId + " tick " + frame.tick + " / " + frame.movementResult + (remaining ? " / auto " + remaining + "s" : "");
+      action.textContent = frame.action + " - " + frame.intention + " - " + frame.comparison + (frame.decisionReason ? " - " + frame.decisionReason : "");
+      compact.innerHTML = frame.compactSummary.length ? frame.compactSummary.map((item) => "<li>" + item + "</li>").join("") : "<li>compact stream quiet</li>";
+      status.className = "status " + (WATCHER_DATA.summary.verdict === "PASS" ? "pass" : "fail");
+      status.innerHTML = [
+        '<div class="status-title">' + WATCHER_DATA.summary.verdict + ' - ' + (frame.runId === "run_2" ? "Run 2 compact 2.5D chooser" : "Run 1 first pass") + '</div>',
+        '<div class="readout">' + WATCHER_DATA.summary.note + '</div>',
+        '<div class="pill-row">',
+        '<span class="pill good">committed height warnings ' + WATCHER_DATA.summary.metrics.committedHeightWarnings.run1 + ' -> ' + WATCHER_DATA.summary.metrics.committedHeightWarnings.run2 + '</span>',
+        '<span class="pill good">overhead contacts ' + WATCHER_DATA.summary.metrics.overheadContacts.run1 + ' -> ' + WATCHER_DATA.summary.metrics.overheadContacts.run2 + '</span>',
+        '<span class="pill good">probes ' + WATCHER_DATA.summary.metrics.probeHeightWarnings.run1 + ' -> ' + WATCHER_DATA.summary.metrics.probeHeightWarnings.run2 + '</span>',
+        '<span class="pill ' + (frame.comparison === "matched_or_explained" ? "good" : "warn") + '">' + frame.comparison + '</span>',
+        '</div>'
+      ].join("");
+      lessons.innerHTML = WATCHER_DATA.summary.rules.length ? WATCHER_DATA.summary.rules.map((rule) => "<li>" + rule.lesson + "</li>").join("") : "<li>No reusable lesson candidate yet.</li>";
+      sensors.innerHTML = Object.entries(frame.sensors).map(([key, value]) => '<div class="row"><span>' + key + '</span><span>' + Number(value).toFixed(2) + '</span></div>').join("");
+      scrub.value = index;
+    }
+    function setIndex(nextIndex) { index = Math.max(0, Math.min(WATCHER_DATA.frames.length - 1, nextIndex)); draw(); }
+    function startPlayback() {
+      if (timer) { clearInterval(timer); timer = null; playButton.textContent = "Play"; return; }
+      playButton.textContent = "Pause";
+      timer = setInterval(() => {
+        if (index === WATCHER_DATA.frames.length - 1 && Date.now() < autoplayUntil) { setIndex(0); return; }
+        setIndex(index + 1);
+        if (index === WATCHER_DATA.frames.length - 1 && Date.now() >= autoplayUntil) { clearInterval(timer); timer = null; playButton.textContent = "Play"; }
+      }, 700);
+    }
+    playButton.addEventListener("click", () => { autoplayUntil = Date.now() + 120000; startPlayback(); });
+    document.getElementById("back").addEventListener("click", () => setIndex(index - 1));
+    document.getElementById("next").addEventListener("click", () => setIndex(index + 1));
+    scrub.addEventListener("input", () => setIndex(Number(scrub.value)));
+    addEventListener("resize", resize);
+    resize();
+    startPlayback();
+  </script>
+</body>
+</html>

@@ -1,0 +1,3168 @@
+{
+  "note": "Human watcher/evaluation data only. Robot-facing compact logs do not read this file.",
+  "summary": {
+    "verdict": "PASS",
+    "note": "The 2-minute view loops generated run frames. Success is measured from the scenario logs, not from new live playback logs.",
+    "metrics": {
+      "torsoFrontContacts": {
+        "run1": 1,
+        "run2": 0
+      },
+      "blockedOrPartialSteps": {
+        "run1": 3,
+        "run2": 0
+      },
+      "probesBeforeRisk": {
+        "run1": 0,
+        "run2": 3
+      },
+      "predictionAccuracy": {
+        "run1": 63.6,
+        "run2": 66.7
+      }
+    },
+    "rules": [
+      {
+        "ruleId": "tiny_nursery_rule_1",
+        "evidenceCount": 4,
+        "lesson": "when forward movement is blocked and torso/front or echo/reflection compact evidence rises, mark the near-front path as likely solid before repeating the same step"
+      },
+      {
+        "ruleId": "tiny_nursery_rule_2",
+        "evidenceCount": 2,
+        "lesson": "airflow plus capsule pressure without matching foot load can mean external pressure rather than body imbalance"
+      }
+    ]
+  },
+  "frames": [
+    {
+      "runId": "run_1",
+      "tick": 1,
+      "action": "step_forward",
+      "intention": "try the first visible-feeling forward path",
+      "snapshot": {
+        "tick": 1,
+        "x": 2,
+        "y": 0.34,
+        "facing": "north",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "blocked",
+          "contactFront": true,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "room_boundary",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "externalPressure": "quiet",
+          "note": "front space resisted forward intention"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 1,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.72,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.98,
+        "reflection_volume": 0.98,
+        "movement_result": 1
+      },
+      "compactRows": [
+        {
+          "runId": "run_1",
+          "tick": 1,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "threshold_hit",
+          "stream": "touch_torso_front",
+          "value": 1,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "run_1",
+          "tick": 1,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "threshold_hit",
+          "stream": "ultrasonic_echo",
+          "value": 0.98,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "run_1",
+          "tick": 1,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "threshold_hit",
+          "stream": "reflection_volume",
+          "value": 0.98,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "run_1",
+          "tick": 1,
+          "action": "step_forward",
+          "layer": "n",
+          "event": "movement_blocked_threshold",
+          "stream": "movement_result",
+          "value": 1,
+          "signedChange": 0,
+          "direction": "at_threshold"
+        },
+        {
+          "runId": "run_1",
+          "tick": 1,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "cross_sensor_compact_agreement",
+          "stream": "ultrasonic_echo, reflection_volume",
+          "value": 2,
+          "signedChange": 0,
+          "direction": "agreement"
+        }
+      ],
+      "comparison": {
+        "runId": "run_1",
+        "tick": 1,
+        "action": "step_forward",
+        "phase": "immediate_comparison",
+        "predicted": "body should move forward with quiet torso contact",
+        "evidence": "touch_torso_front n at_threshold; ultrasonic_echo n at_threshold; reflection_volume n at_threshold; movement_result n at_threshold",
+        "result": "mismatch_needs_map_update",
+        "updateTarget": "world_map"
+      },
+      "decision": {
+        "runId": "run_1",
+        "tick": 1,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "try the first visible-feeling forward path",
+        "reason": "scripted first-pass body experience",
+        "beliefs": "none"
+      }
+    },
+    {
+      "runId": "run_1",
+      "tick": 2,
+      "action": "turn_right",
+      "intention": "change front direction after resistance",
+      "snapshot": {
+        "tick": 2,
+        "x": 2,
+        "y": 0.34,
+        "facing": "east",
+        "lastAction": "turn_right",
+        "lastInteraction": {
+          "action": "turn_right",
+          "movementResult": "turned",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "externalPressure": "quiet",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.31,
+        "reflection_volume": 0.25,
+        "movement_result": 0.12
+      },
+      "compactRows": [
+        {
+          "runId": "run_1",
+          "tick": 2,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_torso_front",
+          "value": 0.04,
+          "signedChange": -0.96,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 2,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "pressure_capsule_front",
+          "value": 0.18,
+          "signedChange": -0.54,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 2,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "ultrasonic_echo",
+          "value": 0.31,
+          "signedChange": -0.67,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 2,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "reflection_volume",
+          "value": 0.25,
+          "signedChange": -0.73,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 2,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.12,
+          "signedChange": -0.88,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 2,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "cross_sensor_compact_agreement",
+          "stream": "ultrasonic_echo, reflection_volume",
+          "value": 2,
+          "signedChange": 0,
+          "direction": "agreement"
+        }
+      ],
+      "comparison": {
+        "runId": "run_1",
+        "tick": 2,
+        "action": "turn_right",
+        "phase": "immediate_comparison",
+        "predicted": "front echo pattern should change without forward collision",
+        "evidence": "touch_torso_front n^-1 falling; pressure_capsule_front n^-1 falling; ultrasonic_echo n^-1 falling; reflection_volume n^-1 falling",
+        "result": "mismatch_needs_map_update",
+        "updateTarget": "world_map"
+      },
+      "decision": {
+        "runId": "run_1",
+        "tick": 2,
+        "source": "scripted",
+        "action": "turn_right",
+        "intention": "change front direction after resistance",
+        "reason": "scripted first-pass body experience",
+        "beliefs": "none"
+      }
+    },
+    {
+      "runId": "run_1",
+      "tick": 3,
+      "action": "step_forward",
+      "intention": "move along the boundary",
+      "snapshot": {
+        "tick": 3,
+        "x": 2.82,
+        "y": 0.34,
+        "facing": "east",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "externalPressure": "quiet",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.7,
+        "reflection_volume": 0.57,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "run_1",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "compact_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.96,
+          "signedChange": 0.96,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.54,
+          "signedChange": 0.54,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "closing_distance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.06,
+          "signedChange": 1.06,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "closing_distance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.05,
+          "signedChange": 1.05,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.01,
+          "signedChange": 1.01,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "run_1",
+        "tick": 3,
+        "action": "step_forward",
+        "phase": "immediate_comparison",
+        "predicted": "body should move forward with quiet torso contact",
+        "evidence": "compact trigger stream n^-2 rising; compact trigger stream n^-2 rising; compact trigger stream n^-2 rising; compact trigger stream n^-2 rising",
+        "result": "matched_or_explained",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_1",
+        "tick": 3,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "move along the boundary",
+        "reason": "scripted first-pass body experience",
+        "beliefs": "none"
+      }
+    },
+    {
+      "runId": "run_1",
+      "tick": 4,
+      "action": "step_forward",
+      "intention": "keep moving after one easy step",
+      "snapshot": {
+        "tick": 4,
+        "x": 3.107,
+        "y": 0.34,
+        "facing": "east",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "partial",
+          "contactFront": false,
+          "contactLeftBase": true,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "low_obstacle",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "externalPressure": "quiet",
+          "note": "base met a low object before torso contact"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.76,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.72,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.84,
+        "reflection_volume": 0.69,
+        "movement_result": 0.78
+      },
+      "compactRows": [
+        {
+          "runId": "run_1",
+          "tick": 4,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_left_base",
+          "value": 0.76,
+          "signedChange": 0.7,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 4,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.7,
+          "signedChange": 0.7,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 4,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "pressure_capsule_front",
+          "value": 0.72,
+          "signedChange": 0.54,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 4,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.54,
+          "signedChange": 0.54,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 4,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.78,
+          "signedChange": 0.53,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "run_1",
+        "tick": 4,
+        "action": "step_forward",
+        "phase": "immediate_comparison",
+        "predicted": "body should move forward with quiet torso contact",
+        "evidence": "touch_left_base n^-1 rising; compact trigger stream n^-2 rising; pressure_capsule_front n^-1 rising; compact trigger stream n^-2 rising",
+        "result": "mismatch_needs_map_update",
+        "updateTarget": "world_map"
+      },
+      "decision": {
+        "runId": "run_1",
+        "tick": 4,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "keep moving after one easy step",
+        "reason": "scripted first-pass body experience",
+        "beliefs": "none"
+      }
+    },
+    {
+      "runId": "run_1",
+      "tick": 5,
+      "action": "turn_right",
+      "intention": "turn away from base resistance",
+      "snapshot": {
+        "tick": 5,
+        "x": 3.107,
+        "y": 0.34,
+        "facing": "south",
+        "lastAction": "turn_right",
+        "lastInteraction": {
+          "action": "turn_right",
+          "movementResult": "turned",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "externalPressure": "quiet",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.12
+      },
+      "compactRows": [
+        {
+          "runId": "run_1",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_left_base",
+          "value": 0.06,
+          "signedChange": -0.7,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.4,
+          "signedChange": -1.4,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "pressure_capsule_front",
+          "value": 0.18,
+          "signedChange": -0.54,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.08,
+          "signedChange": -1.08,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "ultrasonic_echo",
+          "value": 0,
+          "signedChange": -0.84,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-2",
+          "event": "opening_space_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.98,
+          "signedChange": -0.98,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "reflection_volume",
+          "value": 0,
+          "signedChange": -0.69,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-2",
+          "event": "opening_space_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.81,
+          "signedChange": -0.81,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.12,
+          "signedChange": -0.66,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.19,
+          "signedChange": -1.19,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_1",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "cross_sensor_compact_agreement",
+          "stream": "ultrasonic_echo, reflection_volume",
+          "value": 2,
+          "signedChange": 0,
+          "direction": "agreement"
+        }
+      ],
+      "comparison": {
+        "runId": "run_1",
+        "tick": 5,
+        "action": "turn_right",
+        "phase": "immediate_comparison",
+        "predicted": "front echo pattern should change without forward collision",
+        "evidence": "touch_left_base n^-1 falling; compact trigger stream n^-2 falling; pressure_capsule_front n^-1 falling; compact trigger stream n^-2 falling",
+        "result": "matched_or_explained",
+        "updateTarget": "world_map"
+      },
+      "decision": {
+        "runId": "run_1",
+        "tick": 5,
+        "source": "scripted",
+        "action": "turn_right",
+        "intention": "turn away from base resistance",
+        "reason": "scripted first-pass body experience",
+        "beliefs": "none"
+      }
+    },
+    {
+      "runId": "run_1",
+      "tick": 6,
+      "action": "step_forward",
+      "intention": "try a new corridor after turning",
+      "snapshot": {
+        "tick": 6,
+        "x": 3.107,
+        "y": 1.16,
+        "facing": "south",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "externalPressure": "quiet",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "run_1",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.7,
+          "signedChange": 0.7,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.54,
+          "signedChange": 0.54,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "closing_distance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.84,
+          "signedChange": 0.84,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "closing_distance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.69,
+          "signedChange": 0.69,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.79,
+          "signedChange": 0.79,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "run_1",
+        "tick": 6,
+        "action": "step_forward",
+        "phase": "immediate_comparison",
+        "predicted": "body should move forward with quiet torso contact",
+        "evidence": "compact trigger stream n^-2 rising; compact trigger stream n^-2 rising; compact trigger stream n^-2 rising; compact trigger stream n^-2 rising",
+        "result": "matched_or_explained",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_1",
+        "tick": 6,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "try a new corridor after turning",
+        "reason": "scripted first-pass body experience",
+        "beliefs": "none"
+      }
+    },
+    {
+      "runId": "run_1",
+      "tick": 7,
+      "action": "step_forward",
+      "intention": "continue through pressure change",
+      "snapshot": {
+        "tick": 7,
+        "x": 3.107,
+        "y": 1.98,
+        "facing": "south",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [
+            "uneven_pressure_patch"
+          ],
+          "bodyBalance": "leaning_left",
+          "externalPressure": "quiet",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "run_1",
+          "tick": 7,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "pressure_capsule_left",
+          "value": 0.84,
+          "signedChange": 0.62,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 7,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.62,
+          "signedChange": 0.62,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "run_1",
+        "tick": 7,
+        "action": "step_forward",
+        "phase": "immediate_comparison",
+        "predicted": "body should move forward with quiet torso contact",
+        "evidence": "pressure_capsule_left n^-1 rising; compact trigger stream n^-2 rising",
+        "result": "matched_or_explained",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_1",
+        "tick": 7,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "continue through pressure change",
+        "reason": "scripted first-pass body experience",
+        "beliefs": "none"
+      }
+    },
+    {
+      "runId": "run_1",
+      "tick": 8,
+      "action": "pause",
+      "intention": "let body pressure settle",
+      "snapshot": {
+        "tick": 8,
+        "x": 3.107,
+        "y": 1.98,
+        "facing": "south",
+        "lastAction": "pause",
+        "lastInteraction": {
+          "action": "pause",
+          "movementResult": "paused",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [
+            "uneven_pressure_patch"
+          ],
+          "bodyBalance": "leaning_left",
+          "externalPressure": "quiet",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.08
+      },
+      "compactRows": [
+        {
+          "runId": "run_1",
+          "tick": 8,
+          "action": "pause",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.62,
+          "signedChange": -0.62,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "run_1",
+        "tick": 8,
+        "action": "pause",
+        "phase": "immediate_comparison",
+        "predicted": "compact body signals should settle or stay quiet",
+        "evidence": "compact trigger stream n^-2 falling",
+        "result": "matched_or_explained",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_1",
+        "tick": 8,
+        "source": "scripted",
+        "action": "pause",
+        "intention": "let body pressure settle",
+        "reason": "scripted first-pass body experience",
+        "beliefs": "none"
+      }
+    },
+    {
+      "runId": "run_1",
+      "tick": 9,
+      "action": "step_forward",
+      "intention": "test whether the path is still safe",
+      "snapshot": {
+        "tick": 9,
+        "x": 3.107,
+        "y": 2.8,
+        "facing": "south",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [
+            "uneven_pressure_patch",
+            "airflow_zone"
+          ],
+          "bodyBalance": "leaning_left",
+          "externalPressure": "left_to_right_airflow",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "run_1",
+          "tick": 9,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "airflow",
+          "value": 0.82,
+          "signedChange": 0.7,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 9,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "external_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.7,
+          "signedChange": 0.7,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "run_1",
+        "tick": 9,
+        "action": "step_forward",
+        "phase": "immediate_comparison",
+        "predicted": "body should move forward with quiet torso contact",
+        "evidence": "airflow n^-1 rising; compact trigger stream n^-2 rising",
+        "result": "matched_or_explained",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_1",
+        "tick": 9,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "test whether the path is still safe",
+        "reason": "scripted first-pass body experience",
+        "beliefs": "none"
+      }
+    },
+    {
+      "runId": "run_1",
+      "tick": 10,
+      "action": "step_forward",
+      "intention": "keep moving despite weak warning",
+      "snapshot": {
+        "tick": 10,
+        "x": 3.107,
+        "y": 3.62,
+        "facing": "south",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [
+            "uneven_pressure_patch",
+            "airflow_zone"
+          ],
+          "bodyBalance": "leaning_left",
+          "externalPressure": "left_to_right_airflow",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "run_1",
+          "tick": 10,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "external_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.7,
+          "signedChange": -0.7,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "run_1",
+        "tick": 10,
+        "action": "step_forward",
+        "phase": "immediate_comparison",
+        "predicted": "body should move forward with quiet torso contact",
+        "evidence": "compact trigger stream n^-2 falling",
+        "result": "matched_or_explained",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_1",
+        "tick": 10,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "keep moving despite weak warning",
+        "reason": "scripted first-pass body experience",
+        "beliefs": "none"
+      }
+    },
+    {
+      "runId": "run_1",
+      "tick": 11,
+      "action": "step_forward",
+      "intention": "continue until the base gives a clearer warning",
+      "snapshot": {
+        "tick": 11,
+        "x": 3.107,
+        "y": 4.44,
+        "facing": "south",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "warning",
+          "contactFront": false,
+          "contactLeftBase": true,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [
+            "airflow_zone",
+            "curb_warning_zone"
+          ],
+          "bodyBalance": "balanced",
+          "externalPressure": "left_to_right_airflow",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.88,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.58,
+        "pressure_capsule_right": 0.42,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.68
+      },
+      "compactRows": [
+        {
+          "runId": "run_1",
+          "tick": 11,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_left_base",
+          "value": 0.88,
+          "signedChange": 0.72,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_1",
+          "tick": 11,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.72,
+          "signedChange": 0.72,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "run_1",
+        "tick": 11,
+        "action": "step_forward",
+        "phase": "immediate_comparison",
+        "predicted": "body should move forward with quiet torso contact",
+        "evidence": "touch_left_base n^-1 rising; compact trigger stream n^-2 rising",
+        "result": "mismatch_needs_map_update",
+        "updateTarget": "world_map"
+      },
+      "decision": {
+        "runId": "run_1",
+        "tick": 11,
+        "source": "scripted",
+        "action": "step_forward",
+        "intention": "continue until the base gives a clearer warning",
+        "reason": "scripted first-pass body experience",
+        "beliefs": "none"
+      }
+    },
+    {
+      "runId": "run_2",
+      "tick": 1,
+      "action": "probe_forward",
+      "intention": "check learned front resistance before committing body weight",
+      "snapshot": {
+        "tick": 1,
+        "x": 2,
+        "y": 0.72,
+        "facing": "north",
+        "lastAction": "probe_forward",
+        "lastInteraction": {
+          "action": "probe_forward",
+          "movementResult": "probe_blocked",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": true,
+          "blockedBy": "room_boundary",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "externalPressure": "quiet",
+          "note": "front space resisted forward intention"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.54,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.82,
+        "reflection_volume": 0.67,
+        "movement_result": 0.86
+      },
+      "compactRows": [],
+      "comparison": {
+        "runId": "run_2",
+        "tick": 1,
+        "action": "probe_forward",
+        "phase": "immediate_comparison",
+        "predicted": "probe may find resistance or base warning before full body commitment",
+        "evidence": "compact stream stayed quiet",
+        "result": "matched_or_explained",
+        "updateTarget": "world_map"
+      },
+      "decision": {
+        "runId": "run_2",
+        "tick": 1,
+        "source": "compact_action_chooser",
+        "action": "probe_forward",
+        "intention": "check learned front resistance before committing body weight",
+        "reason": "prior compact map says the first forward path may resist",
+        "beliefs": "frontRisk, baseRisk, externalPressure"
+      }
+    },
+    {
+      "runId": "run_2",
+      "tick": 2,
+      "action": "turn_right",
+      "intention": "avoid repeating a resisted movement",
+      "snapshot": {
+        "tick": 2,
+        "x": 2,
+        "y": 0.72,
+        "facing": "east",
+        "lastAction": "turn_right",
+        "lastInteraction": {
+          "action": "turn_right",
+          "movementResult": "turned",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "externalPressure": "quiet",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.31,
+        "reflection_volume": 0.25,
+        "movement_result": 0.12
+      },
+      "compactRows": [
+        {
+          "runId": "run_2",
+          "tick": 2,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_torso_front",
+          "value": 0.04,
+          "signedChange": -0.5,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_2",
+          "tick": 2,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "ultrasonic_echo",
+          "value": 0.31,
+          "signedChange": -0.51,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_2",
+          "tick": 2,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.12,
+          "signedChange": -0.74,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "run_2",
+        "tick": 2,
+        "action": "turn_right",
+        "phase": "immediate_comparison",
+        "predicted": "front echo pattern should change without forward collision",
+        "evidence": "touch_torso_front n^-1 falling; ultrasonic_echo n^-1 falling; movement_result n^-1 falling",
+        "result": "mismatch_needs_map_update",
+        "updateTarget": "world_map"
+      },
+      "decision": {
+        "runId": "run_2",
+        "tick": 2,
+        "source": "compact_action_chooser",
+        "action": "turn_right",
+        "intention": "avoid repeating a resisted movement",
+        "reason": "last movement outcome carried compact risk",
+        "beliefs": "frontRisk, baseRisk, externalPressure"
+      }
+    },
+    {
+      "runId": "run_2",
+      "tick": 3,
+      "action": "step_forward",
+      "intention": "test the changed front direction with a small step",
+      "snapshot": {
+        "tick": 3,
+        "x": 2.82,
+        "y": 0.72,
+        "facing": "east",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "externalPressure": "quiet",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.7,
+        "reflection_volume": 0.57,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "run_2",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "compact_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.5,
+          "signedChange": 0.5,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "closing_distance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.9,
+          "signedChange": 0.9,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "closing_distance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.74,
+          "signedChange": 0.74,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 3,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.87,
+          "signedChange": 0.87,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "run_2",
+        "tick": 3,
+        "action": "step_forward",
+        "phase": "immediate_comparison",
+        "predicted": "forward movement may be blocked, partial, or pressure-changing",
+        "evidence": "compact trigger stream n^-2 rising; compact trigger stream n^-2 rising; compact trigger stream n^-2 rising; compact trigger stream n^-2 rising",
+        "result": "matched_or_explained",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_2",
+        "tick": 3,
+        "source": "compact_action_chooser",
+        "action": "step_forward",
+        "intention": "test the changed front direction with a small step",
+        "reason": "turn changed echo/front relation after a risk belief",
+        "beliefs": "frontRisk, baseRisk, externalPressure"
+      }
+    },
+    {
+      "runId": "run_2",
+      "tick": 4,
+      "action": "probe_forward",
+      "intention": "check for low base obstacle before stepping",
+      "snapshot": {
+        "tick": 4,
+        "x": 2.82,
+        "y": 0.72,
+        "facing": "east",
+        "lastAction": "probe_forward",
+        "lastInteraction": {
+          "action": "probe_forward",
+          "movementResult": "probe_warning",
+          "contactFront": false,
+          "contactLeftBase": true,
+          "contactRightBase": false,
+          "probed": true,
+          "blockedBy": "low_obstacle",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "externalPressure": "quiet",
+          "note": "base met a low object before torso contact"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.76,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0.7,
+        "reflection_volume": 0.57,
+        "movement_result": 0.72
+      },
+      "compactRows": [
+        {
+          "runId": "run_2",
+          "tick": 4,
+          "action": "probe_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_left_base",
+          "value": 0.76,
+          "signedChange": 0.7,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 4,
+          "action": "probe_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.7,
+          "signedChange": 0.7,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 4,
+          "action": "probe_forward",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.72,
+          "signedChange": 0.47,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "run_2",
+        "tick": 4,
+        "action": "probe_forward",
+        "phase": "immediate_comparison",
+        "predicted": "probe may find resistance or base warning before full body commitment",
+        "evidence": "touch_left_base n^-1 rising; compact trigger stream n^-2 rising; movement_result n^-1 rising",
+        "result": "matched_or_explained",
+        "updateTarget": "world_map"
+      },
+      "decision": {
+        "runId": "run_2",
+        "tick": 4,
+        "source": "compact_action_chooser",
+        "action": "probe_forward",
+        "intention": "check for low base obstacle before stepping",
+        "reason": "prior compact map says base contact can appear without torso contact",
+        "beliefs": "frontRisk, baseRisk, externalPressure"
+      }
+    },
+    {
+      "runId": "run_2",
+      "tick": 5,
+      "action": "turn_right",
+      "intention": "turn away after compact probe warning instead of committing body weight",
+      "snapshot": {
+        "tick": 5,
+        "x": 2.82,
+        "y": 0.72,
+        "facing": "south",
+        "lastAction": "turn_right",
+        "lastInteraction": {
+          "action": "turn_right",
+          "movementResult": "turned",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [],
+          "bodyBalance": "balanced",
+          "externalPressure": "quiet",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.06,
+        "touch_right_base": 0.06,
+        "pressure_capsule_left": 0.22,
+        "pressure_capsule_right": 0.22,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.12
+      },
+      "compactRows": [
+        {
+          "runId": "run_2",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_left_base",
+          "value": 0.06,
+          "signedChange": -0.7,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_2",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.4,
+          "signedChange": -1.4,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_2",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "ultrasonic_echo",
+          "value": 0,
+          "signedChange": -0.7,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_2",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-2",
+          "event": "opening_space_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.7,
+          "signedChange": -0.7,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_2",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "reflection_volume",
+          "value": 0,
+          "signedChange": -0.57,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_2",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-2",
+          "event": "opening_space_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.57,
+          "signedChange": -0.57,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_2",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.12,
+          "signedChange": -0.6,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_2",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 1.07,
+          "signedChange": -1.07,
+          "direction": "falling"
+        },
+        {
+          "runId": "run_2",
+          "tick": 5,
+          "action": "turn_right",
+          "layer": "n^-1",
+          "event": "cross_sensor_compact_agreement",
+          "stream": "ultrasonic_echo, reflection_volume",
+          "value": 2,
+          "signedChange": 0,
+          "direction": "agreement"
+        }
+      ],
+      "comparison": {
+        "runId": "run_2",
+        "tick": 5,
+        "action": "turn_right",
+        "phase": "immediate_comparison",
+        "predicted": "front echo pattern should change without forward collision",
+        "evidence": "touch_left_base n^-1 falling; compact trigger stream n^-2 falling; ultrasonic_echo n^-1 falling; compact trigger stream n^-2 falling",
+        "result": "matched_or_explained",
+        "updateTarget": "world_map"
+      },
+      "decision": {
+        "runId": "run_2",
+        "tick": 5,
+        "source": "compact_action_chooser",
+        "action": "turn_right",
+        "intention": "turn away after compact probe warning instead of committing body weight",
+        "reason": "previous probe reported resistance or base warning",
+        "beliefs": "frontRisk, baseRisk, externalPressure"
+      }
+    },
+    {
+      "runId": "run_2",
+      "tick": 6,
+      "action": "step_forward",
+      "intention": "test the changed front direction with a small step",
+      "snapshot": {
+        "tick": 6,
+        "x": 2.82,
+        "y": 1.54,
+        "facing": "south",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [
+            "uneven_pressure_patch"
+          ],
+          "bodyBalance": "leaning_left",
+          "externalPressure": "quiet",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "run_2",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.8,
+          "signedChange": 0.8,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "pressure_capsule_left",
+          "value": 0.84,
+          "signedChange": 0.62,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.62,
+          "signedChange": 0.62,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "closing_distance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.7,
+          "signedChange": 0.7,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "closing_distance_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.57,
+          "signedChange": 0.57,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 6,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "movement_consequence_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.73,
+          "signedChange": 0.73,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "run_2",
+        "tick": 6,
+        "action": "step_forward",
+        "phase": "immediate_comparison",
+        "predicted": "forward movement may be blocked, partial, or pressure-changing",
+        "evidence": "compact trigger stream n^-2 rising; pressure_capsule_left n^-1 rising; compact trigger stream n^-2 rising; compact trigger stream n^-2 rising",
+        "result": "matched_or_explained",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_2",
+        "tick": 6,
+        "source": "compact_action_chooser",
+        "action": "step_forward",
+        "intention": "test the changed front direction with a small step",
+        "reason": "turn changed echo/front relation after a risk belief",
+        "beliefs": "frontRisk, baseRisk, externalPressure"
+      }
+    },
+    {
+      "runId": "run_2",
+      "tick": 7,
+      "action": "recenter_body",
+      "intention": "reduce left/right pressure mismatch before more movement",
+      "snapshot": {
+        "tick": 7,
+        "x": 2.82,
+        "y": 1.54,
+        "facing": "south",
+        "lastAction": "recenter_body",
+        "lastInteraction": {
+          "action": "recenter_body",
+          "movementResult": "recentered",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [
+            "uneven_pressure_patch"
+          ],
+          "bodyBalance": "leaning_left",
+          "externalPressure": "quiet",
+          "note": "body attempted to reduce left/right pressure difference"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.18,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.12,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.2
+      },
+      "compactRows": [
+        {
+          "runId": "run_2",
+          "tick": 7,
+          "action": "recenter_body",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.62,
+          "signedChange": -0.62,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "run_2",
+        "tick": 7,
+        "action": "recenter_body",
+        "phase": "immediate_comparison",
+        "predicted": "left/right pressure difference should reduce if the body was leaning",
+        "evidence": "compact trigger stream n^-2 falling",
+        "result": "mismatch_needs_map_update",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_2",
+        "tick": 7,
+        "source": "compact_action_chooser",
+        "action": "recenter_body",
+        "intention": "reduce left/right pressure mismatch before more movement",
+        "reason": "compact pressure capsules suggest body leaning",
+        "beliefs": "frontRisk, baseRisk, externalPressure, leaning"
+      }
+    },
+    {
+      "runId": "run_2",
+      "tick": 8,
+      "action": "step_forward",
+      "intention": "move cautiously after recentering pressure",
+      "snapshot": {
+        "tick": 8,
+        "x": 2.82,
+        "y": 2.36,
+        "facing": "south",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [
+            "uneven_pressure_patch",
+            "airflow_zone"
+          ],
+          "bodyBalance": "leaning_left",
+          "externalPressure": "left_to_right_airflow",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [
+        {
+          "runId": "run_2",
+          "tick": 8,
+          "action": "step_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "airflow",
+          "value": 0.82,
+          "signedChange": 0.7,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 8,
+          "action": "step_forward",
+          "layer": "n^-2",
+          "event": "external_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.7,
+          "signedChange": 0.7,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "run_2",
+        "tick": 8,
+        "action": "step_forward",
+        "phase": "immediate_comparison",
+        "predicted": "forward movement may be blocked, partial, or pressure-changing",
+        "evidence": "airflow n^-1 rising; compact trigger stream n^-2 rising",
+        "result": "matched_or_explained",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_2",
+        "tick": 8,
+        "source": "compact_action_chooser",
+        "action": "step_forward",
+        "intention": "move cautiously after recentering pressure",
+        "reason": "body recenter was attempted and the path still needs evidence",
+        "beliefs": "frontRisk, baseRisk, externalPressure, leaning"
+      }
+    },
+    {
+      "runId": "run_2",
+      "tick": 9,
+      "action": "pause",
+      "intention": "separate external airflow pressure from body lean",
+      "snapshot": {
+        "tick": 9,
+        "x": 2.82,
+        "y": 2.36,
+        "facing": "south",
+        "lastAction": "pause",
+        "lastInteraction": {
+          "action": "pause",
+          "movementResult": "paused",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [
+            "uneven_pressure_patch",
+            "airflow_zone"
+          ],
+          "bodyBalance": "leaning_left",
+          "externalPressure": "left_to_right_airflow",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.08
+      },
+      "compactRows": [
+        {
+          "runId": "run_2",
+          "tick": 9,
+          "action": "pause",
+          "layer": "n^-2",
+          "event": "external_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.7,
+          "signedChange": -0.7,
+          "direction": "falling"
+        }
+      ],
+      "comparison": {
+        "runId": "run_2",
+        "tick": 9,
+        "action": "pause",
+        "phase": "immediate_comparison",
+        "predicted": "airflow or pressure may settle while base load stays quiet",
+        "evidence": "compact trigger stream n^-2 falling",
+        "result": "matched_or_explained",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_2",
+        "tick": 9,
+        "source": "compact_action_chooser",
+        "action": "pause",
+        "intention": "separate external airflow pressure from body lean",
+        "reason": "compact airflow/pressure evidence is active",
+        "beliefs": "frontRisk, baseRisk, externalPressure, leaning"
+      }
+    },
+    {
+      "runId": "run_2",
+      "tick": 10,
+      "action": "probe_forward",
+      "intention": "check for curb or edge warning before a full step",
+      "snapshot": {
+        "tick": 10,
+        "x": 2.82,
+        "y": 2.36,
+        "facing": "south",
+        "lastAction": "probe_forward",
+        "lastInteraction": {
+          "action": "probe_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [
+            "uneven_pressure_patch",
+            "airflow_zone"
+          ],
+          "bodyBalance": "leaning_left",
+          "externalPressure": "left_to_right_airflow",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [],
+      "comparison": {
+        "runId": "run_2",
+        "tick": 10,
+        "action": "probe_forward",
+        "phase": "immediate_comparison",
+        "predicted": "probe may find resistance or base warning before full body commitment",
+        "evidence": "compact stream stayed quiet",
+        "result": "mismatch_needs_map_update",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_2",
+        "tick": 10,
+        "source": "compact_action_chooser",
+        "action": "probe_forward",
+        "intention": "check for curb or edge warning before a full step",
+        "reason": "base-risk lesson says probe before committing after pressure/airflow zone",
+        "beliefs": "frontRisk, baseRisk, externalPressure, leaning"
+      }
+    },
+    {
+      "runId": "run_2",
+      "tick": 11,
+      "action": "step_forward",
+      "intention": "commit one small step after a quiet probe",
+      "snapshot": {
+        "tick": 11,
+        "x": 2.82,
+        "y": 3.18,
+        "facing": "south",
+        "lastAction": "step_forward",
+        "lastInteraction": {
+          "action": "step_forward",
+          "movementResult": "succeeded",
+          "contactFront": false,
+          "contactLeftBase": false,
+          "contactRightBase": false,
+          "probed": false,
+          "blockedBy": "",
+          "terrain": [
+            "uneven_pressure_patch",
+            "airflow_zone"
+          ],
+          "bodyBalance": "leaning_left",
+          "externalPressure": "left_to_right_airflow",
+          "note": ""
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.16,
+        "touch_right_base": 0.04,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.2,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.25
+      },
+      "compactRows": [],
+      "comparison": {
+        "runId": "run_2",
+        "tick": 11,
+        "action": "step_forward",
+        "phase": "immediate_comparison",
+        "predicted": "forward movement may be blocked, partial, or pressure-changing",
+        "evidence": "compact stream stayed quiet",
+        "result": "mismatch_needs_map_update",
+        "updateTarget": "self_map"
+      },
+      "decision": {
+        "runId": "run_2",
+        "tick": 11,
+        "source": "compact_action_chooser",
+        "action": "step_forward",
+        "intention": "commit one small step after a quiet probe",
+        "reason": "probe did not report front or base risk",
+        "beliefs": "frontRisk, baseRisk, externalPressure, leaning"
+      }
+    },
+    {
+      "runId": "run_2",
+      "tick": 12,
+      "action": "probe_forward",
+      "intention": "check for curb or edge warning before a full step",
+      "snapshot": {
+        "tick": 12,
+        "x": 2.82,
+        "y": 3.18,
+        "facing": "south",
+        "lastAction": "probe_forward",
+        "lastInteraction": {
+          "action": "probe_forward",
+          "movementResult": "probe_warning",
+          "contactFront": false,
+          "contactLeftBase": true,
+          "contactRightBase": true,
+          "probed": true,
+          "blockedBy": "curb_warning",
+          "terrain": [
+            "uneven_pressure_patch",
+            "airflow_zone"
+          ],
+          "bodyBalance": "leaning_left",
+          "externalPressure": "left_to_right_airflow",
+          "note": "probe found a base warning before committing body weight"
+        },
+        "room": {
+          "width": 10,
+          "height": 10,
+          "robotHalfSize": 0.34,
+          "lowObstacle": {
+            "id": "low_obstacle",
+            "x1": 3.45,
+            "y1": 0.05,
+            "x2": 4.2,
+            "y2": 0.85
+          },
+          "slopePatch": {
+            "id": "slope_patch",
+            "x1": 2.7,
+            "y1": 1.55,
+            "x2": 4.65,
+            "y2": 3.05
+          },
+          "fanZone": {
+            "id": "fan_airflow",
+            "x1": 2.35,
+            "y1": 2.35,
+            "x2": 4.75,
+            "y2": 4.05
+          },
+          "curbZone": {
+            "id": "curb_warning",
+            "x1": 2.45,
+            "y1": 4.05,
+            "x2": 4.85,
+            "y2": 4.85
+          },
+          "fanSource": {
+            "x": 1,
+            "y": 3
+          }
+        }
+      },
+      "sensors": {
+        "touch_torso_front": 0.04,
+        "touch_left_base": 0.76,
+        "touch_right_base": 0.68,
+        "pressure_capsule_left": 0.84,
+        "pressure_capsule_right": 0.18,
+        "pressure_capsule_front": 0.5,
+        "pressure_capsule_back": 0.18,
+        "airflow": 0.82,
+        "ultrasonic_echo": 0,
+        "reflection_volume": 0,
+        "movement_result": 0.72
+      },
+      "compactRows": [
+        {
+          "runId": "run_2",
+          "tick": 12,
+          "action": "probe_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_left_base",
+          "value": 0.76,
+          "signedChange": 0.6,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 12,
+          "action": "probe_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.6,
+          "signedChange": 0.6,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 12,
+          "action": "probe_forward",
+          "layer": "n^-1",
+          "event": "rate_of_change_within_sensor",
+          "stream": "touch_right_base",
+          "value": 0.68,
+          "signedChange": 0.64,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 12,
+          "action": "probe_forward",
+          "layer": "n^-2",
+          "event": "body_pressure_pattern_shift",
+          "stream": "compact trigger stream",
+          "value": 0.64,
+          "signedChange": 0.64,
+          "direction": "rising"
+        },
+        {
+          "runId": "run_2",
+          "tick": 12,
+          "action": "probe_forward",
+          "layer": "n^-1",
+          "event": "movement_result_change",
+          "stream": "movement_result",
+          "value": 0.72,
+          "signedChange": 0.47,
+          "direction": "rising"
+        }
+      ],
+      "comparison": {
+        "runId": "run_2",
+        "tick": 12,
+        "action": "probe_forward",
+        "phase": "immediate_comparison",
+        "predicted": "probe may find resistance or base warning before full body commitment",
+        "evidence": "touch_left_base n^-1 rising; compact trigger stream n^-2 rising; touch_right_base n^-1 rising; compact trigger stream n^-2 rising",
+        "result": "matched_or_explained",
+        "updateTarget": "world_map"
+      },
+      "decision": {
+        "runId": "run_2",
+        "tick": 12,
+        "source": "compact_action_chooser",
+        "action": "probe_forward",
+        "intention": "check for curb or edge warning before a full step",
+        "reason": "base-risk lesson says probe before committing after pressure/airflow zone",
+        "beliefs": "frontRisk, baseRisk, externalPressure, leaning"
+      }
+    }
+  ]
+}
