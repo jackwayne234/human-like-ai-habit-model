@@ -359,6 +359,99 @@ The goal is not to starve the model of useful evidence. The goal is for compact 
 
 Raw logs should therefore be a selective clarification tool, not the default world model input. If compact evidence is strong enough, the executive can interpret and act from compact perception alone.
 
+## Monocular Location Building
+
+Because v1 has only one sight stream, the model is effectively monocular. It should not depend on stereo parallax to locate itself in the world.
+
+The inner world model can still estimate place by combining single-sight change over time with movement and other senses:
+
+- sight rate changes while the body moves or turns
+- periodic visual anchor snapshots after movement distance or rotation
+- touch anchors when the body contacts counters, walls, stove surfaces, or objects
+- volume/echo changes that suggest room shape or source distance
+- smell gradients that strengthen or weaken with movement
+- action history that records the path between anchors
+
+In this design, visual anchor snapshots are not constant raw sight recording. They are selective breadcrumbs, created when movement or compact sight triggers suggest the scene changed enough, or when another sense provides a useful location anchor. The inner world can use those anchors to build a rough map even without two-eye depth.
+
+## Mental Map As Primary Resource
+
+What may make the model most human-like is realizing that its best resource is not raw sensory storage. Its best resource is a useful inner world: a mental map of places, objects, risks, expectations, opinions, and predictions.
+
+The inner world should help the model:
+
+- predict what is likely to happen next
+- decide which compact signals matter
+- decide when raw detail is worth the cost
+- remember where things are and what usually happens there
+- compare current evidence against its own expectations
+- build opinions or preferences from repeated outcomes
+- act from compressed understanding instead of rereading raw streams
+
+In this framing, raw data is training material and occasional clarification. The mental map is the operating asset. A stronger inner world lets the model save resources because it can use prediction and context to interpret compact logs. A weak inner world forces more raw inspection because the model does not yet know what its compact signals probably mean.
+
+The system should therefore reward building, correcting, and maintaining the inner world. Good predictions, useful map updates, and accurate compact-log interpretations should strengthen the model's trust in its inner world. Wrong predictions should not destroy the map; they should create corrections that make the map less naive.
+
+## Bootstrapping Inner World Building
+
+The model may not build a useful inner world on its own at first. Resource limits and a limited tool surface can pressure it toward compact perception, but they may not automatically create the habit of building, revising, and using a mental map.
+
+Early versions may need scheduled background routines that act like scaffolding:
+
+- periodically summarize recent compact logs into possible scene updates
+- create or revise place/object/risk records from repeated compact patterns
+- compare predictions against later corrections
+- turn teacher corrections into labeled examples
+- search for places where raw detail was useful versus unnecessary
+- strengthen map entries that helped prediction
+- weaken or revise map entries that repeatedly failed
+
+These routines are not meant to be the final intelligence. They are training wheels for the inner world. While robot events are being recorded, the system can use compact logs, selective raw logs, predictions, and corrections as training data for a later model that performs world-building more innately.
+
+The early routines can be deterministic cron-like handlers triggered by specific compact `n` log patterns, not only generic time intervals. For example:
+
+| compact trigger pattern | deterministic background prompt/action |
+| --- | --- |
+| repeated touch `n = 1` in one place | Ask what object or surface is here and whether it is dangerous. |
+| sight `n^-1` or `n^-2` spike after movement | Create or update a visual anchor for the current place. |
+| smell grows over several ticks near the same map area | Ask whether a smell source should be attached to this location. |
+| volume changes while the model moves | Update possible room/source direction or echo assumptions. |
+| compact prediction was wrong after teacher correction | Create a labeled correction example and revise the map rule. |
+| raw detail was opened but did not change the conclusion | Mark similar future compact patterns as not needing raw inspection. |
+
+This gives the early system structure without pretending it has already learned the habit. The trigger handlers ask useful questions, create map records, and collect training examples whenever compact logs show a pattern that matters.
+
+A delayed consolidation handler can run after the immediate event window closes. A starting rule is: one minute after a notable event, ask whether the event should become a more general rule that can be reused in many situations.
+
+Example delayed prompt:
+
+```text
+One minute ago, compact logs showed touch n=1, fast touch n^-1 rise, and a touch n^-2 pattern shift near the stove.
+Teacher correction said: touched_hot_stove.
+Can this become a reusable rule?
+```
+
+Possible output:
+
+```text
+If context is kitchen/stove area and touch reaches n=1 with fast rise, infer possible hot-surface contact.
+Use compact logs first.
+Open raw touch detail only if the object is uncertain, the prediction conflicts with later evidence, or the event is safety-critical.
+```
+
+This delayed pass is different from the immediate reflex/attention pass. The immediate pass asks, "What happened and what should I do now?" The one-minute consolidation pass asks, "What general lesson can I reuse later?"
+
+The desired progression is:
+
+```text
+manual/scheduled map-building routines
+-> many labeled examples of prediction, correction, and map updates
+-> learned world-building habits
+-> more automatic inner-world maintenance
+```
+
+This keeps the architecture honest. The system does not assume that a mental map will magically emerge from resource pressure alone. It gives the early model explicit help building the very skill that should later become natural.
+
 This gives later habit extraction enough evidence to find trigger-sequence-reward loops without requiring the architecture to store every passing thought.
 
 Once a single executive mind can reliably use those instruments, the architecture can split that executive behavior into Builder / Dreamer and Critic / Reality-Checker roles.

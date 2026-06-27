@@ -239,3 +239,20 @@ Because all five recording buttons are on, the run also writes one raw file per 
 - `sensor_recordings/smell/experience_session_001_raw.md`
 
 This is still artificial and deterministic. It is not a real sensor daemon yet. The point is to inspect what the architecture experiences when constant input, temporary buffer rollover, raw recording, and compact trigger formulas are all active together.
+
+## Monocular Sight And Visual Anchors
+
+The v1 sight stream is a single brightness/sight input, so the model is effectively monocular. It should not assume stereo vision or two-eye parallax.
+
+That means depth and location should come from active sensing over time:
+
+- movement parallax from taking sight samples while moving
+- optic-flow-like sight rate changes from moving, turning, or approaching objects
+- touch anchors such as counter edge, stove surface, wall, or object contact
+- volume or echo changes while moving through a space
+- smell gradients that get stronger or weaker with movement
+- action history such as moved forward, turned left, stopped, touched surface
+
+The system can periodically create visual anchor snapshots when it moves a certain distance, turns, or sees a strong sight `n^-1` / `n^-2` change. It can also create anchors when another sense confirms a place-relevant event, such as touch contact or a smell gradient.
+
+These visual anchors should be selective, not continuous raw visual recording. Normal perception still comes from compact logs, while visual snapshots become occasional breadcrumbs for building a rough world position.
