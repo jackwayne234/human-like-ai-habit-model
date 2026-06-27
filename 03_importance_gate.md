@@ -195,6 +195,8 @@ record_smell
 
 Each button toggles raw recording for its own sensor. If the sensor is not recording, pressing the button starts recording. If the sensor is already recording, pressing the same button stops it. These buttons do not calculate storage budget, cost, or duration. Builder / Dreamer and Critic / Reality-Checker decide whether to press them based on curiosity, uncertainty, repeated evidence, emergency context, and resource context.
 
+These raw recording buttons do not turn the threshold monitors on or off. The compact `n`, `n^-1`, and `n^-2` monitors keep running, and `n^-2` always watches second-order change in the compact trigger stream.
+
 ## Episode Promotion Guardrail
 
 Numeric scenario testing showed that `n^-2` acceleration should not be allowed to create an episode by itself.

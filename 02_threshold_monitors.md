@@ -126,6 +126,8 @@ Answer: It looks at the populated `n-1` rate-of-change trigger sheet, which cont
 
 The `n-2` layer does not go back to the raw sensory stream first. It reads the `n-1` trigger sheet after that sheet has been populated with both kinds of rate-of-change detections, then measures acceleration of change from those recorded `n-1` triggers.
 
+The `n-2` monitor is always on in v1. It continuously watches the compact `n-1` trigger stream for second-order change, regardless of whether any raw sensor recording button is active. This is compact threshold monitoring, not full raw sensory recording.
+
 ### Q21. What should the `n-1` rate-of-change trigger sheet look like?
 
 Answer: Already covered by the ordered trigger recorder design.

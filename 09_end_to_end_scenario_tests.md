@@ -33,6 +33,16 @@ Builder / Dreamer and Critic / Reality-Checker press one sensor recording button
 -> recording continues until the models press the same sensor button again
 ```
 
+Current recording control surface:
+
+`sensor_recordings/recording_controls.md`
+
+Recording button test:
+
+`outputs/scenario_tests/recording_button_control_result.md`
+
+Result: PASS. The test toggles `record_volume` on and off while `n^-2` continues firing from compact threshold changes whether raw volume recording is on or off.
+
 ## Scenario 1: Isolated Volume Spike In Curious Mode
 
 Starting state:

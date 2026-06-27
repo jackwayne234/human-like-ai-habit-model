@@ -104,6 +104,12 @@ In v1, the habit builder cannot write broadly across memory, tools, code, routin
 
 `learned_operation_controls.md`
 
+Its working files live in:
+
+`habit_model/`
+
+The habit model may read compact Builder / Dreamer and Critic / Reality-Checker logs from `habit_model/mind_model_logs/`, extract trigger-sequence-reward rows into `habit_model/trigger_sequence_reward_logs/`, and collect reviewed candidates in `habit_model/candidate_habits/`.
+
 That file is the routing surface the two mind models inspect. The habit builder may add or update candidate records there, but it should not directly install executable buttons, alter global gate presets, change memory stores, or rewrite the Builder / Dreamer or Critic / Reality-Checker state.
 
 Starting limits:
