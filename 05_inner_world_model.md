@@ -442,14 +442,41 @@ The model may not build a useful inner world on its own at first. Resource limit
 Early versions may need scheduled background routines that act like scaffolding:
 
 - periodically summarize recent compact logs into possible scene updates
+- periodically summarize recent compact body-state logs into posture, balance, contact, and movement-state updates
 - create or revise place/object/risk records from repeated compact patterns
+- create or revise self/body-state records from repeated touch, pressure, movement, and collision patterns
 - compare predictions against later corrections
 - turn teacher corrections into labeled examples
 - search for places where raw detail was useful versus unnecessary
 - strengthen map entries that helped prediction
 - weaken or revise map entries that repeatedly failed
+- urge small safe actions when the model is stuck, over-waiting, or failing to gather new experience
 
 These routines are not meant to be the final intelligence. They are training wheels for the inner world. While robot events are being recorded, the system can use compact logs, selective raw logs, predictions, and corrections as training data for a later model that performs world-building more innately.
+
+One important cron should be a body-noticing routine. As the robot moves through a digital or physical world, this routine can periodically ask what the body itself is reporting:
+
+| body-noticing prompt | compact evidence it should inspect |
+| --- | --- |
+| Am I balanced, leaning, accelerating, or stopped? | left/right foot pressure, pressure-capsule differential, movement command, torso contact. |
+| Did I touch the world, or did the world touch me? | body-location touch hits, collision timing, movement history, teacher correction. |
+| Is this pressure change inside my body state or outside in the environment? | paired pressure capsule, airflow, volume, foot load, movement stillness. |
+| Did my prediction of my own next body state match what happened? | previous inner body prediction versus latest compact `n`, `n^-1`, and `n^-2` rows. |
+| What body-state fact should be added to the inner world? | stable posture, unstable posture, obstacle contact, surface slope, pressure gradient, safe movement direction. |
+
+This body cron gives the model a scaffold for proprioception-like awareness without requiring a fully learned self-model on day one. The hidden simulator can know the true body and world state, but the model should only receive compact body and environment logs. The cron then helps it notice patterns like "when left foot pressure rises and right foot pressure falls while I am standing still, I may be leaning" or "when torso-front touch rises after forward movement, the space ahead may be blocked."
+
+A second useful cron is a movement-urge routine. Because the v1 implementation uses one executive mind model instead of a Builder / Dreamer and Critic / Reality-Checker pair, the system may otherwise sit in analysis without producing enough lived experience. The movement cron should periodically ask whether it is safe and useful to try a small action.
+
+| movement-urge prompt | guardrail |
+| --- | --- |
+| Am I stuck or repeating the same map state? | Do not move if collision, unstable balance, or danger evidence is active. |
+| Have I learned anything new in the last few ticks? | If not, prefer a low-risk action or one more compact evidence check. |
+| Is there a direction with enough map confidence to test? | Move only when the predicted body/world result is specific enough to compare afterward. |
+| Would a small turn, pause, recenter, or step improve the map? | Prefer tiny reversible actions over large commitments. |
+| Did the last action produce the predicted compact result? | If not, update the body/world map before urging more movement. |
+
+This cron should urge rather than command. It is a scaffold for curiosity and embodiment, not a replacement for safety. It should yield to protective routines, body instability, strong uncertainty, trusted teacher correction, or resource pressure.
 
 Another way to frame these routines is as structured good ideas from a caregiver. Children are not born with every useful safety rule as "common sense." A parent says, "look both ways before crossing the road," and after enough repetition, correction, and lived examples, the rule becomes part of the child's operating model. The early cron-like routines should serve that same role for the model: they provide protective, structured guidance until the system has enough examples for the behavior to feel natural and self-initiated.
 
@@ -462,6 +489,9 @@ The early routines can be deterministic cron-like handlers triggered by specific
 | sight `n^-1` or `n^-2` spike after movement | Create or update a visual anchor for the current place. |
 | smell grows over several ticks near the same map area | Ask whether a smell source should be attached to this location. |
 | volume changes while the model moves | Update possible room/source direction or echo assumptions. |
+| paired foot or pressure-capsule differentials change while moving or standing | Ask whether the body is balanced, leaning, accelerating, or sensing outside pressure. |
+| body-location touch contradicts the expected next movement state | Ask whether the inner body model or world map needs correction. |
+| no useful map/body update after several ticks | Urge a small safe action, such as turn, pause/recenter, or step toward the highest-confidence open area. |
 | compact prediction was wrong after teacher correction | Create a labeled correction example and revise the map rule. |
 | raw detail was opened but did not change the conclusion | Mark similar future compact patterns as not needing raw inspection. |
 
