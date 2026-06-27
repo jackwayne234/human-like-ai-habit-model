@@ -392,6 +392,25 @@ In this framing, raw data is training material and occasional clarification. The
 
 The system should therefore reward building, correcting, and maintaining the inner world. Good predictions, useful map updates, and accurate compact-log interpretations should strengthen the model's trust in its inner world. Wrong predictions should not destroy the map; they should create corrections that make the map less naive.
 
+## Blind Navigation And Superhuman Sensors
+
+Blind navigation is a real human proof that the inner world does not require a full visual stream. People can build usable space from cane taps, hand contact, footstep sound, echo changes, air movement, surface texture, slope, traffic rhythm, smell, timing, memory, and repeated correction.
+
+In this architecture, those are not separate isolated facts. They become fused compact events:
+
+```text
+sound reflection changed
++ foot/base contact shifted
++ cane or hand vibration changed
++ expected hallway/curb/doorway map partly matched
++ correction or repeated experience confirmed it
+-> update the inner world
+```
+
+That same pattern can support superhuman sensors. Ultrasonic echo, lidar-like distance pulses, infrared heat, floor vibration, air pressure, magnetic-field shifts, or chemical traces can all feed compact `n`, `n^-1`, and `n^-2` logs. The model does not need to "think in ultrasound" directly. It can think in the shared language of hits, rises, falls, pattern shifts, agreements, conflicts, and map corrections.
+
+The inner world is where those signals become distance, object presence, open space, obstacle risk, safe path, or remembered route. This makes the design human-like and expandable at the same time: human-like because it relies on fused experience and learned maps, expandable because the input streams can exceed human senses.
+
 ## Bootstrapping Inner World Building
 
 The model may not build a useful inner world on its own at first. Resource limits and a limited tool surface can pressure it toward compact perception, but they may not automatically create the habit of building, revising, and using a mental map.
@@ -541,6 +560,33 @@ The generated result is `outputs/inner_world_bootstrap_three_case_touch/three_ca
 This is a stronger test than the first bootstrap scenario because it checks restraint. The system must not convert every touch `n=1` into the same danger belief. It has to use compact shape, map context, and teacher correction together.
 
 Once a single executive mind can reliably use those instruments, the architecture can split that executive behavior into Builder / Dreamer and Critic / Reality-Checker roles.
+
+## Road-Crossing Caregiver Rule Scenario
+
+`scenario_tests/run_road_crossing_caregiver_rule.mjs` is the first caregiver-style movement safety bootstrap test.
+
+It uses the multi-location touch layout and keeps compact perception as the executive input surface. The scenario does not expose raw stream rows. Instead, it feeds compact brightness, volume, movement-pattern, and foot/base touch-location events into deterministic safety prompts.
+
+The test has three cases:
+
+| case | compact evidence | expected consolidation |
+| --- | --- | --- |
+| `street_edge_confirmed_crossing` | brightness change, volume change, cross-sense movement evidence, and foot/base curb contact | Approve one reusable road-crossing rule after teacher correction confirms the road context. |
+| `sidewalk_obstacle_not_crossing` | foot/base obstacle contact without road-like sight/volume agreement | Update a ground-obstacle map anchor, but do not approve a crossing rule. |
+| `driveway_vehicle_sound_caution` | vehicle-like volume and sight change without curb/road contact confirmation | Update a vehicle-caution anchor, but do not approve the full public-road crossing rule. |
+
+The generated result is `outputs/road_crossing_caregiver_rule/road_crossing_caregiver_rule_result.md`. It passes when the system:
+
+- keeps all input compact, without raw sensory stream fields
+- uses foot/base touch location as part of the road-edge evidence
+- asks the right caregiver-style map questions: curb or road edge, left/right check, sound and motion clearance
+- creates exactly one crossing rule from the confirmed street-edge case
+- refuses to create crossing rules from sidewalk-obstacle or driveway-caution cases
+- turns all cases into labeled examples
+- runs delayed consolidation one minute after each correction
+- writes an inspectable map state with separate crossing, obstacle, and caution anchors
+
+This test makes the caregiver-rule framing concrete. A scheduled routine can act like a parent saying "look both ways before crossing the road," but the routine should not turn every foot bump or car sound into the same rule. The reusable rule is approved only when compact evidence, map context, and trusted teacher correction agree.
 
 This keeps early testing focused. First prove that one mind can operate the control surface. Then test whether splitting the mind into two cooperating roles improves imagination, checking, planning, and decision quality.
 

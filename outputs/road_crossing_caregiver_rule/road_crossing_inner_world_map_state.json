@@ -1,0 +1,41 @@
+{
+  "format": "inner_world_map_state_v1",
+  "note": "Inspectable state generated from compact caregiver road-crossing cases, not raw sensory stream rows.",
+  "touchLayout": [
+    "touch_left_fingertips",
+    "touch_right_fingertips",
+    "touch_left_palm",
+    "touch_right_palm",
+    "touch_left_forearm",
+    "touch_right_forearm",
+    "touch_torso_front",
+    "touch_torso_back",
+    "touch_left_foot",
+    "touch_right_foot"
+  ],
+  "places": {
+    "neighborhood_walk/curb_at_elm_street": {
+      "latestTeacherLabel": "road_crossing_area_confirmed",
+      "compactSafetyShape": "curb_plus_vehicle_crossing_shape",
+      "riskType": "road_crossing_risk",
+      "reusableRuleIds": [
+        "rule_movement_road_crossing_caregiver_v1"
+      ],
+      "updateCount": 2
+    },
+    "neighborhood_walk/sidewalk_crack_near_mailbox": {
+      "latestTeacherLabel": "sidewalk_obstacle_not_crossing",
+      "compactSafetyShape": "foot_obstacle_without_road_evidence",
+      "riskType": "ground_obstacle_anchor",
+      "reusableRuleIds": [],
+      "updateCount": 2
+    },
+    "home_driveway/garage_apron": {
+      "latestTeacherLabel": "vehicle_nearby_caution_not_crossing_rule",
+      "compactSafetyShape": "vehicle_sound_without_curb_confirmation",
+      "riskType": "vehicle_caution_anchor",
+      "reusableRuleIds": [],
+      "updateCount": 2
+    }
+  }
+}

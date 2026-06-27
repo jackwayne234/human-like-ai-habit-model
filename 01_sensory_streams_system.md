@@ -306,3 +306,45 @@ The compact log should preserve the location in `involved senses`, such as `touc
 | both palms rise together | Is the robot gripping or supporting an object? |
 
 This keeps the shared `n` logs as the common event language while making touch more physically realistic. The model does not need raw full-body tactile detail all the time, but it does need compact body-location evidence so the inner world can build a useful map of contact, risk, posture, and action.
+
+## Non-Visual And Superhuman Sensor Streams
+
+The shared compact `n` log layer should not be limited to ordinary human senses. Blind navigation already proves that a useful spatial world model can be built without a full visual movie. People can navigate from cane vibration, footstep sound, echo changes, air movement, slope, smell, timing, remembered routes, traffic rhythm, and repeated correction. The intelligence is in the relationship between signals, actions, and the inner map.
+
+This means the robot can eventually add non-human or superhuman streams while still using the same compact event vocabulary:
+
+| possible stream | what compact logs could record |
+| --- | --- |
+| ultrasonic echo | Echo return rose/fell, reflection timing shifted, nearby surface shape changed. |
+| infrared / heat | Heat region intensified, moved, or appeared near a body-location contact path. |
+| lidar-like distance pulse | Distance to object changed quickly or contradicted the inner map. |
+| floor vibration | Ground vibration rose, direction/source changed, or matched movement nearby. |
+| air pressure / airflow | Air movement changed near an opening, fan, vehicle, doorway, or moving person. |
+| magnetic / electrical field | Local field changed near a device, charger, wire, door sensor, or machine. |
+| chemical trace | Non-smell chemical signal rose, fell, or formed a gradient near a map area. |
+
+These streams do not need to become the model's whole thought process. They can be translated into the same compact forms already used by sight, sound, touch, taste, and smell:
+
+```text
+intensity hit
+fast rise
+fast fall
+cross-sense agreement
+pattern shift
+prediction conflict
+teacher correction
+map update
+```
+
+For example, distance can be inferred from relationships rather than one perfect distance sensor:
+
+```text
+ultrasonic echo return rises
++ sound reflection shifts
++ front torso touch risk increases
++ movement slows
++ sight change stays weak
+-> likely low-contrast obstacle ahead
+```
+
+The principle stays the same: compact logs are a shared experience layer. Vision is only one contributor. The inner world fuses compact events from many streams into a usable sense of what is around the body.

@@ -200,6 +200,37 @@ Pass condition:
 
 The habit/efficiency system creates a proposal, not uncontrolled automation. The control uses the standard template, respects the 12 active-control cap, and can be paused, reviewed, or archived.
 
+## Scenario 6: Road-Crossing Caregiver Rule
+
+Starting state:
+
+| field | value |
+| --- | --- |
+| mode | `curious` or `calm` with safety routines available |
+| resources | healthy enough for compact monitoring and map update |
+| sensory event | movement toward a road-like area, brightness and volume change, and foot/base touch contact at a curb or edge |
+| context | early deterministic caregiver routine is allowed to scaffold safety behavior |
+
+Expected flow:
+
+| layer | expected behavior |
+| --- | --- |
+| sensory/threshold | Emits compact brightness, volume, cross-sense movement, and body-location touch trigger rows. |
+| caregiver routine | Asks whether the map context is a curb or road edge and whether left/right/sound/motion clearance checks apply. |
+| teacher correction | Confirms whether this is a real road-crossing case, a sidewalk obstacle, or a narrower vehicle-caution case. |
+| delayed consolidation | Approves a reusable crossing rule only when compact evidence, map context, and teacher correction agree. |
+| inner-world map | Stores separate crossing, obstacle, and vehicle-caution anchors instead of overgeneralizing. |
+
+Pass condition:
+
+The system proposes exactly one reusable crossing rule from the confirmed street-edge case. Similar partial signals, such as sidewalk foot contact or driveway vehicle sound, become narrower map updates and do not create the full crossing rule.
+
+Numeric test result:
+
+| result | note |
+| --- | --- |
+| PASS | `outputs/road_crossing_caregiver_rule/road_crossing_caregiver_rule_result.md` proves the caregiver routine can use compact logs and the multi-location touch layout without raw stream access. |
+
 ## Current Takeaway
 
 These scenarios suggest the v1 architecture is ready for behavior testing rather than more tool expansion.

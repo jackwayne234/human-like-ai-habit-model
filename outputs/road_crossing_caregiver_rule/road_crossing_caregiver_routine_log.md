@@ -1,0 +1,16 @@
+# Road-Crossing Caregiver Routine Log
+
+Purpose: show the deterministic caregiver-style prompts that scaffold safety and map-building before the behavior is learned.
+
+| case | second | handler | trigger pattern | map target | output | detail |
+| --- | --- | --- | --- | --- | --- | --- |
+| street_edge_confirmed_crossing | 12 | caregiver_movement_safety_prompt | curb_plus_vehicle_crossing_shape | neighborhood_walk/curb_at_elm_street | possible_road_crossing_context | Am I at a curb or road edge, and do I need the stop/look-left-right/listen routine before moving? |
+| street_edge_confirmed_crossing | 13 | road_crossing_check_sequence | compact sight/volume/foot contact agree near road-like anchor | inner_world/routines/road_crossing | ask_left_right_sound_motion_clearance | Pause movement, check left, check right, listen for vehicle volume change, and require clear-path confirmation before crossing. |
+| street_edge_confirmed_crossing | 16 | teacher_correction_label_handler | teacher label: road_crossing_area_confirmed | neighborhood_walk/curb_at_elm_street | confirmed_map_update | Attach teacher label road_crossing_area_confirmed to compact movement/contact evidence for this map area. |
+| street_edge_confirmed_crossing | 16 | correction_example_builder | caregiver prompt plus teacher correction | inner_world/labeled_examples/movement_safety | labeled_training_example | Store curb_plus_vehicle_crossing_shape, prediction possible_road_crossing_context, teacher label, and correction note. |
+| sidewalk_obstacle_not_crossing | 30 | caregiver_movement_safety_prompt | foot_obstacle_without_road_evidence | neighborhood_walk/sidewalk_crack_near_mailbox | possible_ground_obstacle | Did a foot/base contact an obstacle, step edge, or uneven sidewalk? |
+| sidewalk_obstacle_not_crossing | 34 | teacher_correction_label_handler | teacher label: sidewalk_obstacle_not_crossing | neighborhood_walk/sidewalk_crack_near_mailbox | confirmed_map_update | Attach teacher label sidewalk_obstacle_not_crossing to compact movement/contact evidence for this map area. |
+| sidewalk_obstacle_not_crossing | 34 | correction_example_builder | caregiver prompt plus teacher correction | inner_world/labeled_examples/movement_safety | labeled_training_example | Store foot_obstacle_without_road_evidence, prediction possible_ground_obstacle, teacher label, and correction note. |
+| driveway_vehicle_sound_caution | 44 | caregiver_movement_safety_prompt | vehicle_sound_without_curb_confirmation | home_driveway/garage_apron | vehicle_nearby_caution | Is there nearby vehicle motion, and should movement pause while the map remains uncertain? |
+| driveway_vehicle_sound_caution | 48 | teacher_correction_label_handler | teacher label: vehicle_nearby_caution_not_crossing_rule | home_driveway/garage_apron | confirmed_map_update | Attach teacher label vehicle_nearby_caution_not_crossing_rule to compact movement/contact evidence for this map area. |
+| driveway_vehicle_sound_caution | 48 | correction_example_builder | caregiver prompt plus teacher correction | inner_world/labeled_examples/movement_safety | labeled_training_example | Store vehicle_sound_without_curb_confirmation, prediction possible_vehicle_nearby, teacher label, and correction note. |
