@@ -452,7 +452,64 @@ manual/scheduled map-building routines
 
 This keeps the architecture honest. The system does not assume that a mental map will magically emerge from resource pressure alone. It gives the early model explicit help building the very skill that should later become natural.
 
-This gives later habit extraction enough evidence to find trigger-sequence-reward loops without requiring the architecture to store every passing thought.
+## First Bootstrap Scenario
+
+`scenario_tests/run_inner_world_bootstrap_hot_stove.mjs` is the first deterministic inner-world bootstrap scenario.
+
+It feeds only compact hot-stove `n`, `n^-1`, and `n^-2` rows into cron-like handlers. The hidden raw kitchen stream is not used as the normal perception surface. The handlers create:
+
+- a surface/map question when touch reaches `n = 1` in one mapped kitchen area
+- a risk hypothesis when touch rate-shape shows sudden contact and withdrawal
+- a confirmed map update after trusted teacher correction
+- a labeled training example that stores compact pattern, scene prior, prediction, teacher label, and correction note
+- a delayed consolidation row one minute after correction
+- a reusable rule candidate for future hot-stove contact interpretation
+
+The generated result is `outputs/inner_world_bootstrap_hot_stove/hot_stove_inner_world_bootstrap_result.md`, with supporting artifacts for compact input, map updates, teacher correction, delayed consolidation, and reusable rule output.
+
+This scenario proves the intended scaffold shape:
+
+```text
+compact n-log pattern
+-> deterministic map-building handler
+-> teacher-corrected labeled example
+-> delayed one-minute consolidation
+-> candidate reusable rule
+```
+
+The reusable-rule output keeps raw inspection selective. After correction, a similar compact pattern near a stove-like map anchor should normally be interpreted from compact logs and the mental map, opening raw detail only when context conflicts, uncertainty remains high, or safety needs extra evidence.
+
+This also gives later habit extraction enough evidence to find trigger-sequence-reward loops without requiring the architecture to store every passing thought.
+
+### First Scenario Review
+
+The first hot-stove bootstrap scenario works as a scaffold proof, not yet as a hardened behavior test.
+
+What worked:
+
+- The scenario runs cleanly and returns `PASS`.
+- The input is genuinely compact: only `n`, `n^-1`, and `n^-2` rows are fed into the handlers.
+- The output path is readable by a fresh model: compact touch event -> map question -> risk hypothesis -> teacher correction -> delayed consolidation -> reusable rule.
+- The delayed consolidation idea is visible as a separate step from immediate event handling.
+
+What does not work yet:
+
+- The test is still a happy path. It only proves the system succeeds when the event really is a hot stove.
+- The teacher correction is hardcoded, so the scenario does not yet test missing, weak, wrong, or conflicting teacher input.
+- The reusable rule always gets approved. There is no "not enough evidence yet" path.
+- The compact touch rate rows currently carry magnitude, not signed rise/fall direction. A real model would need direction or a separate shape summary to avoid guessing which `n^-1` row means contact and which means withdrawal.
+- The scenario writes a map-update log but not a persistent structured map object that future tests can reload.
+- If used alone, the rule could overgeneralize from "touch max near kitchen" into "hot stove" without enough counterexamples.
+
+The next test should therefore use three cases:
+
+| case | expected outcome |
+| --- | --- |
+| real hot stove | Create a reusable hot-surface danger rule. |
+| harmless high-pressure counter touch | Ask a surface question, but do not create a hot-stove rule. |
+| sharp object contact | Create a different risk hypothesis and rule candidate than hot stove. |
+
+This turns the bootstrap scenario from a happy-path proof into an overgeneralization test.
 
 Once a single executive mind can reliably use those instruments, the architecture can split that executive behavior into Builder / Dreamer and Critic / Reality-Checker roles.
 
