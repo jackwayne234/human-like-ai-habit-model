@@ -147,6 +147,41 @@ Examples:
 
 This keeps the system physically constrained without making the constraints the whole intelligence. Physical limits shape the available choices; the mind model chooses how to respond.
 
+## Preset Recording Dial
+
+The importance gate should be physically buildable as deterministic preset dial positions, not as a hidden thinking layer.
+
+Each preset is a named global recording and attention position that bundles gate settings together. The two mind models, Builder / Dreamer and Critic / Reality-Checker, can select or negotiate these presets as shared controls.
+
+Example presets:
+
+| preset | meaning |
+| --- | --- |
+| `calm` | Record less, filter more, and pass only stronger or repeated signals. |
+| `curious` | Allow more novelty, watching, and upward reporting while resources are healthy. |
+| `focused` | Suppress unrelated signals and protect the current task. |
+| `strained` | Reduce recording, raise promotion thresholds, and avoid expensive interpretation. |
+| `danger` | Open emergency routes and prioritize outside evidence until the threat clears. |
+| `recovery` | Keep curiosity low, restore resources, summarize, and compress. |
+
+Each preset can set deterministic values for:
+
+- direct threshold sensitivity
+- rate-of-change sensitivity
+- acceleration or `n^-2` sensitivity
+- attention window
+- emergency window
+- novelty weight
+- recording rate
+- memory promotion threshold
+- episode threshold
+- `send_upward` threshold
+- resource strictness
+
+The minds can use these presets as global controls. Builder / Dreamer may request a more open or curious recording position when exploring. Critic / Reality-Checker may request a stricter position when evidence is weak, resources are strained, or the inner world needs reality-checking discipline.
+
+The gate should still balance physical constraints at all times. A mind model can request a more open preset, but storage, RAM/working memory, heat/compute pressure, and power limits can push the system toward stricter recording for ordinary curiosity. Emergency and protective routes remain available even under resource pressure.
+
 ## Mind-Model Tool Interview
 
 This section records user-selected knobs and tools the mind model can manipulate.

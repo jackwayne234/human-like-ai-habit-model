@@ -228,3 +228,32 @@ Answer: Yes, give cross-sense agreement its own adjustable weight.
 The mind model should be able to raise or lower the importance of multiple senses changing together. Cross-sense agreement can make an event more trustworthy or more urgent, but it should remain a selectable weight rather than a fixed meaning.
 
 Tool/knob category: `cross_sense_agreement_weight`.
+
+## V1 Baseline Decision
+
+The current threshold monitor architecture is sufficient for the first version.
+
+The threshold model should be frozen as a deterministic sensory notice system for v1. Its job is to convert temporary sensory streams into compact trigger events by detecting:
+
+- direct intensity hits through `n`
+- rate-of-change hits through `n^-1`
+- same-tick cross-sense change through `n^-1` between-sensor checks
+- acceleration or change-pattern shifts through `n^-2`
+
+The existing knobs are enough for this baseline:
+
+- per-sense sensitivity
+- direct intensity threshold
+- rate-of-change sensitivity
+- cross-sense agreement weight
+- acceleration or second-order change sensitivity
+- recent-time windows
+- emergency versus ordinary attention sensitivity
+- novelty sensitivity
+- global mode presets that can adjust groups of knobs together
+
+No additional threshold-layer intelligence is needed before testing the rest of the architecture. The threshold monitor should stay formula-like and inspectable. It should detect that a signal happened, but it should not decide whether that signal is important, meaningful, memorable, emotional, or action-worthy.
+
+The importance gate decides what to do with threshold events. The Builder / Dreamer and Critic / Reality-Checker can tune threshold knobs from above, but the threshold layer itself should remain a clean lower-level instrument panel.
+
+Learned or adaptive thresholds are a later upgrade, not part of the v1 baseline. They should come after the system has examples of false alarms, missed events, useful promotions, and gate outcomes to learn from.
