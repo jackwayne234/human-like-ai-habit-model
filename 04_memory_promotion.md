@@ -89,6 +89,8 @@ Starting storage rule:
 
 The memory system should preserve operation rather than fill itself until it slows down.
 
+The v1 goal is homeostasis: prevent storage pressure from becoming a resource-danger state. Compression should start before danger, not only after the system is already overloaded. Repeated low-value detail should become summaries, and repeated useful loops should be offered to the habit/efficiency system as process candidates.
+
 ## Reallocation Signals
 
 The mind model may later reallocate the 100 GB sensory memory budget based on:
@@ -154,3 +156,16 @@ Memory compression should not only mean turning bulky sensory history into text-
 The memory system can expose compression pressure as a selectable tool, especially when storage approaches the 80% constraint zone. The efficiency system can then look for repeated memory clusters that are good candidates for process compression instead of preserving every episode.
 
 Tool/knob category: `memory_compression_to_runnable_process`.
+
+## Control-Surface Defaults From Interview 08
+
+These defaults are starting settings, not permanent laws.
+
+| default | value |
+| --- | --- |
+| disuse behavior | Lower access strength and compress detail over time. |
+| sensory reallocation | Drift slowly in normal conditions, but shift faster during high demand or protective contexts. |
+| compression target | Prefer compact summaries or runnable deterministic process when repeated memory describes the same useful loop. |
+| audit style | Keep compact records for automatic routines rather than full detailed logs. |
+
+Memory promotion should pass repeated trigger-sequence-reward clusters to the habit builder. The handoff should include enough compact evidence for inspection: trigger, sequence shape, reward/result, confidence, resource cost, and whether the loop is a full or partial automation candidate.

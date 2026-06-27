@@ -29,9 +29,11 @@ A habit can be stored as:
 
 | part | meaning |
 | --- | --- |
-| cue | What signal or context starts the habit. |
+| trigger | What signal or context starts the habit. |
+| sequence | The repeated event/action path that follows the trigger. |
+| reward | The useful result that closes the loop. |
 | state | What inner-world state must be true. |
-| action | What the system tends to do. |
+| action | What the system tends to do, if an action layer exists. |
 | expected result | What should happen if the habit works. |
 | confidence | How reliable the habit has been. |
 | cost | How expensive it is in attention, memory, or compute. |
@@ -47,6 +49,8 @@ Example:
 | confidence | high after repeated success |
 | cost | low |
 
+The required v1 habit loop is `trigger + sequence + reward`. Repetition alone is not enough. The reward can be any useful result: resource savings, danger reduction, prediction improvement, task success, or a stable preferred inner-world state.
+
 ## Starting Promotion Rule
 
 The first habit rule can be simple:
@@ -59,6 +63,8 @@ The first habit rule can be simple:
 
 These are starting parameters, not final values.
 
+The habit layer decides when a repeated useful loop should be handed to the efficiency enhancer. It should count repetitions, track confidence, estimate cost, and mark whether the loop is ready for full automation or only partial automation. Partial automation is valid when only part of the sequence is safe to make deterministic.
+
 ## Relationship To The Inner World
 
 The habit builder should not blindly automate everything.
@@ -70,6 +76,10 @@ The inner world model provides context. A habit that works in one situation may 
 The habit builder creates reliable repeated pathways.
 
 The efficiency enhancer later compresses mature habits into cheaper routines, shortcuts, tools, or deterministic processes.
+
+The default stance is automation-maximizing once evidence is good enough. This does not mean unsafe blind automation; it means the habit system should lean toward freeing the mind model from repeated low-level work whenever trigger, sequence, reward, context, and confidence make that safe.
+
+Repeated successful use strengthens habit access automatically. Disuse weakens access and can compress or lower the immediate availability of the habit over time.
 
 ## v1 Boundary
 

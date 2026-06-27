@@ -21,7 +21,20 @@ One possible form for this inner world is a visual simulation or video-game-like
 
 A starting hypothesis is that the mind spends most of its time inside its own internal model, while still sampling the outside world.
 
-Initial v1 attention split:
+Initial v1 startup mode:
+
+| setting | starting value |
+| --- | --- |
+| global mode | `curious` |
+| inner world building | 50% |
+| curiosity / exploration | 30% |
+| remaining allocation | 20% reserved for outside sampling, clarification, or later tuning |
+
+Earlier 80% inner / 20% outside was a useful hypothesis, but the control-surface interview refined the first operational default to `50%` inner-world building and `30%` curiosity in curious startup mode. These are defaults, not permanent laws.
+
+The model should still allow states where the mind is `100%` focused on inner-world building while deterministic efficiency routines keep behavior running. That is an available mode, not the constant startup condition.
+
+Historical hypothesis:
 
 | attention target | starting share |
 | --- | --- |
@@ -33,6 +46,8 @@ This does not mean the system ignores reality. The outside world can interrupt t
 The 80/20 split is a baseline, not a permanent rule. It reflects the idea that a mind often lives mostly inside its model of the world, using incoming sensory data to correct, update, or interrupt that model.
 
 This gives the inner world model a clear purpose: build a private mental world, spend most background effort maintaining it, and let the sensory/importance system decide when the outside world deserves more attention.
+
+The inner world is not only an outer-world prediction engine. It can also support daydreaming, play, preferences, internally liked experiences, and imagined scenes. Outside evidence should correct the model when the mismatch is important, but harmless inner play should not be interrupted solely because it does not match the current sensory stream.
 
 ## Main Purpose
 
@@ -88,6 +103,8 @@ Starting innate drives:
 | stability | Avoid overreacting to every small signal. |
 | efficiency | Prefer cheaper pathways when they are reliable enough. |
 | coherence | Keep the internal world model consistent with outside evidence. |
+
+The efficiency drive should run aggressively in the background almost all the time, because one of its jobs is to keep the system away from storage, RAM, and heat danger states. The mind model remains able to inspect and tune this pressure, but the default bias is to automate reliable repeated work as much as safely possible.
 
 Starting selectable tools:
 
@@ -248,6 +265,16 @@ Instead:
 | inner world model | Select and tune knobs, then interpret promoted information. |
 
 The mind model can lower thresholds when the world seems dangerous, raise thresholds when resources are low, increase curiosity when safe, conserve attention when strained, and change storage allocation when some senses become more useful than others.
+
+In danger mode, attention pulls outward until the danger clears. The inner world can continue in a reduced or background form, but the default priority is protective reality contact: gather outside evidence, support reflex action, and report compact summaries upward after automatic protection fires.
+
+## Future Architecture Note: Cooperative Mind Models
+
+The total mind model may work best as two or more cooperating mind models rather than one monolithic mind model.
+
+Human inner experience often includes internal dialogue: talking through ideas, disagreeing with oneself, rehearsing perspectives, or letting one part of the mind question another. A later architecture pass should consider whether paired or cooperative mind models can improve reflection, planning, self-checking, creativity, and decision quality.
+
+This is an important future design direction, not a required part of the current workbook formula pass.
 
 ## v1 Boundary
 

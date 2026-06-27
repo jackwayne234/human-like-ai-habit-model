@@ -10,6 +10,8 @@ General design note: The model should allow a state where the mind model is `100
 
 General design note: The purpose of the habit model is to identify repeated useful loops that can be handed off from the mind model to the efficiency model. The efficiency model should take over as much deterministic process work as safely possible, freeing mind-model resources for thinking, imagination, planning, and other higher-level activity.
 
+Future design note: The total mind model may work best as two or more cooperating mind models rather than one monolithic mind model. Human inner experience often includes internal dialogue: talking through ideas, disagreeing with oneself, rehearsing perspectives, or letting one part of the mind question another. A later architecture pass should consider whether paired/cooperative mind models can improve reflection, planning, self-checking, creativity, and decision quality.
+
 Rules:
 
 - Ask one question at a time.

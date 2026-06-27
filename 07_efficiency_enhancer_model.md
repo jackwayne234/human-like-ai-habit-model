@@ -14,6 +14,8 @@ It should not invent brand-new goals. It receives mature habits and asks:
 - Can this be turned into a deterministic shortcut?
 - Can this become a tool, cached plan, or automatic routine?
 
+It should run aggressively almost all the time in the background, because its homeostatic job is to prevent resource danger states before they happen. The goal is not only to survive storage, RAM, or heat overload; it is to keep repeated work cheap enough that overload is less likely.
+
 ## Inputs
 
 The efficiency enhancer can read:
@@ -38,6 +40,7 @@ Mature habits can be compressed into:
 | tool | A reusable procedure or external helper. |
 | runnable code path | A deterministic executable process distilled from repeated successful memory/action patterns. |
 | summary memory | A compressed memory that replaces bulky repeated episodes. |
+| partial automation | A deterministic sub-step that helps even when the full loop cannot be automated safely. |
 
 ## Example
 
@@ -70,6 +73,8 @@ The efficiency enhancer is especially important under resource pressure.
 Efficiency should not override survival or reality correction.
 
 If a shortcut starts failing, or if the inner world model detects that the context changed, the habit should be reopened for attention instead of staying automatic.
+
+Automatic routines should keep compact audit trails with the minimum useful inspection fields: trigger, confidence, action or routine, result/reward, and cost. Full detailed logs are not the default; compact auditability is enough for the mind model to review why a routine fired.
 
 ## v1 Boundary
 

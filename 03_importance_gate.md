@@ -41,6 +41,10 @@ The emergency route is fast, local, and sensor-specific.
 
 It handles direct sensor danger, such as a touch signal repeatedly hitting maximum. This is the "remove your hand from the hot stove" path.
 
+Protective reflexes are deterministic automatic routines, not conscious mind decisions. A reflex route may act first, then send a compact report upward after the fast action. The mind model can inspect or tune the reflex system later, but it should not be required for immediate defensive protection.
+
+Each sense has its own emergency-sensitivity knob in v1. Brightness, volume, touch, taste, and smell start with equal emergency priority. Touch does not receive a permanent default override; any sense can become protective if its input reaches an extreme or repeatedly signals danger. Extreme sensory input should default toward defensive protection, such as closing down visual input when brightness is too high or dampening audio input when volume is too high for too long.
+
 Starting default:
 
 | rule | starting value |
@@ -56,6 +60,15 @@ If this route fires, the gate can escalate to immediate action without waiting f
 The attention route is slower and more pattern-based.
 
 It handles the less emergent majority of sensory data. It decides when changing patterns should be sent upward to the mind model for interpretation.
+
+Novelty should split into two routes:
+
+| novelty route | meaning |
+| --- | --- |
+| `curious_novelty` | Interesting mismatch or unfamiliar pattern that can improve the model if resources are healthy enough. |
+| `danger_novelty` | Unexpected pattern that may threaten operation, safety, or resource stability. |
+
+Outside evidence does not automatically override the inner world every time it differs. It overrides inner prediction when the mismatch is important enough: strong confidence, high surprise, danger relevance, repeated confirmation, or resource/survival stakes. Harmless inner-world play and daydreaming should not be interrupted merely because imagination differs from current sensory evidence.
 
 Starting default:
 
@@ -189,6 +202,8 @@ Starting resource rules:
 | power limited | Spend less attention on weak signals unless survival-relevant. |
 
 Resource pressure should not block emergency survival reactions. It mainly controls how much curiosity, memory, and deliberation the system can afford. The pressure values are tools for the mind model, not final meanings by themselves.
+
+The homeostasis goal is to avoid entering resource-danger mode, not merely to survive after entering it. When storage, RAM/working memory, or heat approaches the 80% marker, the gate should increase discipline early: suppress expensive curiosity, prefer compact outputs, and hand repeated loops toward habit/efficiency compression. The efficiency model should therefore run aggressively in the background almost all the time, with stronger pressure as resources approach danger.
 
 ## Outputs
 
