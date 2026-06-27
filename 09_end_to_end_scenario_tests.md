@@ -262,6 +262,37 @@ Numeric test result:
 | --- | --- |
 | PASS | `outputs/non_visual_superhuman_spatial_inference/non_visual_superhuman_spatial_inference_result.md` proves compact non-visual/superhuman streams can support one reusable obstacle-distance rule while preserving narrower open-space and moving-source anchors. |
 
+## Scenario 8: Body Pressure Balance Inference
+
+Starting state:
+
+| field | value |
+| --- | --- |
+| mode | `curious` or `calm` with compact body-state routines available |
+| resources | healthy enough for compact monitoring and map update |
+| sensory event | left/right foot pressure, front/back torso contact, paired pressure capsule, movement command, and airflow streams change |
+| context | the model has labeled touch/pressure differentials, but no dedicated accelerometer, barometer, or equilibrium stream |
+
+Expected flow:
+
+| layer | expected behavior |
+| --- | --- |
+| sensory/threshold | Emits compact `n`, `n^-1`, and `n^-2` rows for foot pressure, torso contact, paired pressure capsule, movement command, and airflow. |
+| body-pressure routine | Asks whether the compact differential means balance/tilt, local foot obstacle, commanded acceleration, or air-pressure gradient. |
+| teacher correction | Confirms whether the pressure pattern is a real balance/tilt case or a narrower pressure/contact case. |
+| delayed consolidation | Approves a reusable balance/gravity rule only when opposed foot pressure, paired capsule differential, quiet collision/movement context, and teacher correction agree. |
+| inner-world map | Stores balance, local foot obstacle, acceleration, and air-pressure anchors separately. |
+
+Pass condition:
+
+The system can infer a balance, gravity, or weight-shift correction from compact labeled touch/pressure differentials without using dedicated accelerometer, barometer, or equilibrium fields. Local foot pressure, commanded acceleration, and airflow/pressure cases must not become general balance rules.
+
+Numeric test result:
+
+| result | note |
+| --- | --- |
+| PASS | `outputs/body_pressure_balance_inference/body_pressure_balance_inference_result.md` proves paired touch/pressure differentials can support one reusable balance/gravity rule while preserving separate local-foot, acceleration, and air-pressure anchors. |
+
 ## Current Takeaway
 
 These scenarios suggest the v1 architecture is ready for behavior testing rather than more tool expansion.

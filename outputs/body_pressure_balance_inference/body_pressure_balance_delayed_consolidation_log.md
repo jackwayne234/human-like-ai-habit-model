@@ -1,0 +1,10 @@
+# Body Pressure Balance Delayed Consolidation Log
+
+Purpose: run the one-minute consolidation handler after each compact body-pressure correction.
+
+| case | due second | handler | question | evidence | decision | reusable rule | reason |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| left_tilt_balance_confirmed | 74 | one_minute_body_pressure_consolidation | Should this corrected event become a reusable balance/gravity pressure rule? | standing_foot_capsule_balance_shape, map area flat_test_pad, trusted teacher label balance_tilt_left_confirmed | yes | rule_body_pressure_balance_gravity_v1 | Opposed foot pressure, paired capsule differential, quiet collision context, and teacher correction agree on balance/gravity meaning. |
+| right_foot_object_not_gravity | 92 | one_minute_body_pressure_consolidation | Should this corrected event become a reusable balance/gravity pressure rule? | local_foot_pressure_without_capsule_support, map area block_under_right_foot, trusted teacher label local_foot_obstacle_not_balance_rule | no | none | The compact evidence and teacher correction support a narrower pressure meaning, not a general balance/gravity rule. |
+| forward_acceleration_not_gravity | 108 | one_minute_body_pressure_consolidation | Should this corrected event become a reusable balance/gravity pressure rule? | front_back_capsule_with_commanded_movement, map area start_stop_lane, trusted teacher label forward_acceleration_confirmed | no | none | The compact evidence and teacher correction support a narrower pressure meaning, not a general balance/gravity rule. |
+| air_pressure_capsule_not_balance | 126 | one_minute_body_pressure_consolidation | Should this corrected event become a reusable balance/gravity pressure rule? | pressure_capsule_airflow_shape, map area fan_pressure_lane, trusted teacher label airflow_pressure_gradient_confirmed | no | none | The compact evidence and teacher correction support a narrower pressure meaning, not a general balance/gravity rule. |

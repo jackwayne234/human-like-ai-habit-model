@@ -1,0 +1,49 @@
+{
+  "format": "inner_world_map_state_v1",
+  "note": "Inspectable state generated from compact labeled touch/pressure differentials, not dedicated accelerometer or barometer streams.",
+  "bodyPressureStreams": [
+    "touch_left_foot",
+    "touch_right_foot",
+    "touch_torso_front",
+    "touch_torso_back",
+    "pressure_capsule_left",
+    "pressure_capsule_right",
+    "pressure_capsule_front",
+    "pressure_capsule_back",
+    "movement_command",
+    "volume",
+    "airflow"
+  ],
+  "places": {
+    "balance_lab/flat_test_pad": {
+      "latestTeacherLabel": "balance_tilt_left_confirmed",
+      "compactBodyPressureShape": "standing_foot_capsule_balance_shape",
+      "anchorType": "balance_gravity_anchor",
+      "reusableRuleIds": [
+        "rule_body_pressure_balance_gravity_v1"
+      ],
+      "updateCount": 2
+    },
+    "balance_lab/block_under_right_foot": {
+      "latestTeacherLabel": "local_foot_obstacle_not_balance_rule",
+      "compactBodyPressureShape": "local_foot_pressure_without_capsule_support",
+      "anchorType": "local_foot_obstacle_anchor",
+      "reusableRuleIds": [],
+      "updateCount": 2
+    },
+    "balance_lab/start_stop_lane": {
+      "latestTeacherLabel": "forward_acceleration_confirmed",
+      "compactBodyPressureShape": "front_back_capsule_with_commanded_movement",
+      "anchorType": "acceleration_anchor",
+      "reusableRuleIds": [],
+      "updateCount": 2
+    },
+    "balance_lab/fan_pressure_lane": {
+      "latestTeacherLabel": "airflow_pressure_gradient_confirmed",
+      "compactBodyPressureShape": "pressure_capsule_airflow_shape",
+      "anchorType": "air_pressure_anchor",
+      "reusableRuleIds": [],
+      "updateCount": 2
+    }
+  }
+}
