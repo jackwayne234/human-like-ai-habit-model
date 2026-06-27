@@ -336,6 +336,10 @@ The single executive mind should prove that it can use the instruments:
 - decide when to watch, promote, create an episode, or ask for more evidence
 - write compact decision logs
 
+The compact decision log is not a full transcript of everything the executive thinks, says, or does. The system can monitor compact threshold output, gate state, raw recording button state, and resource pressure continuously. The decision log should only capture meaningful executive choices: what signal arrived, what mode and resource state were active, what the executive decided, which buttons or memory route it chose, why it chose that path, and what result or cost followed.
+
+This gives later habit extraction enough evidence to find trigger-sequence-reward loops without requiring the architecture to store every passing thought.
+
 Once a single executive mind can reliably use those instruments, the architecture can split that executive behavior into Builder / Dreamer and Critic / Reality-Checker roles.
 
 This keeps early testing focused. First prove that one mind can operate the control surface. Then test whether splitting the mind into two cooperating roles improves imagination, checking, planning, and decision quality.
