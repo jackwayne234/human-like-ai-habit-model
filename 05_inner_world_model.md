@@ -270,9 +270,9 @@ In danger mode, attention pulls outward until the danger clears. The inner world
 
 ## Cooperative Mind Models
 
-The v1 architecture should use two cooperating mind models rather than one monolithic mind model.
+The eventual architecture may use two cooperating mind roles rather than one monolithic mind model.
 
-Human inner experience often includes internal dialogue: talking through ideas, disagreeing with oneself, rehearsing perspectives, or letting one part of the mind question another. The first cooperative design should model that as a pair:
+Human inner experience often includes internal dialogue: talking through ideas, disagreeing with oneself, rehearsing perspectives, or letting one part of the mind question another. The cooperative design can model that as a pair:
 
 | mind model | role |
 | --- | --- |
@@ -287,7 +287,7 @@ When the habit/efficiency pipeline succeeds, it can add a learned operation cont
 
 ## Executive Tool Sufficiency
 
-The Builder / Dreamer and Critic / Reality-Checker have enough tools for the v1 executive layer.
+The future Builder / Dreamer and Critic / Reality-Checker split has enough planned tools; the first implementation should expose those tools to one executive mind model.
 
 The current executive control surface includes:
 
@@ -322,6 +322,26 @@ Example dialogue shape:
 
 This gives the system reflection and self-questioning without making the architecture too large too early.
 
+## Implementation Order
+
+The first working implementation should use one executive mind model, not two separate Builder / Dreamer and Critic / Reality-Checker models yet.
+
+The single executive mind should prove that it can use the instruments:
+
+- read threshold and `n^-2` outputs
+- read importance gate routes
+- choose global mode presets
+- press the five raw sensor recording buttons
+- inspect resource meters
+- decide when to watch, promote, create an episode, or ask for more evidence
+- write compact decision logs
+
+Once a single executive mind can reliably use those instruments, the architecture can split that executive behavior into Builder / Dreamer and Critic / Reality-Checker roles.
+
+This keeps early testing focused. First prove that one mind can operate the control surface. Then test whether splitting the mind into two cooperating roles improves imagination, checking, planning, and decision quality.
+
+The habit-model logging section should wait until the single executive mind is producing useful compact decision logs. The `habit_model/` workspace can exist now, but serious trigger-sequence-reward extraction should come after the single executive path is working.
+
 ## Inner World Building Layers
 
 The inner world itself can have multiple building layers without becoming three full mind models.
@@ -349,5 +369,6 @@ The first goal is to define its role:
 - update itself from promoted events
 - tune available knobs based on expectation, resources, survival pressure, and innate drives
 - provide context for memory promotion and habit formation
-- run a two-role cooperative mind design: Builder / Dreamer plus Critic / Reality-Checker
+- first run a single executive mind that uses the instruments
+- later split that executive behavior into Builder / Dreamer plus Critic / Reality-Checker if the single-mind baseline works
 - keep Scene Builder, Memory Mapper, and Future Simulator as inner-world tools rather than full separate mind models

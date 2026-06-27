@@ -110,6 +110,8 @@ Its working files live in:
 
 The habit model may read compact Builder / Dreamer and Critic / Reality-Checker logs from `habit_model/mind_model_logs/`, extract trigger-sequence-reward rows into `habit_model/trigger_sequence_reward_logs/`, and collect reviewed candidates in `habit_model/candidate_habits/`.
 
+Implementation order note: the first working system should produce logs from a single executive mind model. The Builder / Dreamer and Critic / Reality-Checker split comes later. Habit extraction from those logs should wait until the single executive can reliably use the instruments and write useful compact decisions.
+
 That file is the routing surface the two mind models inspect. The habit builder may add or update candidate records there, but it should not directly install executable buttons, alter global gate presets, change memory stores, or rewrite the Builder / Dreamer or Critic / Reality-Checker state.
 
 Starting limits:
