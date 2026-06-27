@@ -8,7 +8,11 @@ const sensory = workbook.worksheets.add("01 Sensory Input");
 const thresholdN = workbook.worksheets.add("02a n");
 const thresholdN1 = workbook.worksheets.add("02b n^-1");
 const thresholdN2 = workbook.worksheets.add("02c n^-2");
-const review = workbook.worksheets.add("03 Summary");
+const mindKnobs = workbook.worksheets.add("03 Mind Knobs");
+const resourceBody = workbook.worksheets.add("04 Resource Body");
+const gateOutput = workbook.worksheets.add("05 Gate Output");
+const modePresets = workbook.worksheets.add("06 Mode Presets");
+const review = workbook.worksheets.add("07 Summary");
 
 const sampleDir = path.resolve("../sensory_stream_samples");
 const outputDir = path.resolve("../outputs/connected_spreadsheet_test");
@@ -180,12 +184,183 @@ thresholdN2.getRange(`C6:C${dataEnd}`).format.numberFormat = [["0.00"]];
 finishSheet(thresholdN2, "A:D", "A:D");
 
 styleTitle(
-  compact,
-  "A1:T1",
-  "00 Compact View",
-  "One row per tick. Sensory values are 0.00-1.00. Monitor outputs are 0 or 1."
+  mindKnobs,
+  "A1:E1",
+  "03 Mind Knobs",
+  "Editable control surface. v drives formulas. p shows the selected mode preset."
 );
-compact.getRange("A5:T5").values = [[
+mindKnobs.getRange("A5:E5").values = [["k", "v", "p", "lo", "hi"]];
+styleHeader(mindKnobs.getRange("A5:E5"));
+mindKnobs.getRange("A6:E17").values = [
+  ["mode", 2, "", 1, 6],
+  ["nov", 0.70, "", 0, 1],
+  ["em_sens", 0.50, "", 0, 1],
+  ["att_win", 10, "", 1, 20],
+  ["res_disc", 0.40, "", 0, 1],
+  ["cur_bud", 0.70, "", 0, 1],
+  ["in_attn", 0.80, "", 0, 1],
+  ["out_attn", "", "", 0, 1],
+  ["em_win", 10, "", 1, 20],
+  ["x_w", 0.50, "", 0, 1],
+  ["a_w", 0.70, "", 0, 1],
+  ["prom_base", 0.55, "", 0, 1],
+];
+mindKnobs.getRange("B13").formulas = [["=1-B12"]];
+mindKnobs.getRange("C7:C17").formulas = [
+  ["=INDEX('06 Mode Presets'!$C$6:$C$11,$B$6)"],
+  ["=INDEX('06 Mode Presets'!$D$6:$D$11,$B$6)"],
+  ["=INDEX('06 Mode Presets'!$E$6:$E$11,$B$6)"],
+  ["=INDEX('06 Mode Presets'!$F$6:$F$11,$B$6)"],
+  ["=INDEX('06 Mode Presets'!$G$6:$G$11,$B$6)"],
+  ["=INDEX('06 Mode Presets'!$H$6:$H$11,$B$6)"],
+  ["=1-C12"],
+  ["=INDEX('06 Mode Presets'!$I$6:$I$11,$B$6)"],
+  ["=INDEX('06 Mode Presets'!$J$6:$J$11,$B$6)"],
+  ["=INDEX('06 Mode Presets'!$K$6:$K$11,$B$6)"],
+  ["=INDEX('06 Mode Presets'!$L$6:$L$11,$B$6)"],
+];
+mindKnobs.getRange("B7:C17").format.numberFormat = [["0.00"]];
+finishSheet(mindKnobs, "A:E", "A:E");
+
+styleTitle(
+  resourceBody,
+  "A1:F1",
+  "04 Resource Body",
+  "Physical constraint meters. 0.80 is the first discipline marker."
+);
+resourceBody.getRange("A5:F5").values = [["m", "use", "lim", "ok", "over", "disc"]];
+styleHeader(resourceBody.getRange("A5:F5"));
+resourceBody.getRange("A6:C8").values = [
+  ["stor", 0.62, 0.80],
+  ["ram", 0.48, 0.80],
+  ["heat", 0.35, 0.80],
+];
+resourceBody.getRange("D6:F8").formulas = [
+  ["=--(B6<=C6)", "=MAX(0,(B6-C6)/(1-C6))", "=E6*'03 Mind Knobs'!$B$10"],
+  ["=--(B7<=C7)", "=MAX(0,(B7-C7)/(1-C7))", "=E7*'03 Mind Knobs'!$B$10"],
+  ["=--(B8<=C8)", "=MAX(0,(B8-C8)/(1-C8))", "=E8*'03 Mind Knobs'!$B$10"],
+];
+resourceBody.getRange("A10:B11").values = [
+  ["press", ""],
+  ["cur_eff", ""],
+];
+resourceBody.getRange("B10:B11").formulas = [
+  ["=MAX(E6:E8)"],
+  ["=MAX(0,'03 Mind Knobs'!$B$11*(1-B10*'03 Mind Knobs'!$B$10))"],
+];
+resourceBody.getRange("A13:D13").values = [["sense", "gb", "demand", "fill"]];
+styleHeader(resourceBody.getRange("A13:D13"));
+resourceBody.getRange("A14:A18").values = [["b"], ["v"], ["to"], ["ta"], ["s"]];
+resourceBody.getRange("C14:C18").formulas = [
+  ["=MIN(1,(SUM('00 Compact View'!$H$6:$H$205)+SUM('00 Compact View'!$M$6:$M$205))/40)"],
+  ["=MIN(1,(SUM('00 Compact View'!$I$6:$I$205)+SUM('00 Compact View'!$N$6:$N$205))/40)"],
+  ["=MIN(1,(SUM('00 Compact View'!$J$6:$J$205)+SUM('00 Compact View'!$O$6:$O$205))/40)"],
+  ["=MIN(1,(SUM('00 Compact View'!$K$6:$K$205)+SUM('00 Compact View'!$P$6:$P$205))/40)"],
+  ["=MIN(1,(SUM('00 Compact View'!$L$6:$L$205)+SUM('00 Compact View'!$Q$6:$Q$205))/40)"],
+];
+resourceBody.getRange("B14:B18").formulas = [
+  ["=20+((C14-AVERAGE($C$14:$C$18))*20)"],
+  ["=20+((C15-AVERAGE($C$14:$C$18))*20)"],
+  ["=20+((C16-AVERAGE($C$14:$C$18))*20)"],
+  ["=20+((C17-AVERAGE($C$14:$C$18))*20)"],
+  ["=20+((C18-AVERAGE($C$14:$C$18))*20)"],
+];
+resourceBody.getRange("D14:D18").formulas = [
+  ["=MIN(1,C14*B14/20)"],
+  ["=MIN(1,C15*B15/20)"],
+  ["=MIN(1,C16*B16/20)"],
+  ["=MIN(1,C17*B17/20)"],
+  ["=MIN(1,C18*B18/20)"],
+];
+resourceBody.getRange("A20:B20").values = [["gb_total", ""]];
+resourceBody.getRange("B20").formulas = [["=SUM(B14:B18)"]];
+resourceBody.getRange("B6:F20").format.numberFormat = [["0.00"]];
+finishSheet(resourceBody, "A:F", "A:F");
+
+styleTitle(
+  gateOutput,
+  "A1:M1",
+  "05 Gate Output",
+  "Route outputs stay numeric: ignore, watch, promote, episode, emergency, send_upward."
+);
+gateOutput.getRange("A5:M5").values = [[
+  "sample",
+  "tick",
+  "n",
+  "d",
+  "x",
+  "a",
+  "res",
+  "ignore",
+  "watch",
+  "promote",
+  "episode",
+  "emerg",
+  "up",
+]];
+styleHeader(gateOutput.getRange("A5:M5"));
+const gateRows = [];
+for (let i = 0; i < inputRows.length; i += 1) {
+  const row = i + 6;
+  gateRows.push([
+    `='00 Compact View'!A${row}`,
+    `='00 Compact View'!B${row}`,
+    `=SUM('00 Compact View'!H${row}:L${row})/5`,
+    `=SUM('00 Compact View'!M${row}:Q${row})/5`,
+    `='00 Compact View'!R${row}`,
+    `='00 Compact View'!T${row}`,
+    `='04 Resource Body'!$B$10`,
+    `=--(M${row}=0)`,
+    `=--(MIN(1,C${row}+D${row}+(E${row}*'03 Mind Knobs'!$B$15)+(F${row}*'03 Mind Knobs'!$B$16)+('03 Mind Knobs'!$B$7*F${row}))>=MAX(0.15,0.35+(G${row}*'03 Mind Knobs'!$B$10)-('03 Mind Knobs'!$B$11*0.15)))`,
+    `=--(MIN(1,C${row}+D${row}+(E${row}*'03 Mind Knobs'!$B$15)+(F${row}*'03 Mind Knobs'!$B$16)+('03 Mind Knobs'!$B$7*F${row}))>=MIN(0.95,'03 Mind Knobs'!$B$17+(G${row}*'03 Mind Knobs'!$B$10)-('03 Mind Knobs'!$B$11*0.10)))`,
+    `=--(AND(J${row}=1,OR(E${row}=1,F${row}=1)))`,
+    `=--(MAX(SUMIFS('00 Compact View'!$H$6:$H$205,'00 Compact View'!$A$6:$A$205,A${row},'00 Compact View'!$B$6:$B$205,">="&B${row}-'03 Mind Knobs'!$B$14+1,'00 Compact View'!$B$6:$B$205,"<="&B${row}),SUMIFS('00 Compact View'!$I$6:$I$205,'00 Compact View'!$A$6:$A$205,A${row},'00 Compact View'!$B$6:$B$205,">="&B${row}-'03 Mind Knobs'!$B$14+1,'00 Compact View'!$B$6:$B$205,"<="&B${row}),SUMIFS('00 Compact View'!$J$6:$J$205,'00 Compact View'!$A$6:$A$205,A${row},'00 Compact View'!$B$6:$B$205,">="&B${row}-'03 Mind Knobs'!$B$14+1,'00 Compact View'!$B$6:$B$205,"<="&B${row}),SUMIFS('00 Compact View'!$K$6:$K$205,'00 Compact View'!$A$6:$A$205,A${row},'00 Compact View'!$B$6:$B$205,">="&B${row}-'03 Mind Knobs'!$B$14+1,'00 Compact View'!$B$6:$B$205,"<="&B${row}),SUMIFS('00 Compact View'!$L$6:$L$205,'00 Compact View'!$A$6:$A$205,A${row},'00 Compact View'!$B$6:$B$205,">="&B${row}-'03 Mind Knobs'!$B$14+1,'00 Compact View'!$B$6:$B$205,"<="&B${row}))>=MAX(1,ROUNDUP('03 Mind Knobs'!$B$14*(1-'03 Mind Knobs'!$B$8),0)))`,
+    `=--(OR(I${row}=1,J${row}=1,K${row}=1,L${row}=1))`,
+  ]);
+}
+gateOutput.getRange(`A6:M${dataEnd}`).formulas = gateRows;
+gateOutput.getRange(`C6:G${dataEnd}`).format.numberFormat = [["0.00"]];
+finishSheet(gateOutput, "A:M", "A:M");
+
+styleTitle(
+  modePresets,
+  "A1:L1",
+  "06 Mode Presets",
+  "Global modes set grouped defaults. Mind Knobs can still be edited directly."
+);
+modePresets.getRange("A5:L5").values = [[
+  "id",
+  "mode",
+  "nov",
+  "em",
+  "win",
+  "res",
+  "cur",
+  "inner",
+  "emwin",
+  "xw",
+  "aw",
+  "prom",
+]];
+styleHeader(modePresets.getRange("A5:L5"));
+modePresets.getRange("A6:L11").values = [
+  [1, "calm", 0.30, 0.35, 12, 0.25, 0.35, 0.85, 12, 0.35, 0.45, 0.65],
+  [2, "curious", 0.70, 0.50, 10, 0.40, 0.70, 0.80, 10, 0.50, 0.70, 0.55],
+  [3, "focused", 0.35, 0.45, 8, 0.50, 0.30, 0.90, 10, 0.40, 0.55, 0.60],
+  [4, "strained", 0.20, 0.55, 6, 0.80, 0.15, 0.75, 8, 0.45, 0.45, 0.75],
+  [5, "danger", 0.65, 0.90, 4, 0.65, 0.20, 0.45, 5, 0.75, 0.85, 0.45],
+  [6, "recovery", 0.25, 0.45, 14, 0.70, 0.20, 0.88, 12, 0.30, 0.35, 0.80],
+];
+modePresets.getRange("C6:L11").format.numberFormat = [["0.00"]];
+finishSheet(modePresets, "A:L", "A:L");
+
+styleTitle(
+  compact,
+  "A1:Z1",
+  "00 Compact View",
+  "One row per tick. Sensory values are 0.00-1.00. Monitor and route outputs are numeric."
+);
+compact.getRange("A5:Z5").values = [[
   "sample",
   "tick",
   "b",
@@ -206,8 +381,14 @@ compact.getRange("A5:T5").values = [[
   "x",
   "c",
   "a",
+  "ignore",
+  "watch",
+  "promote",
+  "episode",
+  "emerg",
+  "up",
 ]];
-styleHeader(compact.getRange("A5:T5"));
+styleHeader(compact.getRange("A5:Z5"));
 const compactRows = [];
 for (let i = 0; i < inputRows.length; i += 1) {
   const row = i + 6;
@@ -232,21 +413,27 @@ for (let i = 0; i < inputRows.length; i += 1) {
     `='02b n^-1'!H${row}`,
     `='02c n^-2'!C${row}`,
     `='02c n^-2'!D${row}`,
+    `='05 Gate Output'!H${row}`,
+    `='05 Gate Output'!I${row}`,
+    `='05 Gate Output'!J${row}`,
+    `='05 Gate Output'!K${row}`,
+    `='05 Gate Output'!L${row}`,
+    `='05 Gate Output'!M${row}`,
   ]);
 }
-compact.getRange(`A6:T${dataEnd}`).formulas = compactRows;
+compact.getRange(`A6:Z${dataEnd}`).formulas = compactRows;
 compact.getRange(`C6:G${dataEnd}`).format.numberFormat = [["0.00"]];
 compact.getRange(`S6:S${dataEnd}`).format.numberFormat = [["0.00"]];
-finishSheet(compact, "A:T", "A:T");
+finishSheet(compact, "A:Z", "A:Z");
 
 styleTitle(
   review,
   "A1:F1",
-  "03 Summary",
+  "07 Summary",
   "Compact sample-level numeric summary."
 );
-review.getRange("A5:F5").values = [["sample", "n", "d", "x", "c", "a"]];
-styleHeader(review.getRange("A5:F5"));
+review.getRange("A5:L5").values = [["sample", "n", "d", "x", "c", "a", "watch", "prom", "ep", "emerg", "up", "res"]];
+styleHeader(review.getRange("A5:L5"));
 const reviewRows = [];
 for (let sampleId = 1; sampleId <= sampleFiles.length; sampleId += 1) {
   const row = sampleId + 5;
@@ -263,13 +450,30 @@ for (let sampleId = 1; sampleId <= sampleFiles.length; sampleId += 1) {
     `=SUMIFS('00 Compact View'!$R$6:$R$205,'00 Compact View'!$A$6:$A$205,A${row})/20`,
     `=AVERAGEIF('00 Compact View'!$A$6:$A$205,A${row},'00 Compact View'!$S$6:$S$205)`,
     `=SUMIFS('00 Compact View'!$T$6:$T$205,'00 Compact View'!$A$6:$A$205,A${row})/20`,
+    `=SUMIFS('00 Compact View'!$V$6:$V$205,'00 Compact View'!$A$6:$A$205,A${row})/20`,
+    `=SUMIFS('00 Compact View'!$W$6:$W$205,'00 Compact View'!$A$6:$A$205,A${row})/20`,
+    `=SUMIFS('00 Compact View'!$X$6:$X$205,'00 Compact View'!$A$6:$A$205,A${row})/20`,
+    `=SUMIFS('00 Compact View'!$Y$6:$Y$205,'00 Compact View'!$A$6:$A$205,A${row})/20`,
+    `=SUMIFS('00 Compact View'!$Z$6:$Z$205,'00 Compact View'!$A$6:$A$205,A${row})/20`,
+    `='04 Resource Body'!$B$10`,
   ]);
 }
-review.getRange("A6:F15").formulas = reviewRows;
-review.getRange("B6:F15").format.numberFormat = [["0.00"]];
-finishSheet(review, "A:F", "A:F");
+review.getRange("A6:L15").formulas = reviewRows;
+review.getRange("B6:L15").format.numberFormat = [["0.00"]];
+finishSheet(review, "A:L", "A:L");
 
-for (const sheetName of ["00 Compact View", "01 Sensory Input", "02a n", "02b n^-1", "02c n^-2", "03 Summary"]) {
+for (const sheetName of [
+  "00 Compact View",
+  "01 Sensory Input",
+  "02a n",
+  "02b n^-1",
+  "02c n^-2",
+  "03 Mind Knobs",
+  "04 Resource Body",
+  "05 Gate Output",
+  "06 Mode Presets",
+  "07 Summary",
+]) {
   const blob = await workbook.render({ sheetName, autoCrop: "all", scale: 1, format: "png" });
   const bytes = new Uint8Array(await blob.arrayBuffer());
   await fs.mkdir(outputDir, { recursive: true });
@@ -286,10 +490,10 @@ console.log(errors.ndjson);
 
 const summary = await workbook.inspect({
   kind: "table",
-  range: "03 Summary!A5:F15",
+  range: "07 Summary!A5:L15",
   include: "values,formulas",
   tableMaxRows: 12,
-  tableMaxCols: 6,
+  tableMaxCols: 12,
 });
 console.log(summary.ndjson);
 
