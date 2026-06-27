@@ -338,6 +338,23 @@ The single executive mind should prove that it can use the instruments:
 
 The compact decision log is not a full transcript of everything the executive thinks, says, or does. The system can monitor compact threshold output, gate state, raw recording button state, and resource pressure continuously. The decision log should only capture meaningful executive choices: what signal arrived, what mode and resource state were active, what the executive decided, which buttons or memory route it chose, why it chose that path, and what result or cost followed.
 
+## Perception Access Constraint
+
+The executive model should be limited to logs as its way of seeing the outside world.
+
+Normal perception should come from compact `n`, `n^-1`, and `n^-2` logs. The model can use those logs to decide what is changing, what deserves attention, and when to ask for more detail.
+
+Raw world data should not be the executive model's default input. Raw data enters through the rolling buffer and per-sensor raw recording files, but reading or storing it should cost enough storage, RAM, processor time, heat, and power that the model cannot afford to live there continuously.
+
+This physical limit is what should train the system into `n`-first perception:
+
+- Compact logs are cheap enough for constant use.
+- Raw logs are costly enough to use only some of the time.
+- The executive model should learn that overload comes from trying to process too much raw detail.
+- The inner-world model should mostly update itself from compact noticed events, then request raw detail only when the compact stream is ambiguous, surprising, dangerous, or important.
+
+This keeps the model from cheating by reading the whole world stream directly. It makes compression, attention, selective recording, and habit formation necessary for continued operation.
+
 This gives later habit extraction enough evidence to find trigger-sequence-reward loops without requiring the architecture to store every passing thought.
 
 Once a single executive mind can reliably use those instruments, the architecture can split that executive behavior into Builder / Dreamer and Critic / Reality-Checker roles.

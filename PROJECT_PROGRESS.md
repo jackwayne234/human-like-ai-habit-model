@@ -72,3 +72,5 @@
 - Added the first longer constant-stream model experience run in `scenario_tests/run_constant_stream_experience.mjs`.
 - The experience run sends 60 deterministic artificial ticks through the system, turns on all five sensor recording buttons at tick 1, keeps a capped 10-tick rolling buffer, writes compact trigger rows, and creates a readable noticed log at `outputs/model_experience/experience_session_001_noticed_log.md`.
 - The generated summary `outputs/model_experience/experience_session_001_summary.md` passes. It shows 60 ticks, final buffer ticks 51-60, 17 noticed ticks, 3 `n` triggers, 20 `n^-1` triggers, and 15 `n^-2` triggers.
+- Logged the end-goal perception constraint: the executive model should see the world primarily through compact `n`, `n^-1`, and `n^-2` logs, not direct raw stream access.
+- Clarified that the reason for `n`-first perception should be physical pressure, not just a written rule. Raw recording, raw inspection, and raw analysis should consume enough storage, RAM/working memory, processor load, heat, and power that the system must use compact logs roughly 80% of the time or more to avoid overload.

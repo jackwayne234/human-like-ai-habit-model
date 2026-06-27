@@ -269,6 +269,30 @@ Resource pressure should not block emergency survival reactions. It mainly contr
 
 The homeostasis goal is to avoid entering resource-danger mode, not merely to survive after entering it. When storage, RAM/working memory, or heat approaches the 80% marker, the gate should increase discipline early: suppress expensive curiosity, prefer compact outputs, and hand repeated loops toward habit/efficiency compression. The efficiency model should therefore run aggressively in the background almost all the time, with stronger pressure as resources approach danger.
 
+## Physical Limit Forces Compact Perception
+
+The model should not use compact `n`, `n^-1`, and `n^-2` logs merely because a policy says they are preferred. It should use them because the system body cannot afford to process raw sensory data all the time.
+
+End goal:
+
+- `n`, `n^-1`, and `n^-2` logs are the model's primary way to see what is happening in the world.
+- Raw sensory stream access is too expensive to be normal perception.
+- Raw recording and raw inspection are available only as deliberate, limited actions.
+- The model should use compact logs most of the time because storage, RAM/working memory, processor load, heat, and power make constant raw processing unsafe.
+
+Starting target: compact logs should carry ordinary perception roughly 80% of the time or more. The remaining raw-detail use should happen when curiosity, uncertainty, danger, contradiction, or repair need justifies the physical cost.
+
+If the model tries to read or analyze too much raw data, the system should experience real resource pressure:
+
+| overload source | physical consequence | forced response |
+| --- | --- | --- |
+| too much raw recording | storage pressure rises | stop or narrow raw recording |
+| too much raw inspection | RAM / working memory pressure rises | fall back to compact logs |
+| too much raw analysis | processor / heat pressure rises | reduce raw analysis and summarize |
+| too much simultaneous detail | responsiveness drops | prefer `n` logs and habit shortcuts |
+
+This makes attention a survival strategy instead of a suggestion. The executive model's normal world-view is the compact trigger log. Raw logs are expensive tools it opens selectively.
+
 ## Outputs
 
 The importance gate can output:
