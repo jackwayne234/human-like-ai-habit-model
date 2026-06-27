@@ -25,6 +25,8 @@ The core idea is that raw sensory input should not become memory directly. Senso
 - `scenario_tests/run_streaming_layer_test.mjs`: generates a simple artificial world stream, rewrites a capped rolling buffer, applies compact trigger formulas, and writes raw sensor recordings when sensor recording buttons copy or append rows.
 - `outputs/model_experience/`: a longer constant-stream run showing what the model notices from ongoing input.
 - `scenario_tests/run_constant_stream_experience.mjs`: turns on all five raw recording logs, runs 60 artificial world ticks, applies compact formulas, and writes a noticed log.
+- `outputs/resource_pressure/`: resource-pressure perception test comparing compact-first perception against raw-heavy perception.
+- `scenario_tests/run_resource_pressure_perception_test.mjs`: models storage, RAM/working memory, compute, heat, and power costs so raw recording/inspection/analysis causes forced fallback while compact logs remain continuously usable.
 - `outputs/connected_spreadsheet_test/connected_sensory_threshold_gate_test.xlsx`: compact workbook prototype for sensory input and threshold layers.
 - `spreadsheet_build/build_connected_threshold_workbook.mjs`: workbook builder script.
 
