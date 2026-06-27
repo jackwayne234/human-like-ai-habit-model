@@ -1,0 +1,31 @@
+{
+  "format": "inner_world_map_state_v1",
+  "note": "Inspectable state generated from compact touch bootstrap cases, not raw sensory stream rows.",
+  "places": {
+    "home_kitchen/stove_counter_edge": {
+      "latestTeacherLabel": "touched_hot_stove",
+      "compactTouchShape": "hot_surface_contact_shape",
+      "riskType": "hot_surface_risk",
+      "reusableRuleIds": [
+        "rule_touch_hot_surface_contact_v2"
+      ],
+      "updateCount": 3
+    },
+    "home_kitchen/cool_counter_edge": {
+      "latestTeacherLabel": "harmless_counter_pressure",
+      "compactTouchShape": "gradual_pressure_contact_shape",
+      "riskType": "no_danger_rule",
+      "reusableRuleIds": [],
+      "updateCount": 3
+    },
+    "home_kitchen/utensil_drawer_edge": {
+      "latestTeacherLabel": "touched_sharp_object",
+      "compactTouchShape": "sharp_brief_contact_shape",
+      "riskType": "sharp_object_risk",
+      "reusableRuleIds": [
+        "rule_touch_sharp_object_contact_v1"
+      ],
+      "updateCount": 3
+    }
+  }
+}

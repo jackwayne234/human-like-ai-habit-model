@@ -511,6 +511,32 @@ The next test should therefore use three cases:
 
 This turns the bootstrap scenario from a happy-path proof into an overgeneralization test.
 
+## Three-Case Bootstrap Scenario
+
+`scenario_tests/run_inner_world_bootstrap_three_case_touch.mjs` is the first overgeneralization pressure test for the bootstrap scaffold.
+
+It keeps compact perception as the input surface, but adds one compact shape feature that the first review showed was missing: signed touch change. The `n^-1` magnitude still says how large the touch change was, while signed change says whether it was a rise or a withdrawal. That lets the handler distinguish similar touch maximums without opening raw touch detail.
+
+The test has three cases:
+
+| case | compact shape | expected consolidation |
+| --- | --- | --- |
+| `real_hot_stove` | touch `n=1`, sudden rise, controlled withdrawal, stove-like anchor | Approve reusable hot-surface rule. |
+| `harmless_counter_pressure` | gradual pressure buildup, touch `n=1`, cool counter anchor | Update contact anchor, but do not approve a danger rule. |
+| `sharp_object_contact` | touch `n=1`, sudden rise, very fast fall, utensil/drawer anchor | Approve a separate sharp-object rule. |
+
+The generated result is `outputs/inner_world_bootstrap_three_case_touch/three_case_inner_world_bootstrap_result.md`. It passes when the system:
+
+- keeps all input compact, without raw sensory stream fields
+- creates exactly one hot-surface rule from the hot-stove case
+- refuses to create a danger rule from harmless counter pressure
+- creates a sharp-object rule separate from the hot-surface rule
+- turns all three corrections into labeled examples
+- runs delayed consolidation one minute after each correction
+- writes an inspectable `inner_world_map_state_v1` object with separate risk types
+
+This is a stronger test than the first bootstrap scenario because it checks restraint. The system must not convert every touch `n=1` into the same danger belief. It has to use compact shape, map context, and teacher correction together.
+
 Once a single executive mind can reliably use those instruments, the architecture can split that executive behavior into Builder / Dreamer and Critic / Reality-Checker roles.
 
 This keeps early testing focused. First prove that one mind can operate the control surface. Then test whether splitting the mind into two cooperating roles improves imagination, checking, planning, and decision quality.
