@@ -2,7 +2,17 @@
 
 This folder is the v1 target for full per-sensor recording clips.
 
-Threshold trigger sheets stay compact and cheap. Files here are richer sensory snippets that spend storage from the relevant sensor pool. Builder / Dreamer and Critic / Reality-Checker decide when these recording windows open, using the current importance-gate preset, curiosity setting, emergency setting, and resource pressure.
+Threshold trigger sheets stay compact and cheap. Files here are raw sensory snippets written only after Builder / Dreamer and Critic / Reality-Checker press one of the five v1 sensor recording buttons:
+
+```text
+record_brightness
+record_volume
+record_touch
+record_taste
+record_smell
+```
+
+Each button toggles recording for its own sensor. Pressing it starts raw recording for that sensor; pressing it again stops recording for that sensor.
 
 Default storage pools:
 

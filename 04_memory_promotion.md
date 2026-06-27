@@ -38,7 +38,7 @@ The exact reallocation rules are not decided yet. For now, the important design 
 
 Threshold triggers and full sensor recordings are different things.
 
-The threshold monitor can record compact trigger facts cheaply, such as a sense name, tick, value, and threshold. Full sensor recordings are richer clips of actual recent input values. They cost storage and should only be saved when the two executive mind models choose to spend sensor storage on them.
+The threshold monitor can record compact trigger facts cheaply, such as a sense name, tick, value, and threshold. Full sensor recordings are raw clips of actual incoming sensor values. They should only start when the two executive mind models choose to press a deterministic recording button.
 
 In v1, each sensor has its own recording space inside the sensory storage budget:
 
@@ -50,31 +50,40 @@ In v1, each sensor has its own recording space inside the sensory storage budget
 | taste | 20 GB | `sensor_recordings/taste/` |
 | smell | 20 GB | `sensor_recordings/smell/` |
 
-The two mind models decide when full per-sensor recording opens:
+The v1 raw recording surface gives the executive models exactly five buttons, one per sensor:
+
+| button | behavior |
+| --- | --- |
+| `record_brightness` | Toggle raw brightness / sight recording on or off. |
+| `record_volume` | Toggle raw volume / hearing recording on or off. |
+| `record_touch` | Toggle raw touch recording on or off. |
+| `record_taste` | Toggle raw taste recording on or off. |
+| `record_smell` | Toggle raw smell recording on or off. |
+
+These buttons do not calculate storage budget, price the recording, decide duration, or decide how much storage each sense is allowed to use. They only start or stop raw recording for their own sensor. The existing per-sensor storage pools receive the incoming values in their own folders while recording is active.
+
+The two mind models decide when to press each sensor recording button:
 
 | controller | effect |
 | --- | --- |
-| Builder / Dreamer | May request a short recording window for curiosity, imagination repair, scene building, or uncertainty. |
-| Critic / Reality-Checker | May approve, restrict, shorten, or deny the recording based on evidence quality, risk, and physical resources. |
-| importance gate preset dial | Sets the default recording openness for modes such as `curious`, `focused`, `strained`, `danger`, and `recovery`. |
-| emergency knob | Can open short protective recordings for the relevant sensor even when ordinary curiosity is restricted. |
-| curiosity knob | Can open small exploratory recordings when resources are healthy. |
-| resource discipline | Shrinks recording duration/detail when storage, RAM/working memory, heat/compute, or power pressure rises. |
+| Builder / Dreamer | May request raw recording for a specific sensor because of curiosity, imagination repair, scene building, or uncertainty. |
+| Critic / Reality-Checker | May agree, deny, or press the same sensor button again to stop recording based on evidence quality, risk, and physical resources. |
+| importance gate preset | Provides the current situation context, such as `curious`, `focused`, `strained`, `danger`, or `recovery`. |
+| emergency context | May justify pressing the relevant sensor recording button for protective review. |
 
 The recording decision should include:
 
 | field | meaning |
 | --- | --- |
-| sensor | Which sensory pool pays for the recording. |
-| trigger | Which threshold/gate event caused the recording request. |
+| button | One of the five sensor recording buttons. |
+| trigger | Which threshold/gate event caused the recording request, if any. |
 | mode | Current global preset dial. |
 | reason | Curiosity, emergency, uncertainty, repeated evidence, or executive request. |
-| duration | How many ticks of recent/future input to preserve. |
-| detail | Metadata only, tiny snippet, medium window, or larger temporary review clip. |
-| storage cost | Amount charged to that sensor's current storage pool. |
+| sensor | Which single sensor starts or stops recording. |
+| state change | Recording turns on if that sensor was off, or turns off if that sensor was already recording. |
 | review route | Whether Builder, Critic, or both need to inspect it. |
 
-This means the gate does not blindly record all raw input. The global dial and per-mode knobs adjust how much full sensory detail is recorded, and each saved clip spends from the relevant sensor's bounded storage pool.
+This means the gate does not blindly record all raw input. Raw recording happens only for the specific sensor button the executive models press. Recording keeps going until the models press that sensor's button again to stop it.
 
 ## Purpose
 

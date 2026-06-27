@@ -173,8 +173,7 @@ Each preset can set deterministic values for:
 - emergency window
 - novelty weight
 - recording rate
-- per-sensor recording duration
-- per-sensor recording detail level
+- raw recording button availability
 - memory promotion threshold
 - episode threshold
 - `send_upward` threshold
@@ -184,7 +183,17 @@ The minds can use these presets as global controls. Builder / Dreamer may reques
 
 The gate should still balance physical constraints at all times. A mind model can request a more open preset, but storage, RAM/working memory, heat/compute pressure, and power limits can push the system toward stricter recording for ordinary curiosity. Emergency and protective routes remain available even under resource pressure.
 
-The recording rate does not mean all raw sensory input is saved. It means the preset controls how willing the system is to preserve short full-detail clips from the relevant per-sensor recording pool. Builder / Dreamer and Critic / Reality-Checker decide when to open those recording windows, while the preset dial sets the default duration, detail, and resource strictness.
+The recording setting does not continuously save raw sensory input. It controls whether the executive models are allowed to use the five v1 sensor recording buttons:
+
+```text
+record_brightness
+record_volume
+record_touch
+record_taste
+record_smell
+```
+
+Each button toggles raw recording for its own sensor. If the sensor is not recording, pressing the button starts recording. If the sensor is already recording, pressing the same button stops it. These buttons do not calculate storage budget, cost, or duration. Builder / Dreamer and Critic / Reality-Checker decide whether to press them based on curiosity, uncertainty, repeated evidence, emergency context, and resource context.
 
 ## Episode Promotion Guardrail
 

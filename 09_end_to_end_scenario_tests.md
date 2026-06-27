@@ -28,11 +28,9 @@ The tests should answer:
 The `sensor_recordings/` folders are a scaffold for later. They define where full per-sensor clips will go after the formulas are good enough. The real recording behavior comes later:
 
 ```text
-gate / mind models decide recording should open
--> choose sensor
--> choose duration and detail
--> save clip into that sensor folder
--> charge storage cost against that sensor pool
+Builder / Dreamer and Critic / Reality-Checker press one sensor recording button
+-> that sensor writes raw incoming values into its own sensor_recordings folder
+-> recording continues until the models press the same sensor button again
 ```
 
 ## Scenario 1: Isolated Volume Spike In Curious Mode
