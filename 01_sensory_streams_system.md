@@ -307,6 +307,21 @@ The compact log should preserve the location in `involved senses`, such as `touc
 
 This keeps the shared `n` logs as the common event language while making touch more physically realistic. The model does not need raw full-body tactile detail all the time, but it does need compact body-location evidence so the inner world can build a useful map of contact, risk, posture, and action.
 
+Touch can also act as the foundation for some body-state senses that look separate in biology or robotics. If two or more labeled pressure/touch sensors disagree in a structured way, the model can learn the meaning from compact patterns and correction rather than needing a new raw-thought system.
+
+Examples:
+
+| labeled touch/pressure layout | possible inferred sense |
+| --- | --- |
+| left/right foot or base pressure changes while standing | weight shift, tilt, balance, or gravity direction. |
+| front/back torso pressure difference while moving | leaning, acceleration, stopping, or collision risk. |
+| a small cylinder or prism with touch/pressure sensors on opposite sides | pressure gradient, airflow direction, barometric/atmospheric pressure change, or sealed-body compression. |
+| paired internal fluid or membrane pressure points | equilibrium-like signal similar in purpose to inner-ear balance feedback. |
+
+In this framing, the sensor remains just another compact stream with a useful label, such as `pressure_capsule_left` and `pressure_capsule_right`. The inner world learns what the difference means by combining it with movement, foot contact, echo, brightness, volume, teacher correction, and later outcomes.
+
+This may reduce the need for dedicated accelerometer, equilibrium, or barometric systems in early prototypes. A dedicated sensor may still be useful later for precision, but the first architecture can test whether labeled touch/pressure differentials plus other compact senses provide enough data for balance, gravity, air-pressure, and movement inference.
+
 ## Non-Visual And Superhuman Sensor Streams
 
 The shared compact `n` log layer should not be limited to ordinary human senses. Blind navigation already proves that a useful spatial world model can be built without a full visual movie. People can navigate from cane vibration, footstep sound, echo changes, air movement, slope, smell, timing, remembered routes, traffic rhythm, and repeated correction. The intelligence is in the relationship between signals, actions, and the inner map.
@@ -320,6 +335,7 @@ This means the robot can eventually add non-human or superhuman streams while st
 | lidar-like distance pulse | Distance to object changed quickly or contradicted the inner map. |
 | floor vibration | Ground vibration rose, direction/source changed, or matched movement nearby. |
 | air pressure / airflow | Air movement changed near an opening, fan, vehicle, doorway, or moving person. |
+| paired pressure capsule | Left/right or front/back pressure difference shifted, suggesting tilt, airflow, gravity/load direction, or barometric change. |
 | magnetic / electrical field | Local field changed near a device, charger, wire, door sensor, or machine. |
 | chemical trace | Non-smell chemical signal rose, fell, or formed a gradient near a map area. |
 

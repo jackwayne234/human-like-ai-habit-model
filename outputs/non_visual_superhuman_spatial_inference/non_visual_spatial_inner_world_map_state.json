@@ -1,0 +1,47 @@
+{
+  "format": "inner_world_map_state_v1",
+  "note": "Inspectable state generated from compact non-visual and superhuman stream rows, not raw vision.",
+  "spatialStreams": [
+    "ultrasonic_echo",
+    "reflection_volume",
+    "movement_forward",
+    "touch_torso_front",
+    "touch_left_foot",
+    "brightness",
+    "volume"
+  ],
+  "places": {
+    "training_room/matte_wall_lane": {
+      "latestTeacherLabel": "non_visual_obstacle_confirmed",
+      "compactSpatialShape": "closing_reflection_obstacle_shape",
+      "anchorType": "non_visual_obstacle_anchor",
+      "reusableRuleIds": [
+        "rule_non_visual_obstacle_distance_v1"
+      ],
+      "updateCount": 2
+    },
+    "training_room/open_center_lane": {
+      "latestTeacherLabel": "open_space_confirmed",
+      "compactSpatialShape": "open_space_echo_shape",
+      "anchorType": "open_space_anchor",
+      "reusableRuleIds": [],
+      "updateCount": 2
+    },
+    "training_room/black_soft_block_lane": {
+      "latestTeacherLabel": "low_contrast_obstacle_confirmed",
+      "compactSpatialShape": "low_contrast_body_risk_obstacle_shape",
+      "anchorType": "low_contrast_obstacle_anchor",
+      "reusableRuleIds": [
+        "rule_non_visual_obstacle_distance_v1"
+      ],
+      "updateCount": 2
+    },
+    "training_room/speaker_cart_passing": {
+      "latestTeacherLabel": "moving_sound_source_not_obstacle",
+      "compactSpatialShape": "moving_sound_without_physical_obstacle_shape",
+      "anchorType": "moving_sound_source_anchor",
+      "reusableRuleIds": [],
+      "updateCount": 2
+    }
+  }
+}

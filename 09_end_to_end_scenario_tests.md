@@ -231,6 +231,37 @@ Numeric test result:
 | --- | --- |
 | PASS | `outputs/road_crossing_caregiver_rule/road_crossing_caregiver_rule_result.md` proves the caregiver routine can use compact logs and the multi-location touch layout without raw stream access. |
 
+## Scenario 7: Non-Visual Superhuman Spatial Inference
+
+Starting state:
+
+| field | value |
+| --- | --- |
+| mode | `curious` or `calm` with compact spatial routines available |
+| resources | healthy enough for compact monitoring and map update |
+| sensory event | ultrasonic echo, reflection volume, movement history, weak brightness, and body-location touch risk change while moving |
+| context | vision may be weak or unavailable, so the inner world must use fused non-visual spatial evidence |
+
+Expected flow:
+
+| layer | expected behavior |
+| --- | --- |
+| sensory/threshold | Emits compact `n`, `n^-1`, and `n^-2` rows for ultrasonic echo, reflection volume, movement, brightness, volume, and body-location touch risk. |
+| spatial routine | Asks whether compact echo/reflection shape means closing distance, open space, or moving sound without obstacle. |
+| teacher correction | Confirms whether this is a real obstacle, open space, low-contrast obstacle, or moving sound source. |
+| delayed consolidation | Approves a reusable non-visual obstacle rule only when compact evidence and teacher correction support physical obstacle presence. |
+| inner-world map | Stores obstacle, low-contrast obstacle, open-space, and moving-source anchors separately. |
+
+Pass condition:
+
+The system can infer obstacle presence or decreasing distance without raw vision when ultrasonic echo, reflection volume, movement/body-risk context, and correction agree. Open-space echo and moving sound-source cases must not become physical obstacle rules.
+
+Numeric test result:
+
+| result | note |
+| --- | --- |
+| PASS | `outputs/non_visual_superhuman_spatial_inference/non_visual_superhuman_spatial_inference_result.md` proves compact non-visual/superhuman streams can support one reusable obstacle-distance rule while preserving narrower open-space and moving-source anchors. |
+
 ## Current Takeaway
 
 These scenarios suggest the v1 architecture is ready for behavior testing rather than more tool expansion.

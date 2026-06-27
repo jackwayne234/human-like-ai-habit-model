@@ -411,6 +411,30 @@ That same pattern can support superhuman sensors. Ultrasonic echo, lidar-like di
 
 The inner world is where those signals become distance, object presence, open space, obstacle risk, safe path, or remembered route. This makes the design human-like and expandable at the same time: human-like because it relies on fused experience and learned maps, expandable because the input streams can exceed human senses.
 
+The same principle can apply to balance, gravity, and pressure. A robot may not need an early dedicated "equilibrium thought system" if it has enough labeled touch or pressure differences across the body. For example, paired foot/base pressure can become a balance clue, front/back body pressure can become a lean or acceleration clue, and a small pressure capsule with sensors on opposite sides can become an airflow, barometric, or atmospheric-pressure clue.
+
+The important part is that the compact event keeps the label and relationship:
+
+```text
+pressure_capsule_left rises
++ pressure_capsule_right falls
++ movement history says body is still
++ volume/airflow context changed
+-> possible pressure gradient or airflow change
+```
+
+Or:
+
+```text
+touch_left_foot pressure rises
++ touch_right_foot pressure falls
++ torso contact stays quiet
++ movement command was stop
+-> possible weight shift, tilt, or balance correction needed
+```
+
+These meanings should be learned and corrected through the inner world. At first the handler can ask, "What does this pressure difference mean here?" Over time, repeated compact patterns plus teacher correction can turn those labeled touch/pressure relationships into gravity, balance, equilibrium, airflow, or barometric map features. A dedicated accelerometer or barometer may still be useful later, but the architecture should first test whether compact labeled pressure differences can provide enough usable evidence when fused with the other senses.
+
 ## Bootstrapping Inner World Building
 
 The model may not build a useful inner world on its own at first. Resource limits and a limited tool surface can pressure it toward compact perception, but they may not automatically create the habit of building, revising, and using a mental map.

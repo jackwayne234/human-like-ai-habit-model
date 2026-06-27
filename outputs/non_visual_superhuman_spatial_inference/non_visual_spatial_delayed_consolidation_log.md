@@ -1,0 +1,10 @@
+# Non-Visual Spatial Delayed Consolidation Log
+
+Purpose: run the one-minute consolidation handler after each compact non-visual spatial correction.
+
+| case | due second | handler | question | evidence | decision | reusable rule | reason |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| approaching_obstacle_confirmed | 72 | one_minute_non_visual_spatial_consolidation | Should this corrected event become part of a reusable non-visual obstacle rule? | closing_reflection_obstacle_shape, map area matte_wall_lane, trusted teacher label non_visual_obstacle_confirmed | yes | rule_non_visual_obstacle_distance_v1 | Compact echo/reflection evidence, movement or body-risk context, and teacher correction agree on obstacle presence without requiring raw vision. |
+| open_space_echo_not_obstacle | 88 | one_minute_non_visual_spatial_consolidation | Should this corrected event become part of a reusable non-visual obstacle rule? | open_space_echo_shape, map area open_center_lane, trusted teacher label open_space_confirmed | no | none | The compact evidence and teacher correction do not both support a physical obstacle in the path. |
+| close_low_contrast_obstacle | 104 | one_minute_non_visual_spatial_consolidation | Should this corrected event become part of a reusable non-visual obstacle rule? | low_contrast_body_risk_obstacle_shape, map area black_soft_block_lane, trusted teacher label low_contrast_obstacle_confirmed | yes | rule_non_visual_obstacle_distance_v1 | Compact echo/reflection evidence, movement or body-risk context, and teacher correction agree on obstacle presence without requiring raw vision. |
+| moving_sound_source_no_obstacle | 122 | one_minute_non_visual_spatial_consolidation | Should this corrected event become part of a reusable non-visual obstacle rule? | moving_sound_without_physical_obstacle_shape, map area speaker_cart_passing, trusted teacher label moving_sound_source_not_obstacle | no | none | The compact evidence and teacher correction do not both support a physical obstacle in the path. |
