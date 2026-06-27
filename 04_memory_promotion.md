@@ -34,6 +34,48 @@ Example:
 
 The exact reallocation rules are not decided yet. For now, the important design choice is that memory is divided by sensory channel first, starts equal, and can later be redistributed by the mind model.
 
+## Full Sensor Recording Policy
+
+Threshold triggers and full sensor recordings are different things.
+
+The threshold monitor can record compact trigger facts cheaply, such as a sense name, tick, value, and threshold. Full sensor recordings are richer clips of actual recent input values. They cost storage and should only be saved when the two executive mind models choose to spend sensor storage on them.
+
+In v1, each sensor has its own recording space inside the sensory storage budget:
+
+| sensor | default storage pool | recording target |
+| --- | --- | --- |
+| brightness / sight | 20 GB | `sensor_recordings/brightness/` |
+| volume / hearing | 20 GB | `sensor_recordings/volume/` |
+| touch | 20 GB | `sensor_recordings/touch/` |
+| taste | 20 GB | `sensor_recordings/taste/` |
+| smell | 20 GB | `sensor_recordings/smell/` |
+
+The two mind models decide when full per-sensor recording opens:
+
+| controller | effect |
+| --- | --- |
+| Builder / Dreamer | May request a short recording window for curiosity, imagination repair, scene building, or uncertainty. |
+| Critic / Reality-Checker | May approve, restrict, shorten, or deny the recording based on evidence quality, risk, and physical resources. |
+| importance gate preset dial | Sets the default recording openness for modes such as `curious`, `focused`, `strained`, `danger`, and `recovery`. |
+| emergency knob | Can open short protective recordings for the relevant sensor even when ordinary curiosity is restricted. |
+| curiosity knob | Can open small exploratory recordings when resources are healthy. |
+| resource discipline | Shrinks recording duration/detail when storage, RAM/working memory, heat/compute, or power pressure rises. |
+
+The recording decision should include:
+
+| field | meaning |
+| --- | --- |
+| sensor | Which sensory pool pays for the recording. |
+| trigger | Which threshold/gate event caused the recording request. |
+| mode | Current global preset dial. |
+| reason | Curiosity, emergency, uncertainty, repeated evidence, or executive request. |
+| duration | How many ticks of recent/future input to preserve. |
+| detail | Metadata only, tiny snippet, medium window, or larger temporary review clip. |
+| storage cost | Amount charged to that sensor's current storage pool. |
+| review route | Whether Builder, Critic, or both need to inspect it. |
+
+This means the gate does not blindly record all raw input. The global dial and per-mode knobs adjust how much full sensory detail is recorded, and each saved clip spends from the relevant sensor's bounded storage pool.
+
 ## Purpose
 
 Memory promotion receives events that passed the importance gate and decides how they should be stored.

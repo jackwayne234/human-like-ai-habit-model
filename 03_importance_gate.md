@@ -173,6 +173,8 @@ Each preset can set deterministic values for:
 - emergency window
 - novelty weight
 - recording rate
+- per-sensor recording duration
+- per-sensor recording detail level
 - memory promotion threshold
 - episode threshold
 - `send_upward` threshold
@@ -181,6 +183,27 @@ Each preset can set deterministic values for:
 The minds can use these presets as global controls. Builder / Dreamer may request a more open or curious recording position when exploring. Critic / Reality-Checker may request a stricter position when evidence is weak, resources are strained, or the inner world needs reality-checking discipline.
 
 The gate should still balance physical constraints at all times. A mind model can request a more open preset, but storage, RAM/working memory, heat/compute pressure, and power limits can push the system toward stricter recording for ordinary curiosity. Emergency and protective routes remain available even under resource pressure.
+
+The recording rate does not mean all raw sensory input is saved. It means the preset controls how willing the system is to preserve short full-detail clips from the relevant per-sensor recording pool. Builder / Dreamer and Critic / Reality-Checker decide when to open those recording windows, while the preset dial sets the default duration, detail, and resource strictness.
+
+## Episode Promotion Guardrail
+
+Numeric scenario testing showed that `n^-2` acceleration should not be allowed to create an episode by itself.
+
+Acceleration means the pattern changed. That is enough to watch or send a compact report upward, especially in `curious` mode, but a full episode should require stronger support.
+
+Starting v1 rule:
+
+```text
+episode = promote AND (
+  cross-sense support
+  OR repeated evidence
+  OR emergency/protective relevance
+  OR explicit Builder / Critic confirmation
+)
+```
+
+This keeps novelty useful without letting one unsupported sensory spike become a stored episode. A single-sense acceleration can still become `watch` or `send_upward`; it just needs more evidence or executive confirmation before it becomes an episode.
 
 ## Mind-Model Tool Interview
 
