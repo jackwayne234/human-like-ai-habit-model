@@ -114,3 +114,43 @@ Memory promotion does not:
 - optimize routines
 
 It stores the right amount of selected information in the right place, under a fixed resource budget.
+
+## Mind-Model Tool Interview
+
+This section records user-selected tools and knobs the mind model can use when deciding how much selected information should become memory.
+
+### Q12. Should the mind model be able to adjust how much sensory history it asks for when something passes the gate?
+
+Answer: Yes, recent sensory history request size should be selectable from simple options per sensor.
+
+Instead of one analog history-size slider, the mind model should have clear request options such as tiny snippets, medium windows, and larger context pulls. These options should be selectable per sensor, so the mind can ask for more touch context without automatically pulling more brightness, volume, taste, or smell context.
+
+Tool/knob category: `per_sensor_history_request_size`.
+
+### Q13. Should the mind model choose between different memory detail levels when promoting something?
+
+Answer: Yes, memory detail level should be a selectable option.
+
+The mind model should be able to choose how much detail a promoted event deserves. Starting options can include metadata only, sensory snippet, episode summary, belief update, and exception record. Most events should stay cheap, while unusual, repeated, surprising, or physically important events can receive richer storage.
+
+Tool/knob category: `selectable_memory_detail_level`.
+
+### Q14. Should the mind model be able to adjust the 100 GB sensory storage allocation across senses over time?
+
+Answer: Yes, keep 100 GB total, default toward 20 GB per sense, and allow deterministic use-based reallocation that drifts back toward equal allocation when demand fades.
+
+The five sensory pools should remain physically bounded by the 100 GB total. The default home position is 20 GB each for brightness, volume, touch, taste, and smell. The allocator can automatically lean away from that default when one sense is repeatedly useful, frequently promoted, survival-relevant, or heavily reused. When that special demand fades, the system should gradually drift back toward the balanced 20 GB per-sense default.
+
+This can be deterministic rather than a constant conscious choice by the mind model. The mind model needs visibility into the allocation and may be able to influence it, but the day-to-day resizing can behave like a homeostatic storage tool: repeated use grows a pool; disuse lets it normalize.
+
+Tool/knob category: `homeostatic_sensory_storage_reallocation`.
+
+### Q15. Should the mind model have a knob for when to compress old sensory memories into summaries?
+
+Answer: Yes, compression pressure should be adjustable, and repeated memory should also feed the habit/efficiency system so it can become deterministic runnable process when possible.
+
+Memory compression should not only mean turning bulky sensory history into text-like summaries. When repeated memories describe a stable successful pattern, the basal-ganglia-like habit builder and efficiency enhancer should try to optimize that pattern into a much smaller deterministic routine, tool, or runnable code path that does the same useful work with a fraction of the storage and compute.
+
+The memory system can expose compression pressure as a selectable tool, especially when storage approaches the 80% constraint zone. The efficiency system can then look for repeated memory clusters that are good candidates for process compression instead of preserving every episode.
+
+Tool/knob category: `memory_compression_to_runnable_process`.

@@ -37,4 +37,8 @@
 - Expanded `05_inner_world_model.md` with the mind's world-building role, possible visual/video-game-like imagination representation, decision-tuning pressures, resource body state, and relationship to the importance gate.
 - Populated `06_habit_builder.md` with a first-pass habit shape, habit promotion rules, context requirements, and relationship to the efficiency enhancer.
 - Populated `07_efficiency_enhancer_model.md` with mature-habit compression targets, resource-pressure behavior, and a safety rule for reopening failed shortcuts.
+- Refined the gate/mind relationship: threshold constants, duration windows, route weights, attention split, storage pressure, and compression pressure should be exposed as selectable knobs/tools that the mind model can manipulate.
+- Recorded the current decision pressure model: physical limits constrain available choices, while innate drives such as self-preservation, curiosity, stability, efficiency, and coherence help the mind model choose what to adjust.
+- Completed a 30-question mind-model tools/knobs interview and recorded answers in the relevant architecture logs: threshold monitor knobs, importance gate controls, memory promotion tools, inner-world/resource controls, habit automation thresholds, and efficiency compression tools.
+- Clarified a key design pattern from the interview: many controls should be visible to the mind model but operate homeostatically or deterministically in the background, such as sensory storage reallocation, memory/pathway strengthening and decay, and habit automation pressure.
 - Next work: review the filled architecture notes for consistency, then decide whether to refine the spreadsheet prototype or start the `03` decision-table workbook.

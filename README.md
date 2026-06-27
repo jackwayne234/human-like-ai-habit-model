@@ -34,5 +34,6 @@ The skeleton starts with:
 - 100 GB sensory storage split across five sensory pools
 - 100 GB separate mind storage for inner-world modeling
 - an initial 80% inner-world / 20% outside-world attention split
+- a control-surface principle: thresholds, windows, route weights, attention split, and storage pressure should be exposed as mind-selectable knobs instead of hidden deterministic decisions
 
 All numbers are starting parameters, not permanent rules.

@@ -200,3 +200,31 @@ The threshold workbook should keep the monitor layers visible as separate sheets
 This keeps `02` deterministic and spreadsheet-like. It still does not decide importance, gate opening, memory storage, or emotional meaning.
 
 The workbook view should stay compact and numeric. Sensory values remain `0.0` to `1.0`; monitor outputs should use `0` or `1` wherever possible instead of long text labels. Short headers such as `b`, `v`, `to`, `ta`, `s`, `x`, `c`, and `a` are preferred for the test workbook because they make the full signal stack visible without long horizontal scrolling.
+
+## Mind-Model Tools And Knobs
+
+This section records controls the mind model can notice, select, and adjust. The threshold monitor still records signals mechanically, but the mind model can change the settings that shape what counts as noticeable.
+
+### Q1. Should the mind model be allowed to adjust raw sensory sensitivity thresholds for each sense separately?
+
+Answer: Yes, one knob per sense.
+
+The mind model should have separate adjustable sensitivity knobs for `brightness`, `volume`, `touch`, `taste`, and `smell`. This lets the system become more or less sensitive to a specific sensory channel without forcing every other sense to change at the same time.
+
+Tool/knob category: `per_sense_sensitivity_thresholds`.
+
+### Q2. Should the mind model be allowed to adjust rate-of-change sensitivity separately from the direct `n` threshold?
+
+Answer: Yes, keep `n` intensity and `n^-1` rate-of-change sensitivity separate.
+
+Direct intensity and sudden change should be separate knobs. A signal can be important because it is already high, or because it changed quickly even if it has not reached maximum intensity. The mind model should be able to raise or lower those sensitivities independently.
+
+Tool/knob category: `intensity_vs_rate_change_sensitivity`.
+
+### Q3. Should the mind model be able to adjust how much cross-sense agreement matters?
+
+Answer: Yes, give cross-sense agreement its own adjustable weight.
+
+The mind model should be able to raise or lower the importance of multiple senses changing together. Cross-sense agreement can make an event more trustworthy or more urgent, but it should remain a selectable weight rather than a fixed meaning.
+
+Tool/knob category: `cross_sense_agreement_weight`.

@@ -65,7 +65,7 @@ Another possible representation is video-like memory playback or generated thoug
 
 ## Forces That Tune Decisions
 
-The inner world model should help tune the importance gate using three major pressures:
+The inner world model should choose how to tune the available knobs using three major pressures:
 
 | pressure | question |
 | --- | --- |
@@ -74,6 +74,150 @@ The inner world model should help tune the importance gate using three major pre
 | survival / self-preservation | Is this relevant to continued functioning? |
 
 Self-preservation does not need to be mystical. In machine terms it means preserving operation, avoiding damage, avoiding irreversible data loss, and maintaining enough resources to keep functioning.
+
+## Innate Drives And Selectable Tools
+
+The mind model should not receive one fixed decision tree from the lower layers. It should receive a set of tools and knobs that it can notice and manipulate.
+
+Starting innate drives:
+
+| drive | starting meaning |
+| --- | --- |
+| self-preservation | Keep the system functioning and avoid damage or irreversible loss. |
+| curiosity | Spend some attention on novelty, surprise, and model improvement. |
+| stability | Avoid overreacting to every small signal. |
+| efficiency | Prefer cheaper pathways when they are reliable enough. |
+| coherence | Keep the internal world model consistent with outside evidence. |
+
+Starting selectable tools:
+
+| tool | what the mind can adjust |
+| --- | --- |
+| gate thresholds | How sensitive the importance gate is to `n`, `n^-1`, and `n^-2`. |
+| attention windows | How much recent evidence counts before action or attention. |
+| route weights | Whether emergency, attention, novelty, or resource pressure matters most right now. |
+| attention split | How much effort stays in the inner world vs. samples the outside world. |
+| sensory storage allocation | How the 100 GB sensory storage budget is divided across senses. |
+| mind storage pressure | How much inner-world detail should be kept, summarized, or compressed. |
+| habit/efficiency pressure | How aggressively repeated pathways should become habits or shortcuts. |
+
+The physical state of the system limits what choices are available. Innate drives give the mind model reasons to prefer some choices over others. The knobs are the practical handles it can move.
+
+## Mind-Model Tool Interview
+
+This section records user-selected tools, metrics, and knobs the mind model can monitor or manipulate.
+
+### Q8. Should self-preservation be recorded as a monitored drive/metric, with adjustable response knobs around it?
+
+Answer: Self-preservation should emerge from physical limits instead of existing as a separate standalone knob.
+
+The mind model should monitor physical constraints such as storage use, RAM/working-memory pressure, and CPU heat or throttling. The starting constraint target is to stay under about 80% for storage, RAM, and heat-related compute pressure. The mind model balances its decisions against those limits. In this framing, self-preservation is an emergent property of respecting physical constraints while continuing to function, not a separate dial that directly overrides everything.
+
+Tool/metric category: `physical_limit_self_preservation_constraints`.
+
+### Q9. Should the mind model have separate monitored pressure meters for storage, RAM/working memory, and CPU heat/compute load, instead of one combined resource pressure number?
+
+Answer: Yes, track storage, RAM/working memory, and CPU heat/compute separately, and design them so they can support a reward and discipline system.
+
+The mind model should monitor storage pressure, RAM or working-memory pressure, and CPU heat/compute load as separate physical-limit meters. These meters can become part of a reward and discipline system: staying efficient, responsive, and below the roughly 80% constraint zone can be treated as healthy operation, while pushing resources too high creates discipline pressure that discourages expensive attention, memory, or compute choices.
+
+Tool/metric category: `separate_resource_pressure_meters`.
+
+### Q10. Should the mind model have a knob for how strongly resource discipline suppresses curiosity?
+
+Answer: Yes, resource discipline can suppress curiosity with an adjustable strength.
+
+Curiosity should get quieter when storage, working memory, or CPU heat/compute pressure rises, but it should not vanish completely by default. The mind model should have a control for how strongly physical-limit discipline turns down novelty seeking, exploration, and expensive inner-world simulation.
+
+Tool/knob category: `resource_discipline_curiosity_suppression`.
+
+### Q11. Should the mind model have a knob for how much attention stays inside the inner world versus sampling the outside sensory world?
+
+Answer: Yes, the inner/outer attention split is adjustable, with a preference for building its own world model and spending most of its time there.
+
+The starting 80% inner-world / 20% outside-world split should be a tunable attention allocation, not a fixed law. The mind model should prefer maintaining and improving its internal world model during normal operation, while still sampling the outside world enough for correction, novelty, and physical-limit awareness. Emergency signals, novelty mode, or resource pressure can temporarily pull more attention outward.
+
+Tool/knob category: `inner_outer_attention_allocation`.
+
+### Q20. Should the mind model have a knob for how much detail the inner world stores versus compresses into simplified objects/scenes/rules?
+
+Answer: Yes, inner-world detail and compression level should be adjustable in design, but mostly automatic and use-based in operation.
+
+Human memory does not usually require conscious decisions about which old memories compress. Frequently used pathways stay strong, detailed, and easy to reach. Low-use pathways weaken, compress, or become harder to access over time. The inner world model should mimic that homeostatic behavior: important, repeated, and recently used places, objects, scenes, and rules stay detailed, while low-use areas gradually compress into simpler representations under the 100 GB mind storage budget.
+
+Tool/knob category: `use_based_inner_world_detail_compression`.
+
+### Q21. Should the mind model have a knob for how strongly repeated use strengthens access to a memory, habit, or inner-world pathway?
+
+Answer: Repeated use should strengthen access automatically, while disuse should weaken or compress access over time.
+
+This should be a natural, background process rather than a conscious decision every time. Human brains run on a very small physical energy budget, so much of their intelligence depends on deterministic biological systems that strengthen useful pathways, weaken unused ones, and free the conscious mind for higher-level thought. The model should mimic that principle with a simple v1 `access_strength` metric: successful reuse raises access strength, disuse slowly lowers it, and low-strength pathways become candidates for compression or harder retrieval.
+
+Tool/metric category: `automatic_use_strengthening_and_decay`.
+
+### Q22. Should the model have a simple energy-cost score for actions, memories, thoughts, and routines, so the system can prefer cheaper pathways when they work?
+
+Answer: Yes, track energy/resource cost for pathways and prefer cheaper reliable ones.
+
+The model should treat resource cost as a core metric. Actions, memories, thoughts, routines, and inner-world simulations can carry a simple cost score based on attention, storage, working memory, compute, heat, or time. When two pathways work similarly well, the system should prefer the cheaper reliable one so higher-level reasoning stays available.
+
+Tool/metric category: `pathway_energy_resource_cost_score`.
+
+### Q24. Should the model have a knob for curiosity/exploration budget, meaning how much resource it can spend trying new paths instead of using known efficient routines?
+
+Answer: Yes, curiosity/exploration budget should be adjustable.
+
+The mind model should have a selectable exploration budget that controls how much attention, storage, working memory, compute, and heat it can spend trying new pathways instead of using known efficient routines. This budget lets the system keep learning while still respecting physical constraints. When resources are healthy, curiosity can receive more room. When resource pressure rises, exploration can shrink.
+
+Tool/knob category: `curiosity_exploration_resource_budget`.
+
+### Q25. Should the model have a knob for how much surprise updates the inner world model?
+
+Answer: Yes, surprise/update strength should be adjustable.
+
+The inner world model should track how surprising a promoted event is and use that surprise level to decide how strongly to update expectations, scenes, objects, risks, or rules. Small surprises can make light updates. Strong, repeated, or high-confidence surprises can change the inner world more deeply.
+
+Tool/knob category: `surprise_weighted_inner_world_update`.
+
+### Q26. Should the model have a knob for how strongly it trusts its inner world predictions versus incoming outside sensory evidence?
+
+Answer: Yes, trust in inner predictions versus outside evidence should be adjustable.
+
+The mind model should be able to tune how much it trusts its internal predictions compared with incoming sensory evidence. Higher inner-world trust lets stable expectations guide attention and interpretation. Lower inner-world trust lets outside evidence correct the model more aggressively, especially when surprise, novelty, or physical-limit pressure suggests that reality may not match prediction.
+
+Tool/knob category: `inner_prediction_vs_sensory_evidence_trust`.
+
+### Q27. Should the model have a knob for when to ask the outside world for more sensory evidence instead of relying on the current inner model?
+
+Answer: Yes, evidence-seeking threshold should be adjustable.
+
+The mind model should be able to decide when uncertainty, surprise, or weak prediction confidence is high enough to request more outside sensory evidence. This turns outside sensing into an active tool, not only a passive stream. Lower thresholds make the system check reality more often; higher thresholds let it rely longer on the current inner model.
+
+Tool/knob category: `active_outside_evidence_seeking_threshold`.
+
+### Q28. Should the model have a knob for social/teacher input trust, meaning how much it lets outside instruction or correction update its inner world?
+
+Answer: Yes, social/teacher input trust should be adjustable and source-aware.
+
+The mind model should treat outside instruction, correction, or teaching as a special update channel with its own trust setting. Trusted sources can update the inner world more strongly. Unknown, inconsistent, or low-trust sources may require confirmation from sensory evidence, repeated instruction, or existing world-model checks before changing core beliefs.
+
+Tool/knob category: `source_aware_teacher_input_trust`.
+
+### Q29. Should the model have a knob for how much it protects stable identity/core preferences from being changed by ordinary updates?
+
+Answer: Yes, core identity/preferences need a stronger protection/stability setting.
+
+The inner world model should distinguish ordinary beliefs from more stable identity, values, or core preference structures. Ordinary beliefs can update from surprise, evidence, or teaching more easily. Core identity and preferences should require stronger evidence, higher trust, repetition, or longer duration before changing, so the system does not rewrite its stable self-model from weak or temporary signals.
+
+Tool/knob category: `core_identity_preference_stability`.
+
+### Q30. Should the final tool/knob list include a global mode selector for broad states like calm, curious, focused, strained, danger, and recovery?
+
+Answer: Yes, global modes should adjust groups of knobs together.
+
+The mind model should have broad operating modes that can move related knobs as a group. Example modes include calm, curious, focused, strained, danger, and recovery. A mode can raise or lower attention split, novelty sensitivity, resource discipline, evidence seeking, habit reliance, compression pressure, and emergency sensitivity together. Individual knobs should still exist underneath, but global modes give the mind model a simple way to shift whole-body behavior without manually tuning every control one by one.
+
+Tool/knob category: `global_operating_mode_selector`.
 
 ## Resource Body State
 
@@ -100,10 +244,10 @@ Instead:
 | layer | job |
 | --- | --- |
 | threshold monitors | Detect signal. |
-| importance gate | Apply current thresholds and decide what gets attention. |
-| inner world model | Tune gate knobs and interpret promoted information. |
+| importance gate | Apply the current mind-selected thresholds and report what passes. |
+| inner world model | Select and tune knobs, then interpret promoted information. |
 
-The mind model can lower thresholds when the world seems dangerous, raise thresholds when resources are low, and change storage allocation when some senses become more useful than others.
+The mind model can lower thresholds when the world seems dangerous, raise thresholds when resources are low, increase curiosity when safe, conserve attention when strained, and change storage allocation when some senses become more useful than others.
 
 ## v1 Boundary
 
@@ -114,5 +258,5 @@ The first goal is to define its role:
 - maintain an internal world
 - spend most background attention there
 - update itself from promoted events
-- tune gate knobs based on expectation, resources, and survival pressure
+- tune available knobs based on expectation, resources, survival pressure, and innate drives
 - provide context for memory promotion and habit formation
