@@ -115,3 +115,34 @@ Pass condition:
 The second run through the same world should be better than the first because the inner map has useful learned anchors. Better can mean fewer collisions, fewer raw-detail requests, better obstacle predictions, or more accurate body-state predictions.
 
 This is the missing bridge between isolated scenario tests and a living system. The robot should have to move, notice its body, update its inner world, predict what will happen next, and improve from correction.
+
+## Updated First Physics Nursery Decision
+
+The 25-question physics-world interview refined the first implementation target.
+
+The first world should be a tiny continuous 2D physics nursery, not a pure grid. It should use simple custom felt physics rather than a full physics engine. The room should be about 10 x 10 units, with one small box-body robot and a few physical features:
+
+- wall boundary
+- low obstacle
+- slope or uneven pressure patch
+- fan or airflow source
+- edge or curb warning zone
+
+The robot should still receive only compact logs. It should not receive direct coordinates or map labels.
+
+The core learning loop should be:
+
+```text
+prediction before action
+-> action
+-> compact evidence
+-> comparison after action
+-> body/world map update
+-> possible general lesson
+```
+
+Every intentional action should get a tiny prediction. Every action should get an immediate comparison, with a delayed 1-2 tick settling check when airflow, pressure, or balance may change slowly.
+
+A separate compact-surprise cron should fire on sudden `n`, `n^-1`, `n^-2`, or cross-sensor compact changes. Its job is to route into prediction review, body-noticing, map update, or clarification. It should not default to raw sensor inspection.
+
+The full written target is recorded in `11_tiny_physics_nursery_plan.md`.
