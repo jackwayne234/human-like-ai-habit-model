@@ -197,24 +197,19 @@ Each button toggles raw recording for its own sensor. If the sensor is not recor
 
 These raw recording buttons do not turn the threshold monitors on or off. The compact `n`, `n^-1`, and `n^-2` monitors keep running, and `n^-2` always watches second-order change in the compact trigger stream.
 
-## Episode Promotion Guardrail
+## Simple Trigger Recording And Episode Promotion
 
-Numeric scenario testing showed that `n^-2` acceleration should not be allowed to create an episode by itself.
+Keep the first version simple: all compact trigger layers can record their own events.
 
-Acceleration means the pattern changed. That is enough to watch or send a compact report upward, especially in `curious` mode, but a full episode should require stronger support.
+The `n`, `n^-1`, and `n^-2` monitors are deterministic trigger recorders. If one of those formulas fires, the compact trigger event should be available to the gate and later logs. Raw sensor recording is still controlled separately by the five per-sensor recording buttons.
 
 Starting v1 rule:
 
 ```text
-episode = promote AND (
-  cross-sense support
-  OR repeated evidence
-  OR emergency/protective relevance
-  OR explicit Builder / Critic confirmation
-)
+episode = promote
 ```
 
-This keeps novelty useful without letting one unsupported sensory spike become a stored episode. A single-sense acceleration can still become `watch` or `send_upward`; it just needs more evidence or executive confirmation before it becomes an episode.
+This means a promoted `n^-2` acceleration event can become an episode by itself. Cross-sense support, repeated evidence, emergency relevance, and executive confirmation can still raise confidence or urgency, but they are not required before an episode can be recorded.
 
 ## Mind-Model Tool Interview
 

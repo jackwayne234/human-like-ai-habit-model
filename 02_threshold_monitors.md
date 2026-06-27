@@ -112,7 +112,7 @@ The between-sensor rate-of-change event records the tick, the senses involved, t
 
 Answer: Yes, one ordered event list per tick.
 
-For now, the threshold monitor behaves like a threshold trigger recorder. It can report `n` threshold hits and `n-1` rate-of-change hits in one ordered per-tick event list. This output shape may change later after the `n-2` layer is defined and its measurement target is clearer.
+For now, the threshold monitor behaves like a threshold trigger recorder. It reports `n` threshold hits, `n-1` rate-of-change hits, and `n-2` rate-of-rate-change hits in one ordered per-tick event list.
 
 ### Q19. What should `n-2` try to measure first?
 
@@ -156,13 +156,13 @@ Each threshold trigger sheet should use a Markdown table. This matches the senso
 
 Answer: Already covered for the trigger event contents.
 
-The table columns should preserve the event contents already chosen: tick, layer, event type, involved sense name or names, the detected value or rate of change, and the threshold used. For `n-1`, this matches the earlier choices for within-sensor and between-sensor rate-of-change events.
+The table columns should preserve the event contents already chosen: tick, layer, event type, involved sense name or names, the detected value, rate of change, or rate-of-rate-change, and the threshold used. For `n-1`, this matches the earlier choices for within-sensor and between-sensor rate-of-change events. For `n-2`, it records the compact change-pattern shift detected from the populated `n-1` trigger stream.
 
 ### Q26. Should the threshold monitor output include rows for ticks where nothing triggered?
 
 Answer: No, only write rows when a threshold trigger happens.
 
-Threshold trigger sheets are event logs, not full copies of the sensory input sheets. If nothing triggers on a tick, that tick does not need a row in the threshold output.
+Threshold trigger sheets are event logs, not full copies of the sensory input sheets. If any `n`, `n-1`, or `n-2` formula triggers on a tick, that compact trigger event should be recorded. If nothing triggers on a tick, that tick does not need a row in the threshold output.
 
 ### Q27. Should the threshold monitor decide whether a trigger opens the later importance gate?
 

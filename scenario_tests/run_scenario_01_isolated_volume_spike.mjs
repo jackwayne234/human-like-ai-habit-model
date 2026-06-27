@@ -64,9 +64,9 @@ const trials = [
       return [
         ["spike is watched", spike.watch === 1],
         ["spike sends compact report upward", spike.sendUpward === 1],
-        ["spike does not become episode", spike.episode === 0],
+        ["spike can become episode", spike.episode === 1],
         ["spike does not trigger emergency", spike.emergency === 0],
-        ["falling edge does not become episode", fall.episode === 0],
+        ["falling edge stays below episode threshold", fall.episode === 0],
       ];
     },
   },
@@ -194,10 +194,7 @@ function runTrial(trial) {
     const watch = routeScore >= watchThreshold ? 1 : 0;
     const promote = routeScore >= promoteThreshold ? 1 : 0;
 
-    const repeatedEvidence = activeSenseChanges >= 1 && a === 0 && results[index - 1]?.watch === 1;
-    const executiveConfirm = 0;
-    const episode =
-      promote && (x === 1 || repeatedEvidence || emergency === 1 || executiveConfirm === 1) ? 1 : 0;
+    const episode = promote ? 1 : 0;
     const sendUpward = watch || promote || episode || emergency ? 1 : 0;
     const ignore = sendUpward ? 0 : 1;
 
@@ -285,20 +282,15 @@ const allPassed = trialResults.every((result) => result.passed);
 
 const markdown = `# Gate Formula Trial Results
 
-Purpose: test the adjusted deterministic gate formula after Scenario 1 showed that isolated \`n^-2\` acceleration was creating episodes too easily.
+Purpose: test the simplified deterministic gate formula where all compact trigger layers can record and any promoted trigger can become an episode.
 
-Adjusted episode rule:
+Simplified episode rule:
 
 \`\`\`text
-episode = promote AND (
-  cross-sense support
-  OR repeated evidence
-  OR emergency/protective relevance
-  OR explicit Builder / Critic confirmation
-)
+episode = promote
 \`\`\`
 
-This lets \`n^-2\` acceleration produce \`watch\` or \`send_upward\` without allowing one unsupported sensory spike to become an episode by itself.
+This keeps the first gate simple. \`n\`, \`n^-1\`, and \`n^-2\` can all produce compact trigger records, and a promoted \`n^-2\` acceleration event can become an episode without requiring cross-sense support, repeated evidence, emergency relevance, or executive confirmation.
 
 Overall verdict: ${allPassed ? "PASS" : "FAIL"}
 

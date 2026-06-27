@@ -1,19 +1,14 @@
 # Gate Formula Trial Results
 
-Purpose: test the adjusted deterministic gate formula after Scenario 1 showed that isolated `n^-2` acceleration was creating episodes too easily.
+Purpose: test the simplified deterministic gate formula where all compact trigger layers can record and any promoted trigger can become an episode.
 
-Adjusted episode rule:
+Simplified episode rule:
 
 ```text
-episode = promote AND (
-  cross-sense support
-  OR repeated evidence
-  OR emergency/protective relevance
-  OR explicit Builder / Critic confirmation
-)
+episode = promote
 ```
 
-This lets `n^-2` acceleration produce `watch` or `send_upward` without allowing one unsupported sensory spike to become an episode by itself.
+This keeps the first gate simple. `n`, `n^-1`, and `n^-2` can all produce compact trigger records, and a promoted `n^-2` acceleration event can become an episode without requiring cross-sense support, repeated evidence, emergency relevance, or executive confirmation.
 
 Overall verdict: PASS
 
@@ -31,9 +26,9 @@ Volume rises from 0.41 to 1.00 at tick 8. Other senses stay quiet.
 | --- | --- |
 | spike is watched | PASS |
 | spike sends compact report upward | PASS |
-| spike does not become episode | PASS |
+| spike can become episode | PASS |
 | spike does not trigger emergency | PASS |
-| falling edge does not become episode | PASS |
+| falling edge stays below episode threshold | PASS |
 
 | tick | volume | touch | n_v | n_to | d_v | d_to | x | a | score | ignore | watch | promote | episode | emerg | up |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -44,9 +39,9 @@ Volume rises from 0.41 to 1.00 at tick 8. Other senses stay quiet.
 | 5 | 0.40 | 0.20 | 0 | 0 | 0 | 0 | 0 | 0 | 0.00 | 1 | 0 | 0 | 0 | 0 | 0 |
 | 6 | 0.42 | 0.20 | 0 | 0 | 0 | 0 | 0 | 0 | 0.00 | 1 | 0 | 0 | 0 | 0 | 0 |
 | 7 | 0.41 | 0.20 | 0 | 0 | 0 | 0 | 0 | 0 | 0.00 | 1 | 0 | 0 | 0 | 0 | 0 |
-| 8 | 1.00 | 0.20 | 1 | 0 | 1 | 0 | 0 | 1 | 1.00 | 0 | 1 | 1 | 0 | 0 | 1 |
+| 8 | 1.00 | 0.20 | 1 | 0 | 1 | 0 | 0 | 1 | 1.00 | 0 | 1 | 1 | 1 | 0 | 1 |
 | 9 | 0.42 | 0.20 | 0 | 0 | 1 | 0 | 0 | 0 | 0.20 | 1 | 0 | 0 | 0 | 0 | 0 |
-| 10 | 0.41 | 0.20 | 0 | 0 | 0 | 0 | 0 | 1 | 1.00 | 0 | 1 | 1 | 0 | 0 | 1 |
+| 10 | 0.41 | 0.20 | 0 | 0 | 0 | 0 | 0 | 1 | 1.00 | 0 | 1 | 1 | 1 | 0 | 1 |
 
 ## Scenario 2: Cross-Sense Impact
 
@@ -75,7 +70,7 @@ Volume, brightness, and touch change together at tick 8.
 | 6 | 0.42 | 0.20 | 0 | 0 | 0 | 0 | 0 | 0 | 0.00 | 1 | 0 | 0 | 0 | 0 | 0 |
 | 7 | 0.41 | 0.20 | 0 | 0 | 0 | 0 | 0 | 0 | 0.00 | 1 | 0 | 0 | 0 | 0 | 0 |
 | 8 | 1.00 | 0.82 | 1 | 0 | 1 | 1 | 1 | 1 | 1.00 | 0 | 1 | 1 | 1 | 0 | 1 |
-| 9 | 0.62 | 0.45 | 0 | 0 | 0 | 0 | 0 | 1 | 1.00 | 0 | 1 | 1 | 0 | 0 | 1 |
+| 9 | 0.62 | 0.45 | 0 | 0 | 0 | 0 | 0 | 1 | 1.00 | 0 | 1 | 1 | 1 | 0 | 1 |
 | 10 | 0.45 | 0.25 | 0 | 0 | 0 | 0 | 0 | 0 | 0.00 | 1 | 0 | 0 | 0 | 0 | 0 |
 
 ## Scenario 3: Repeated Touch Danger

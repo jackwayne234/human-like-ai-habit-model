@@ -85,7 +85,7 @@ The recording decision should include:
 
 This means the gate does not blindly record all raw input. Raw recording happens only for the specific sensor button the executive models press. Recording keeps going until the models press that sensor's button again to stop it.
 
-This policy only controls full raw sensor recordings. It does not stop compact threshold monitoring. The `n-2` monitor is always on and continues recording second-order change in the compact trigger stream whether or not any raw sensor button is active.
+This policy only controls full raw sensor recordings. It does not stop compact threshold monitoring. The `n`, `n-1`, and `n-2` monitors are always on as compact trigger recorders, whether or not any raw sensor button is active.
 
 ## Purpose
 

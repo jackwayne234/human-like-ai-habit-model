@@ -19,8 +19,8 @@ volume n^-2 fired, storage healthy, preset curious
 The compact decision log can show:
 
 ```text
-executive watched volume instead of promoting because the signal was isolated,
-resources were healthy, and more evidence was cheaper than creating an episode
+executive promoted the isolated volume acceleration into a compact episode,
+kept raw recording off, and marked confidence low until more evidence appears
 ```
 
 That is the useful layer for later habit extraction. It links trigger, context, chosen sequence, result, reward, and cost without saving every internal thought.
@@ -53,12 +53,12 @@ Example row:
 | trigger_input | `volume n^-2`, no cross-sense support |
 | resource_state | storage healthy, working memory healthy, heat normal |
 | executive_interpretation | isolated sound change may be interesting but is not danger yet |
-| selected_action | watch and ask for more evidence |
+| selected_action | promote compact event and ask for more evidence |
 | recording_buttons | none |
-| memory_choice | watch, no episode |
-| reason | one unsupported acceleration event is enough to watch but not enough to promote |
+| memory_choice | episode |
+| reason | promoted triggers can become compact episodes; confidence stays low without more support |
 | result | no repeat within window |
-| reward_signal | avoided unnecessary episode |
+| reward_signal | compact event preserved without raw recording cost |
 | cost_note | low attention cost, no raw storage cost |
 
 ## Later Builder / Critic Split

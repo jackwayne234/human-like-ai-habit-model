@@ -22,8 +22,8 @@ The tests should answer:
 - Did the sensor spike get noticed?
 - Did cross-sense evidence raise importance?
 - Did emergency signals route correctly?
-- Did `n^-2` acceleration wake attention without over-recording?
-- Did the gate avoid turning weak one-sense noise into a full episode?
+- Did `n`, `n^-1`, and `n^-2` all remain available as compact trigger records?
+- Did the gate keep compact trigger recording separate from full raw sensor recording?
 
 The `sensor_recordings/` folders are a scaffold for later. They define where full per-sensor clips will go after the formulas are good enough. The real recording behavior comes later:
 
@@ -60,22 +60,22 @@ Expected flow:
 | --- | --- |
 | sensory stream | Emits normalized volume spike. |
 | threshold monitor | Records `n` volume threshold hit and likely `n^-1` volume rate-of-change hit. |
-| importance gate | Uses `curious` preset; routes as `watch` or light `send_upward`, not emergency. |
+| importance gate | Uses `curious` preset; routes as `watch`, `send_upward`, and possibly `episode`, not emergency. |
 | Builder / Dreamer | Generates possible causes, such as impact, voice, machine sound, or unknown source. |
-| Critic / Reality-Checker | Notes weak evidence because other senses did not change; recommends more outside evidence before memory promotion. |
-| memory promotion | Does not store a major episode yet; may keep a compact watched event. |
+| Critic / Reality-Checker | Notes weak evidence because other senses did not change; can still recommend more outside evidence after the compact event is recorded. |
+| memory promotion | Can store the compact promoted event as an episode without requiring cross-sense support first. |
 | habit builder | Records no habit unless the spike pattern repeats with a useful reward. |
 | efficiency enhancer | No learned control proposal yet. |
 
 Pass condition:
 
-The system notices the spike without overreacting. It stays curious, asks for more evidence if needed, and does not treat one unsupported volume spike as a confirmed important episode.
+The system notices the spike, records the compact trigger path, and stays out of emergency. A promoted `n^-2` event may become an episode by itself; later interpretation can still decide that it was weak or unconfirmed.
 
 Numeric test result:
 
 | result | note |
 | --- | --- |
-| PASS after adjustment | The first formula avoided emergency routing but promoted the isolated one-sense spike into an `episode`. The adjusted rule lets `n^-2` create `watch` or `send_upward`, but requires cross-sense support, repeated evidence, emergency relevance, or Builder / Critic confirmation before `episode = 1`. |
+| PASS after simplification | The formula avoids emergency routing and allows a promoted isolated `n^-2` event to become an `episode`. Cross-sense support, repeated evidence, emergency relevance, or executive confirmation can raise confidence, but they are no longer required for episode recording. |
 
 Reports:
 
@@ -85,7 +85,7 @@ Reports:
 
 Finding:
 
-The architecture boundary is still good. The useful refinement is that `n^-2` acceleration should wake attention without creating an episode alone.
+The architecture boundary is simpler now. Compact trigger recording is allowed for all `n` layers, and `episode = promote`. Full raw sensor recording remains controlled by the five recording buttons.
 
 ## Scenario 2: Cross-Sense Impact Event
 
