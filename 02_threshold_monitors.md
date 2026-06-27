@@ -258,4 +258,18 @@ No additional threshold-layer intelligence is needed before testing the rest of 
 
 The importance gate decides what to do with threshold events. The Builder / Dreamer and Critic / Reality-Checker can tune threshold knobs from above, but the threshold layer itself should remain a clean lower-level instrument panel.
 
+## Compact Shape Can Carry Meaning
+
+The compact trigger logs should preserve enough event shape that the executive model can often infer what happened without opening raw sensory logs.
+
+For touch, `n` alone says that contact intensity reached maximum. The surrounding `n^-1` and `n^-2` pattern can separate different causes:
+
+| compact touch pattern | likely interpretation |
+| --- | --- |
+| touch slowly rises toward `n = 1` with no one-tick `n^-1` spike | gradual heat or pressure buildup |
+| touch jumps rapidly to `n = 1`, then drops but not instantly below baseline | hot stove or sudden hot-surface contact |
+| touch jumps rapidly to `n = 1`, then rapidly falls away | sharp object or very brief painful contact |
+
+In that pattern, the model sees from the compact logs that the source is touch, then uses the rate-shape and scene context to decide what probably happened. Raw data is not required by default. It becomes useful when the compact pattern is ambiguous, when the stakes are high, or when correction/training needs more detail.
+
 Learned or adaptive thresholds are a later upgrade, not part of the v1 baseline. They should come after the system has examples of false alarms, missed events, useful promotions, and gate outcomes to learn from.

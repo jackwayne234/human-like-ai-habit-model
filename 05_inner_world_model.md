@@ -355,6 +355,10 @@ This physical limit is what should train the system into `n`-first perception:
 
 This keeps the model from cheating by reading the whole world stream directly. It makes compression, attention, selective recording, and habit formation necessary for continued operation.
 
+The goal is not to starve the model of useful evidence. The goal is for compact logs to carry enough structure that raw detail often becomes optional. A compact event can include the source sense, current intensity, rate of change, rate-pattern shift, and scene context. For example, touch `n = 1`, a fast touch `n^-1` rise, a touch-rate `n^-2` shift, and kitchen/stove context may be enough to infer hot-stove contact without inspecting raw touch samples.
+
+Raw logs should therefore be a selective clarification tool, not the default world model input. If compact evidence is strong enough, the executive can interpret and act from compact perception alone.
+
 This gives later habit extraction enough evidence to find trigger-sequence-reward loops without requiring the architecture to store every passing thought.
 
 Once a single executive mind can reliably use those instruments, the architecture can split that executive behavior into Builder / Dreamer and Critic / Reality-Checker roles.
