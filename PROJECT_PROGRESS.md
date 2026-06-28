@@ -1,6 +1,10 @@
 # Project Progress
 
-## 2026-06-27
+## v1 Status (current)
+
+This project is running in its **single-executive mind model** phase. The architecture describes a cooperative two-mind design — Builder / Dreamer and Critic / Reality-Checker — but the split is deferred. The current runtime uses one executive that reads compact instruments, chooses controls, and writes compact decision logs; the two-mind review language in older progress bullets describes the **target v2 architecture**, not the live runtime.
+
+Daily entries below are dated and preserved as the historical record. They reference Builder / Dreamer and Critic / Reality-Checker in the future-tense sense ("once implemented", "after both approved") wherever the two-mind review is mentioned; those references are aspirational, not current behavior.
 
 - Created seven architecture notes:
   - `01_sensory_streams_system.md`

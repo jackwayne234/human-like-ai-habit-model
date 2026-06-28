@@ -2,6 +2,12 @@
 
 The inner world model receives compressed promoted information and maintains the system's usable model of reality.
 
+## v1 Status
+
+The architecture describes a cooperative two-mind design (Builder / Dreamer and Critic / Reality-Checker) sharing one resource body, plus optional Scene Builder / Memory Mapper / Future Simulator inner-world tools. The current v1 implementation ships with **one executive mind model** that uses those tools directly. The Builder / Dreamer and Critic / Reality-Checker split is deferred until the single executive reliably reads instruments, chooses controls, and writes useful compact decision logs.
+
+Throughout this document, references to Builder / Dreamer and Critic / Reality-Checker describe the **target v2 architecture**, not the current runtime.
+
 ## Dedicated Mind Storage
 
 The mind should have its own storage budget separate from the five sensory storage pools.
