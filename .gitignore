@@ -16,3 +16,9 @@ outputs/**/*.ndjson
 # Temporary files
 *.tmp
 *.log
+
+# Mujoco workstream - venv + cloned menagerie + render previews
+.mujoco-venv/
+mujoco/mujoco_menagerie/
+mujoco/verify_*_render.png
+mujoco/.venv/
