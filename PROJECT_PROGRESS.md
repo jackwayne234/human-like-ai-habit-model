@@ -1,5 +1,29 @@
 # Project Progress
 
+## Thesis
+
+5 senses streaming data to a robot.
+Sensors → threshold monitors → rate of change monitors → rate of rate of change monitors → AI model.
+The AI uses the `n` logs to guess what's going on in the world.
+The labeled sensors, in the `n` logs, tell it what's going on without flooding storage with raw data.
+
+The next concrete step is to take an existing 3D AI training world (Habitat-Lab, AI2-THOR, or the in-repo Planetary Researcher game) and put the `n` buffers in front of the AI, telling it to use the `n` buffers instead of the raw data.
+
+Everything else in this repository — the importance gate, the memory promotion, the inner world model, the habit pipeline, the learned operation controls, the 2D → 2.5D → 3D nursery work — exists to make that buffer layer credible, inspectable, and reusable.
+
+### Near-Term Path: n-Buffer As Reusable Module
+
+1. Pick a target 3D world. Realistic options are Habitat-Lab or AI2-THOR (open, instrument-rich, already wrapped for AI agents); the in-repo Planetary Researcher game is the smallest-blast-radius option and stays inside this repo.
+2. Define the buffer schema once, domain-independent:
+   - `n`: `{sensor, value, threshold, tick}` — fires when a sensor value crosses a labeled threshold.
+   - `n^-1`: `{sensor, delta, signedDirection}` — fires when the rate of change between consecutive ticks is large enough.
+   - `n^-2`: `{sensor, delta2, signedDirection}` — fires when the acceleration of change is large enough, derived from the populated `n^-1` log.
+3. Build a thin Node module that taps into whatever continuous sensor streams the world exposes and emits n-buffer rows. The math and labeled-sensor vocabulary live in one file, not spread across `02_threshold_monitors.md` and per-world sensor files.
+4. Run a baseline agent with raw sensor access, then the same agent with n-buffer access. Compare task success, storage cost, decision legibility, and (over multiple sessions) habit formation.
+5. The first long-horizon runs are the ones that matter — the 16-turn 3D nursery demo is too short for habit formation to show.
+
+The habit pipeline, importance gate, memory promotion, and inner-world model remain valid elaborations of "what does a good n-buffer-using agent do over time." They become load-bearing only after the n-buffer module is proven on a real world.
+
 ## v1 Status (current)
 
 This project is running in its **single-executive mind model** phase. The architecture describes a cooperative two-mind design — Builder / Dreamer and Critic / Reality-Checker — but the split is deferred. The current runtime uses one executive that reads compact instruments, chooses controls, and writes compact decision logs; the two-mind review language in older progress bullets describes the **target v2 architecture**, not the live runtime.

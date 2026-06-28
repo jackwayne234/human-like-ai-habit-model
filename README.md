@@ -1,5 +1,18 @@
 # Human-Like AI Habit Model
 
+## What This Project Is
+
+5 senses streaming data to a robot.
+Sensors → threshold monitors → rate of change monitors → rate of rate of change monitors → AI model.
+The AI uses the `n` logs to guess what's going on in the world.
+The labeled sensors, in the `n` logs, tell it what's going on without flooding storage with raw data.
+
+The next concrete step is to take an existing 3D AI training world (Habitat-Lab, AI2-THOR, or the in-repo Planetary Researcher game) and put the `n` buffers in front of the AI, telling it to use the `n` buffers instead of the raw data.
+
+Everything else in this repository — the importance gate, the memory promotion, the inner world model, the habit pipeline, the learned operation controls, the 2D → 2.5D → 3D nursery work — exists to make that buffer layer credible, inspectable, and reusable.
+
+## Background
+
 This repository contains a first-pass architecture skeleton for a human-like AI habit and attention system.
 
 The core idea is that raw sensory input should not become memory directly. Sensory values are first compressed through threshold monitors, then passed through an importance gate, memory promotion, an inner world model, habit formation, and efficiency compression.
